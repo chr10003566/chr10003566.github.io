@@ -314,27 +314,49 @@
             <h1 id="Android开发学习秘籍笔记（十九）"><a href="#Android开发学习秘籍笔记（十九）" class="headerlink" title="Android开发学习秘籍笔记（十九）"></a>Android开发学习秘籍笔记（十九）</h1><p>吼，花了2天的时间做出了一个类似于蓝牙串口助手功能的小程序，其实也是实习公司的要求。有一个蓝牙无线蓝牙扫描枪，要求终端可以通过蓝牙连接到该设备，并且蓝牙无线扫描枪扫描二维码或者条形码的时候可以将二维码或者条形码的数据输出到TextView中。</p>
 <h2 id="效果："><a href="#效果：" class="headerlink" title="效果："></a>效果：</h2><p>听了上面的介绍是不是觉得很好做。说明下蓝牙扫描器的功能，有两个常用的模式－－普通模式和SPP模式。普通模式的话就是蓝牙连接后，扫描枪就相当于外接的键盘，可以扫码然后将数据输出到EditText（必须活的焦点）。SPP模式则是用于模拟串口通信的，在我看来就是相当于开发者模式。</p>
 <h3 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h3><p>在界面代码上下手脚，是一种投机取巧的方法。不是要显示在TextView上面嘛，不是扫码前要有获得焦点的EditText嘛。那我就在界面代码里面设置这两个控件，但是EditText设置其高度是1dp，除了开发人员自己知道这里有个EditText之外，使用者是不知道这里还有个EditText的，然后你就可以直接将EditText中的内容获取下来，再setText到TextView中去就可以了。</p>
-<p>主要代码就只需要在EditText的<code>setOnKeyListener</code>里设置就好了。<br>    et.setOnKeyListener(new EditText.OnKeyListener()  </p>
-<pre><code>{  
+<p>主要代码就只需要在EditText的<code>setOnKeyListener</code>里设置就好了。</p>
+<pre><code>et.setOnKeyListener(new EditText.OnKeyListener()  
 
-@Override  
+       {  
 
-public boolean onKey(View v, int keyCode, KeyEvent event)  
+       @Override  
 
-{  
+       public boolean onKey(View v, int keyCode, KeyEvent event)  
 
-    tv.setText(et.getText());  
+       {  
 
-    return false;  
+           tv.setText(et.getText());  
 
-}       
+           return false;  
 
-});  
+       }       
+
+       });  
 </code></pre><p>操作很容易，思路也很清晰，简单粗暴！但是问题也很多，万一你一个界面有好多个EditText，比如登陆界面，除了你自己知道但别人看不到的EditText之外还得有两个EditText，一旦其中某一个获得光标，你的扫码枪就失去了意义，还有可能吓使用者一跳，所以这种方案不适合用在需要推送的APP上。</p>
 <h3 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h3><p>蓝牙传输通信，具体就使用到了Android I/O流的传送方式，这种方式就很符合要求，就在你要传输数据的时候把你的数据截下来，然后我在相应的操作。我看了很多博客，大部分博客基本相似。这里放两篇经典的吧。<br><a href="">https://segmentfault.com/a/1190000004899799</a><br><a href="">http://www.cnblogs.com/wenjiang/p/3200138.html </a></p>
 <p>具体的解释我会在代码里说，光说理论本人菜的抠脚。首先说说布局，超级简单，一个TextView，一个EditText（测试用的，用来做对比的），一个Button（可以根据自己的需求修改）。布局的代码就不贴了！实在不会就下实例看吧。</p>
-<h4 id="获取Android扫描到的蓝牙设备"><a href="#获取Android扫描到的蓝牙设备" class="headerlink" title="获取Android扫描到的蓝牙设备"></a>获取Android扫描到的蓝牙设备</h4><p>DevicListAcitivity里面需要做的事情就是将Android手机能扫描到的蓝牙设备显示在ListView中，如果你能只需要连接一种设备的话并且知道设备的Mac 地址的话，你可以省略这一步操作，这里当学习使用<br>    import android.app.Activity;<br>    import android.bluetooth.BluetoothAdapter;<br>    import android.bluetooth.BluetoothDevice;<br>    import android.content.BroadcastReceiver;<br>    import android.content.Context;<br>    import android.content.Intent;<br>    import android.content.IntentFilter;<br>    import android.os.Bundle;<br>    import android.util.Log;<br>    import android.view.View;<br>    import android.view.Window;<br>    import android.view.View.OnClickListener;<br>    import android.widget.AdapterView;<br>    import android.widget.ArrayAdapter;<br>    import android.widget.Button;<br>    import android.widget.ListView;<br>    import android.widget.TextView;<br>    import android.widget.AdapterView.OnItemClickListener;</p>
-<pre><code>public class DeviceListActivity extends Activity {
+<h4 id="获取Android扫描到的蓝牙设备"><a href="#获取Android扫描到的蓝牙设备" class="headerlink" title="获取Android扫描到的蓝牙设备"></a>获取Android扫描到的蓝牙设备</h4><p>DevicListAcitivity里面需要做的事情就是将Android手机能扫描到的蓝牙设备显示在ListView中，如果你能只需要连接一种设备的话并且知道设备的Mac 地址的话，你可以省略这一步操作，这里当学习使用</p>
+<pre><code>import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+
+
+public class DeviceListActivity extends Activity {
     // 调试用
     private static final String TAG = &quot;DeviceListActivity&quot;;
     private static final boolean D = true;
@@ -552,48 +574,50 @@ public boolean onKey(View v, int keyCode, KeyEvent event)
         }
     }
 });
-</code></pre><p>这一部分就是连接蓝牙设备的操作，本来这些操作我是放到一个线程中去执行的，但是很不幸的是会报错，然后我就放到UI线程中去了，结果还过了，按道理耗时操作放到UI线程中不是会爆炸的嘛…暂时放一放这个问题。然后还有一个线程ReadThread<br>Thread ReadThread = new Thread(){</p>
-<pre><code>public void run(){
-    int num = 0;
-    byte[] buffer = new byte[1024];
-    byte[] buffer_new = new byte[1024];
-
-    int n = 0;
-    isReceiving= true;
-    while(true){
-        try {
-            while (is.available() == 0){
-                while (isReceiving == false){}
-            }
-            while(true){
-                num = is.read(buffer);
-                n = 0;
-
-                String s0 = new String(buffer, 0, num);
-</code></pre><p>//                        fmsg += s0;</p>
-<pre><code>                for (int i = 0; i &lt; num; i++ ){
-                    if((buffer[i] == 0x0d) &amp;&amp; (buffer[i + 1] == 0x0a)){
-                        buffer_new[n] = 0x0a;
-                        i++;
-                    }else{
-                        buffer_new[n] = buffer[i];
-                    }
-                    n++;
-                }
-                String s = new String(buffer_new, 0, n);
-                receive_msg += s;
-                if (is.available() == 0) break;
-            }
-            handler.sendMessage(handler.obtainMessage());
-        }catch (IOException e){
-
-        }
-    }
-}
-</code></pre><p>  };<br>这样就完成了蓝牙串口助手的部分功能，具体的实例见源码下载。</p>
-<h2 id="源码下载："><a href="#源码下载：" class="headerlink" title="源码下载："></a>源码下载：</h2><p>已知要连接设备的address，只需要修改MainActivity中address字符串的值就可以了。<br><a href="">http://download.csdn.net/detail/cuihaoren01/9496677</a><br>扫描蓝牙设备，选择需要连接的设备，进行传输。<br><a href="">http://download.csdn.net/detail/cuihaoren01/9496711</a></p>
-</li>
+</code></pre></li>
 </ol>
+<p>这一部分就是连接蓝牙设备的操作，本来这些操作我是放到一个线程中去执行的，但是很不幸的是会报错，然后我就放到UI线程中去了，结果还过了，按道理耗时操作放到UI线程中不是会爆炸的嘛…暂时放一放这个问题。然后还有一个线程ReadThread</p>
+<pre><code>Thread ReadThread = new Thread(){
+        public void run(){
+            int num = 0;
+            byte[] buffer = new byte[1024];
+            byte[] buffer_new = new byte[1024];
+
+            int n = 0;
+            isReceiving= true;
+            while(true){
+                try {
+                    while (is.available() == 0){
+                        while (isReceiving == false){}
+                    }
+                    while(true){
+                        num = is.read(buffer);
+                        n = 0;
+
+                        String s0 = new String(buffer, 0, num);
+//                        fmsg += s0;
+                        for (int i = 0; i &lt; num; i++ ){
+                            if((buffer[i] == 0x0d) &amp;&amp; (buffer[i + 1] == 0x0a)){
+                                buffer_new[n] = 0x0a;
+                                i++;
+                            }else{
+                                buffer_new[n] = buffer[i];
+                            }
+                            n++;
+                        }
+                        String s = new String(buffer_new, 0, n);
+                        receive_msg += s;
+                        if (is.available() == 0) break;
+                    }
+                    handler.sendMessage(handler.obtainMessage());
+                }catch (IOException e){
+
+                }
+            }
+        }
+    };
+</code></pre><p>这样就完成了蓝牙串口助手的部分功能，具体的实例见源码下载。</p>
+<h2 id="源码下载："><a href="#源码下载：" class="headerlink" title="源码下载："></a>源码下载：</h2><p>已知要连接设备的address，只需要修改MainActivity中address字符串的值就可以了。<br><a href="">http://download.csdn.net/detail/cuihaoren01/9496677</a><br>扫描蓝牙设备，选择需要连接的设备，进行传输。<br><a href="">http://download.csdn.net/detail/cuihaoren01/9496711</a></p>
 
           
         
