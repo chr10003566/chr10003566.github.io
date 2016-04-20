@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Cui的主个人博客</title>
+  <title>Cui的个人博客</title>
   <subtitle>不要让希望变成了失望</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chr10003566.github.io./"/>
-  <updated>2016-04-08T10:15:01.000Z</updated>
+  <updated>2016-04-20T08:36:58.000Z</updated>
   <id>http://chr10003566.github.io./</id>
   
   <author>
@@ -14,6 +14,309 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Android设备、外接蓝牙设备之间的连接与数据传输</title>
+    <link href="http://chr10003566.github.io./2016/04/20/BluetoothTest/"/>
+    <id>http://chr10003566.github.io./2016/04/20/BluetoothTest/</id>
+    <published>2016-04-20T08:31:44.000Z</published>
+    <updated>2016-04-20T08:36:58.000Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;Android开发学习秘籍笔记（十九）&quot;&gt;&lt;a href=&quot;#Android开发学习秘籍笔记（十九）&quot; class=&quot;headerlink&quot; title=&quot;Android开发学习秘籍笔记（十九）&quot;&gt;&lt;/a&gt;Android开发学习秘籍笔记（十九）&lt;/h1&gt;&lt;p&gt;吼，花了2天的时间做出了一个类似于蓝牙串口助手功能的小程序，其实也是实习公司的要求。有一个蓝牙无线蓝牙扫描枪，要求终端可以通过蓝牙连接到该设备，并且蓝牙无线扫描枪扫描二维码或者条形码的时候可以将二维码或者条形码的数据输出到TextView中。&lt;/p&gt;
+&lt;h2 id=&quot;效果：&quot;&gt;&lt;a href=&quot;#效果：&quot; class=&quot;headerlink&quot; title=&quot;效果：&quot;&gt;&lt;/a&gt;效果：&lt;/h2&gt;&lt;p&gt;听了上面的介绍是不是觉得很好做。说明下蓝牙扫描器的功能，有两个常用的模式－－普通模式和SPP模式。普通模式的话就是蓝牙连接后，扫描枪就相当于外接的键盘，可以扫码然后将数据输出到EditText（必须活的焦点）。SPP模式则是用于模拟串口通信的，在我看来就是相当于开发者模式。&lt;/p&gt;
+&lt;h3 id=&quot;方案一：&quot;&gt;&lt;a href=&quot;#方案一：&quot; class=&quot;headerlink&quot; title=&quot;方案一：&quot;&gt;&lt;/a&gt;方案一：&lt;/h3&gt;&lt;p&gt;在界面代码上下手脚，是一种投机取巧的方法。不是要显示在TextView上面嘛，不是扫码前要有获得焦点的EditText嘛。那我就在界面代码里面设置这两个控件，但是EditText设置其高度是1dp，除了开发人员自己知道这里有个EditText之外，使用者是不知道这里还有个EditText的，然后你就可以直接将EditText中的内容获取下来，再setText到TextView中去就可以了。&lt;/p&gt;
+&lt;p&gt;主要代码就只需要在EditText的&lt;code&gt;setOnKeyListener&lt;/code&gt;里设置就好了。&lt;br&gt;    et.setOnKeyListener(new EditText.OnKeyListener()  &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{  
+
+@Override  
+
+public boolean onKey(View v, int keyCode, KeyEvent event)  
+
+{  
+
+    tv.setText(et.getText());  
+
+    return false;  
+
+}       
+
+});  
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;操作很容易，思路也很清晰，简单粗暴！但是问题也很多，万一你一个界面有好多个EditText，比如登陆界面，除了你自己知道但别人看不到的EditText之外还得有两个EditText，一旦其中某一个获得光标，你的扫码枪就失去了意义，还有可能吓使用者一跳，所以这种方案不适合用在需要推送的APP上。&lt;/p&gt;
+&lt;h3 id=&quot;方案二：&quot;&gt;&lt;a href=&quot;#方案二：&quot; class=&quot;headerlink&quot; title=&quot;方案二：&quot;&gt;&lt;/a&gt;方案二：&lt;/h3&gt;&lt;p&gt;蓝牙传输通信，具体就使用到了Android I/O流的传送方式，这种方式就很符合要求，就在你要传输数据的时候把你的数据截下来，然后我在相应的操作。我看了很多博客，大部分博客基本相似。这里放两篇经典的吧。&lt;br&gt;&lt;a href=&quot;&quot;&gt;https://segmentfault.com/a/1190000004899799&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;&quot;&gt;http://www.cnblogs.com/wenjiang/p/3200138.html &lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;具体的解释我会在代码里说，光说理论本人菜的抠脚。首先说说布局，超级简单，一个TextView，一个EditText（测试用的，用来做对比的），一个Button（可以根据自己的需求修改）。布局的代码就不贴了！实在不会就下实例看吧。&lt;/p&gt;
+&lt;h4 id=&quot;获取Android扫描到的蓝牙设备&quot;&gt;&lt;a href=&quot;#获取Android扫描到的蓝牙设备&quot; class=&quot;headerlink&quot; title=&quot;获取Android扫描到的蓝牙设备&quot;&gt;&lt;/a&gt;获取Android扫描到的蓝牙设备&lt;/h4&gt;&lt;p&gt;DevicListAcitivity里面需要做的事情就是将Android手机能扫描到的蓝牙设备显示在ListView中，如果你能只需要连接一种设备的话并且知道设备的Mac 地址的话，你可以省略这一步操作，这里当学习使用&lt;br&gt;    import android.app.Activity;&lt;br&gt;    import android.bluetooth.BluetoothAdapter;&lt;br&gt;    import android.bluetooth.BluetoothDevice;&lt;br&gt;    import android.content.BroadcastReceiver;&lt;br&gt;    import android.content.Context;&lt;br&gt;    import android.content.Intent;&lt;br&gt;    import android.content.IntentFilter;&lt;br&gt;    import android.os.Bundle;&lt;br&gt;    import android.util.Log;&lt;br&gt;    import android.view.View;&lt;br&gt;    import android.view.Window;&lt;br&gt;    import android.view.View.OnClickListener;&lt;br&gt;    import android.widget.AdapterView;&lt;br&gt;    import android.widget.ArrayAdapter;&lt;br&gt;    import android.widget.Button;&lt;br&gt;    import android.widget.ListView;&lt;br&gt;    import android.widget.TextView;&lt;br&gt;    import android.widget.AdapterView.OnItemClickListener;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class DeviceListActivity extends Activity {
+    // 调试用
+    private static final String TAG = &amp;quot;DeviceListActivity&amp;quot;;
+    private static final boolean D = true;
+
+    // 返回时数据标签
+    public static String EXTRA_DEVICE_ADDRESS = &amp;quot;设备地址&amp;quot;;
+
+    // 成员域
+    private BluetoothAdapter mBtAdapter;
+    private ArrayAdapter&amp;lt;String&amp;gt; mPairedDevicesArrayAdapter;
+    private ArrayAdapter&amp;lt;String&amp;gt; mNewDevicesArrayAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // 创建并显示窗口
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);  //设置窗口显示模式为窗口方式
+        setContentView(R.layout.device_list);
+
+        // 设定默认返回值为取消
+        setResult(Activity.RESULT_CANCELED);
+
+        // 设定扫描按键响应
+        Button scanButton = (Button) findViewById(R.id.button_scan);
+        scanButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                doDiscovery();
+                v.setVisibility(View.GONE);
+            }
+        });
+
+        // 初使化设备存储数组
+        mPairedDevicesArrayAdapter = new ArrayAdapter&amp;lt;&amp;gt;(this, R.layout.device_name);
+        mNewDevicesArrayAdapter = new ArrayAdapter&amp;lt;&amp;gt;(this, R.layout.device_name);
+
+        // 设置已配队设备列表
+
+        ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
+        pairedListView.setAdapter(mPairedDevicesArrayAdapter);
+        pairedListView.setOnItemClickListener(mDeviceClickListener);
+
+        // 设置新查找设备列表
+        ListView newDevicesListView = (ListView) findViewById(R.id.new_devices);
+        newDevicesListView.setAdapter(mNewDevicesArrayAdapter);
+        newDevicesListView.setOnItemClickListener(mDeviceClickListener);
+
+        // 注册接收查找到设备action接收器
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        this.registerReceiver(mReceiver, filter);
+
+        // 注册查找结束action接收器
+        filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        this.registerReceiver(mReceiver, filter);
+
+        // 得到本地蓝牙句柄
+        mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        // 得到已配对蓝牙设备列表
+        //Set&amp;lt;BluetoothDevice&amp;gt; pairedDevices = mBtAdapter.getBondedDevices();
+
+        // 添加已配对设备到列表并显示
+        // if (pairedDevices.size() &amp;gt; 0) {
+        // findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
+        //    for (BluetoothDevice device : pairedDevices) {
+        //         mPairedDevicesArrayAdapter.add(device.getName() + &amp;quot;\n&amp;quot; + device.getAddress());
+        //     }
+        // } else {
+        //     String noDevices = &amp;quot;No devices have been paired&amp;quot;;
+        //     mPairedDevicesArrayAdapter.add(noDevices);
+        // }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // 关闭服务查找
+        if (mBtAdapter != null) {
+            mBtAdapter.cancelDiscovery();
+        }
+
+        // 注销action接收器
+        this.unregisterReceiver(mReceiver);
+    }
+
+    public void OnCancel(View v){
+        finish();
+    }
+    /**
+     * 开始服务和设备查找
+     */
+    private void doDiscovery() {
+        if (D) Log.d(TAG, &amp;quot;doDiscovery()&amp;quot;);
+
+        // 在窗口显示查找中信息
+        setProgressBarIndeterminateVisibility(true);
+        setTitle(&amp;quot;查找设备中...&amp;quot;);
+
+        // 显示其它设备（未配对设备）列表
+        findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);
+
+        // 关闭再进行的服务查找
+        if (mBtAdapter.isDiscovering()) {
+            mBtAdapter.cancelDiscovery();
+        }
+        //并重新开始
+        mBtAdapter.startDiscovery();
+    }
+
+    // 选择设备响应函数
+    private OnItemClickListener mDeviceClickListener = new OnItemClickListener() {
+        public void onItemClick(AdapterView&amp;lt;?&amp;gt; av, View v, int arg2, long arg3) {
+            // 准备连接设备，关闭服务查找
+            mBtAdapter.cancelDiscovery();
+
+            // 得到mac地址
+            String info = ((TextView) v).getText().toString();
+            String address = info.substring(info.length() - 17);
+
+            // 设置返回数据
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
+
+            // 设置返回值并结束程序
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        }
+    };
+
+    // 查找到设备和搜索完成action监听器
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            // 查找到设备action
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // 得到蓝牙设备
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                // 如果是已配对的则略过，已得到显示，其余的在添加到列表中进行显示
+                if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+                    mNewDevicesArrayAdapter.add(device.getName() + &amp;quot;\n&amp;quot; + device.getAddress());
+                }else{  //添加到已配对设备列表
+                    mPairedDevicesArrayAdapter.add(device.getName() + &amp;quot;\n&amp;quot; + device.getAddress());
+                }
+                // 搜索完成action
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                setProgressBarIndeterminateVisibility(false);
+                setTitle(&amp;quot;选择要连接的设备&amp;quot;);
+                if (mNewDevicesArrayAdapter.getCount() == 0) {
+                    String noDevices = &amp;quot;没有找到新设备&amp;quot;;
+                    mNewDevicesArrayAdapter.add(noDevices);
+                }
+                //   if(mPairedDevicesArrayAdapter.getCount() &amp;gt; 0)
+                //      findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;代码贴在上面了，具体的代码解释也写在里面了，其实我开始是不打算做这步操作的，因为需求时只需要连接一个蓝牙扫描枪。但后面觉得还是得扫描的，首先你不一定有设备的Mac地址，再来万一后面要添加需求的话就整个爆炸了。所以有时候不能把程序写的太死。至于如何查找蓝牙设备以及蓝牙设备的状态，上面的代码写的很详细了，再结合我之前推荐的第一篇文章就很好懂了。&lt;/p&gt;
+&lt;h4 id=&quot;蓝牙设备的连接以及数据I-O流的传输&quot;&gt;&lt;a href=&quot;#蓝牙设备的连接以及数据I-O流的传输&quot; class=&quot;headerlink&quot; title=&quot;蓝牙设备的连接以及数据I/O流的传输&quot;&gt;&lt;/a&gt;蓝牙设备的连接以及数据I/O流的传输&lt;/h4&gt;&lt;p&gt;其实在做这步操作的时候，我有点担心实现不了，因为对于Socket来说，你至少得写Socket和ServerSocket这两个类，具体的可以看看我之前对Socket的博客&lt;a href=&quot;&quot;&gt;http://blog.csdn.net/cuihaoren01/article/details/45458265&lt;/a&gt;，但这里蓝牙扫描枪那边你是不可能编程的的，所以不存在ServerSocket的，好像网上大部分的蓝牙传输都是和Ardunio进行传输的，我也不晓得它可不可以进行编程所以就很担心这样写能不能实现。后面我在GitHub上找到一个蓝牙串口助手demo来试试，发现它可以进行数据传送，但由于它写的代码过于复杂也不是一个框架可以直接利用&lt;a href=&quot;&quot;&gt;https://github.com/hzjerry/BluetoothSppPro&lt;/a&gt;，所以就没有深究。&lt;/p&gt;
+&lt;p&gt;没办法了，实践是检验真理的唯一标准，那就只能开始自己测试了，接下来第二篇文章就发挥了作用，可能我不需要实现ServerSocket服务端的编程，在使用蓝牙串口助手测试的时候，你配对上加连接上就可以直接用了，说明我只需要和它（蓝牙枪）能连接上就好了。连接的做法步骤如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先你得获取到你需要连接的设备。（这里就需要你得设备的Mac地址）&lt;/li&gt;
+&lt;li&gt;你需要建立与服务端通信的Socket，看我之前的博客客户端都是通过IP和端口来获得的通信的socket，服务端是通过accept（）的方式获取的，而这里这种方式被毙了（感觉也不能说毙了，估计是蓝牙枪那边有一个ServerSocket，去accept（），而客户端有其他的方法拿到通信的Socket。）&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;socket.connect（）&lt;/p&gt;
+&lt;p&gt;btn.setOnClickListener(new View.OnClickListener() {&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    @Override
+    public void onClick(View v) {
+        mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(address);
+
+        try{
+            mBluetoothSocket = mBluetoothDevice.
+                    createRfcommSocketToServiceRecord
+                            (UUID.fromString(MY_UUID));
+        }catch (IOException e){
+            Toast.makeText(MainActivity.this, &amp;quot;配对失败，原因是:&amp;quot; + e.getMessage(), Toast.LENGTH_SHORT)
+                    .show();
+            Log.e(&amp;quot;过程&amp;quot;, &amp;quot;失败的原因是：&amp;quot; + e.getMessage());
+        }
+        //与设备进行连接
+        try{
+            mBluetoothSocket.connect();
+            Toast.makeText(MainActivity.this, &amp;quot;连接&amp;quot;+ mBluetoothDevice.getName()
+                    + &amp;quot;成功&amp;quot;, Toast.LENGTH_SHORT).show();
+            Log.e(&amp;quot;TAGGGAGGAGGHG&amp;quot;,&amp;quot;连接过程&amp;quot;);
+        } catch (IOException e) {
+            try{
+                Toast.makeText(MainActivity.this, &amp;quot;连接失败,原因是：&amp;quot; + e.getMessage(), Toast.LENGTH_SHORT).show();
+                mBluetoothSocket.close();
+                mBluetoothSocket = null;
+                Log.e(&amp;quot;连接失败&amp;quot;, &amp;quot;连接失败的原因是:&amp;quot; + e.getMessage());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            return;
+        }
+
+        //与设备进行数据传输
+        try{
+            is = mBluetoothSocket.getInputStream();
+        }catch (IOException e){
+            Toast.makeText(MainActivity.this, &amp;quot;接收数据失败&amp;quot;, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(ready_receive == false){
+            ReadThread.start();
+            ready_receive = true;
+        }else {
+            isReceiving = true;
+        }
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这一部分就是连接蓝牙设备的操作，本来这些操作我是放到一个线程中去执行的，但是很不幸的是会报错，然后我就放到UI线程中去了，结果还过了，按道理耗时操作放到UI线程中不是会爆炸的嘛…暂时放一放这个问题。然后还有一个线程ReadThread&lt;br&gt;Thread ReadThread = new Thread(){&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public void run(){
+    int num = 0;
+    byte[] buffer = new byte[1024];
+    byte[] buffer_new = new byte[1024];
+
+    int n = 0;
+    isReceiving= true;
+    while(true){
+        try {
+            while (is.available() == 0){
+                while (isReceiving == false){}
+            }
+            while(true){
+                num = is.read(buffer);
+                n = 0;
+
+                String s0 = new String(buffer, 0, num);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;//                        fmsg += s0;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;                for (int i = 0; i &amp;lt; num; i++ ){
+                    if((buffer[i] == 0x0d) &amp;amp;&amp;amp; (buffer[i + 1] == 0x0a)){
+                        buffer_new[n] = 0x0a;
+                        i++;
+                    }else{
+                        buffer_new[n] = buffer[i];
+                    }
+                    n++;
+                }
+                String s = new String(buffer_new, 0, n);
+                receive_msg += s;
+                if (is.available() == 0) break;
+            }
+            handler.sendMessage(handler.obtainMessage());
+        }catch (IOException e){
+
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;  };&lt;br&gt;这样就完成了蓝牙串口助手的部分功能，具体的实例见源码下载。&lt;/p&gt;
+&lt;h2 id=&quot;源码下载：&quot;&gt;&lt;a href=&quot;#源码下载：&quot; class=&quot;headerlink&quot; title=&quot;源码下载：&quot;&gt;&lt;/a&gt;源码下载：&lt;/h2&gt;&lt;p&gt;已知要连接设备的address，只需要修改MainActivity中address字符串的值就可以了。&lt;br&gt;&lt;a href=&quot;&quot;&gt;http://download.csdn.net/detail/cuihaoren01/9496677&lt;/a&gt;&lt;br&gt;扫描蓝牙设备，选择需要连接的设备，进行传输。&lt;br&gt;&lt;a href=&quot;&quot;&gt;http://download.csdn.net/detail/cuihaoren01/9496711&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Android开发学习秘籍笔记（十九）&quot;&gt;&lt;a href=&quot;#Android开发学习秘籍笔记（十九）&quot; class=&quot;headerlink&quot; title=&quot;Android开发学习秘籍笔记（十九）&quot;&gt;&lt;/a&gt;Android开发学习秘籍笔记（十九）&lt;/h1&gt;&lt;p&gt;吼，
+    
+    </summary>
+    
+      <category term="Android开发" scheme="http://chr10003566.github.io./categories/Android%E5%BC%80%E5%8F%91/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
