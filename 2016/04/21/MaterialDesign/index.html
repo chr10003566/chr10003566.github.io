@@ -1,0 +1,676 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Material Design（一）一些关于Material Design的学习资料：http://android-developers.blogspot.jp/2015/05/android-design-support-library.htmlhttps://github.com/lightSky/Awesome-MaterialDesignhttps://github.com/chrisba">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Material Design学习（一）">
+<meta property="og:url" content="http://chr10003566.github.io./2016/04/21/MaterialDesign/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="Material Design（一）一些关于Material Design的学习资料：http://android-developers.blogspot.jp/2015/05/android-design-support-library.htmlhttps://github.com/lightSky/Awesome-MaterialDesignhttps://github.com/chrisba">
+<meta property="og:image" content="https://developer.android.com/training/material/images/ThemeColors.png">
+<meta property="og:image" content="http://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2015/08/1438606761image_02.png">
+<meta property="og:image" content="http://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2015/08/1438606769image_03.png">
+<meta property="og:updated_time" content="2016-04-22T07:52:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Material Design学习（一）">
+<meta name="twitter:description" content="Material Design（一）一些关于Material Design的学习资料：http://android-developers.blogspot.jp/2015/05/android-design-support-library.htmlhttps://github.com/lightSky/Awesome-MaterialDesignhttps://github.com/chrisba">
+<meta name="twitter:image" content="https://developer.android.com/training/material/images/ThemeColors.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Material Design学习（一） | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Material Design学习（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-21T13:48:14+08:00" content="2016-04-21">
+              2016-04-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Material-Design学习/" itemprop="url" rel="index">
+                    <span itemprop="name">Material Design学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/21/MaterialDesign/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/21/MaterialDesign/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Material-Design（一）"><a href="#Material-Design（一）" class="headerlink" title="Material Design（一）"></a>Material Design（一）</h1><h2 id="一些关于Material-Design的学习资料："><a href="#一些关于Material-Design的学习资料：" class="headerlink" title="一些关于Material Design的学习资料："></a>一些关于Material Design的学习资料：</h2><p><a href="">http://android-developers.blogspot.jp/2015/05/android-design-support-library.html</a><br><a href="">https://github.com/lightSky/Awesome-MaterialDesign</a><br><a href="">https://github.com/chrisbanes/cheesesquare</a><br><a href="">http://www.androidhive.info/2015/04/android-getting-started-with-material-design/</a></p>
+<p>本文译自：<br><a href="">http://www.sitepoint.com/material-design-android-design-support-library/</a></p>
+<h2 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h2><p>在Android 5.0 Lollipop发布的时候，Material Design一起被google推出。Material Design是一种新的设计语言，它给了Android app以及其他平台的app一种设计准则。</p>
+<p>随着Material Design的到来，新的组件如“Floating Action Button”也随之出现，使用这些组件并确保向后兼容性通常是一个繁琐的过程，因此需要第三方的库来简化这个库。</p>
+<p>在2015年的Google I/O大会上，google介绍了Android Design Support Library。这个库将会给开发者带来很多有趣的设计控件。这些控件可以很好的向后兼容，支持Android 2.1之后的所有版本，并且比之前的控件更好使用。这个库包括了一个导航的抽屉视图，输入框的浮动的标签，浮动的动作按钮，snackerbar，以及一系列标签和滚动绑定在一起的框架。</p>
+<h2 id="Let‘-go："><a href="#Let‘-go：" class="headerlink" title="Let‘ go："></a>Let‘ go：</h2><h3 id="Toolbar"><a href="#Toolbar" class="headerlink" title="Toolbar"></a>Toolbar</h3><p>你可以在以下地址找到源码</p>
+<p>在正式开始介绍这些控件时，我们需要建立一个项目设置一些风格。使用Android Studio创建一个新的Android工程，将其命名为DesignDemo，然后其他设为默认设置，确认最低SDK版本是API 15.</p>
+<p>在build.gradle（Module：app）下添加以下依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.android.support:design:22.2.1&apos;</span><br><span class="line">compile &apos;com.android.support:cardview-v7:22.2.1&apos;</span><br></pre></td></tr></table></figure></p>
+<p>第一句是添加design support library，第二句是添加CardView library（我们将在后面使用到），同步项目并更新Gradle files。这里可能设计下载一些支持库。</p>
+<p>（这里有的人可能会出错，错误解决方案见下）</p>
+<p>在<code>res/value</code>下创建一个资源文件叫做<code>colors.xml</code>（有的话就不用创建了）。按如下修改：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">color</span> <span class="attr">name</span>=<span class="string">"primary"</span>&gt;</span>#3F51B5<span class="tag">&lt;/<span class="name">color</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">color</span> <span class="attr">name</span>=<span class="string">"primary_dark"</span>&gt;</span>#303F9F<span class="tag">&lt;/<span class="name">color</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">color</span> <span class="attr">name</span>=<span class="string">"accent"</span>&gt;</span>#FF4081<span class="tag">&lt;/<span class="name">color</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>按如下修改<code>res/values/strings.xml</code>，这里都是一些我们将在项目中需要使用的字符串</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"app_name"</span>&gt;</span>Design Demo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"hello_world"</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"action_settings"</span>&gt;</span>Settings<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"nav_item_attachment"</span>&gt;</span>Attachment<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"nav_item_images"</span>&gt;</span>Images<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"nav_item_location"</span>&gt;</span>My Location<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"nav_sub_menu"</span>&gt;</span>Sub Menu<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"nav_sub_menu_item01"</span>&gt;</span>Sub Menu Item 1<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"nav_sub_menu_item02"</span>&gt;</span>Sub Menu Item 2<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"drawer_header_text"</span>&gt;</span>Drawer Header<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"second_activity_text"</span>&gt;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consectetur diam id aliquam scelerisque. Donec ultrices lacus vel dignissim pharetra. Vivamus pharetra augue quis rhoncus placerat. Sed ultricies at risus non cursus. Nam rutrum leo nec placerat consectetur. Vestibulum feugiat eleifend diam, nec interdum augue tincidunt sit amet. Praesent feugiat est auctor lacus consectetur, vitae pellentesque dolor laoreet.<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"title_activity_second"</span>&gt;</span>SecondActivity<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>按如下修改<code>res/values/styles.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Base application theme. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppTheme"</span> <span class="attr">parent</span>=<span class="string">"Theme.AppCompat.Light.NoActionBar"</span>&gt;</span><span class="xml"></span><br><span class="line"><span class="comment">&lt;!-- Customize your theme here. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorPrimary"</span>&gt;</span>@color/primary<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorPrimaryDark"</span>&gt;</span>@color/primary_dark<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorAccent"</span>&gt;</span>@color/accent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在上面代码中，我们定制了app的调色板，通过设置primary、primary-dark和accent颜色作为设计指导的特定的颜色。</p>
+<p>其他的主题设置可以如下图那样去定制。</p>
+<p>注意到我们没有使用<code>android：</code>作为字首，这是为了能更好的向后兼容，<code>android：</code>注解需要将最低限度API设置到21。我们将使用<code>NoActionBar</code>主题，因为我们将会使用Toolbar作为我们的Action Bar<br><img src="https://developer.android.com/training/material/images/ThemeColors.png" alt=""><br>(Source:<a href="">https://developer.android.com/training/material/theme.html</a>)</p>
+<p>为了创建Toolbar，修改<code>res/layout/activity_main</code>:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line"><span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line"><span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line"><span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line"><span class="attr">tools:context</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">android.support.v7.widget.Toolbar</span></span><br><span class="line"><span class="attr">android:id</span>=<span class="string">"@+id/toolbar"</span></span><br><span class="line"><span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line"><span class="attr">android:layout_height</span>=<span class="string">"?attr/actionBarSize"</span></span><br><span class="line"><span class="attr">android:background</span>=<span class="string">"?attr/colorPrimary"</span></span><br><span class="line"><span class="attr">android:theme</span>=<span class="string">"@style/ThemeOverlay.AppCompat.Dark"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码中，我们删除了默认的<code>RelativeLayout</code>的<code>padding</code>属性并且从支持库中添加了一个Toolbar。如果你正在使用API21或更高级的API，你可以使用默认的Toolbar控件，不需要从支持库中获取<br>（解释：Toolbar在Android中有两个类的，一个来自support v7可以向后兼容，一个是API21及以上使用的）</p>
+<p>在<code>MainAcitivity</code>中，修改其<code>onCreate（Bundle）</code>方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);</span><br><span class="line">    setSupportActionBar(toolbar);</span><br><span class="line">    ActionBar actionBar = getSupportActionBar();</span><br><span class="line">    actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);</span><br><span class="line">    actionBar.setDisplayHomeAsUpEnabled(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从这里下载本工程的资源<br><a href="">https://github.com/sitepoint-editors/Design-Demo/tree/master/app/src/main/res</a><br>包含了绘制文件夹下的文件，你可以直接复制到你的项目工程中，这样可以保证你上面的代码没有错误。</p>
+<p>运行这个App，你可以看到Toolbar被设置到app的Appear上了。<br><img src="http://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2015/08/1438606761image_02.png" alt=""></p>
+<h3 id="NavigationView"><a href="#NavigationView" class="headerlink" title="NavigationView"></a>NavigationView</h3><p>导航抽屉在Android app上是一个共有的控件，是一种在Android建立导航阶层的方法，其他的有像Tabs和Spinners。执行这些控件从来不是个简单的过程，但现在有了Design Support Library之后，使用这些控件就简单多了。</p>
+<p>首先呢，你需要修改<code>activity_main.xml</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.v4.widget.DrawerLayout</span></span><br><span class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/drawer_layout"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:fitsSystemWindows</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">RelativeLayout</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">android.support.v7.widget.Toolbar</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/toolbar"</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"?attr/actionBarSize"</span></span><br><span class="line">            <span class="attr">android:background</span>=<span class="string">"?attr/colorPrimary"</span></span><br><span class="line">            <span class="attr">android:theme</span>=<span class="string">"@style/ThemeOverlay.AppCompat.Dark"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.design.widget.NavigationView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/navigation_view"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"start"</span></span><br><span class="line">        <span class="attr">app:headerLayout</span>=<span class="string">"@layout/drawer_header"</span></span><br><span class="line">        <span class="attr">app:menu</span>=<span class="string">"@menu/drawer"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.v4.widget.DrawerLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在上面的代码中，我们添加了一个<code>NavigationView</code>到布局上，<code>NavigationView</code>在<code>DrawerLayout</code>布局之中，NavigationView有两个重要的属性－－－<code>app：headerLayout</code>（用来作为header）和<code>app：menu</code>（将菜单资源填充到导航项中来）</p>
+<p>在<code>res/layout</code>文件夹下，创建一个名为：<code>drawer_header.xml</code>，并按如下修改它。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"150dp"</span></span><br><span class="line">    <span class="attr">android:background</span>=<span class="string">"?attr/colorPrimaryDark"</span></span><br><span class="line">    <span class="attr">android:padding</span>=<span class="string">"16dp"</span></span><br><span class="line">    <span class="attr">android:theme</span>=<span class="string">"@style/ThemeOverlay.AppCompat.Dark"</span></span><br><span class="line">    <span class="attr">android:gravity</span>=<span class="string">"bottom"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"@string/drawer_header_text"</span></span><br><span class="line">        <span class="attr">android:textAppearance</span>=<span class="string">"@style/TextAppearance.AppCompat.Body1"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这样就为抽屉创建了一个header，这个header的背景颜色是primary color，设置高度为150dp并加入一些文本。</p>
+<p>下一步在<code>res/menu</code>创建一个file，命名为<code>drawer.xml</code>，按如下修改：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">group</span> <span class="attr">android:checkableBehavior</span>=<span class="string">"single"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/navigation_item_attachment"</span></span><br><span class="line">            <span class="attr">android:checked</span>=<span class="string">"true"</span></span><br><span class="line">            <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_attachment"</span></span><br><span class="line">            <span class="attr">android:title</span>=<span class="string">"@string/nav_item_attachment"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/navigation_item_images"</span></span><br><span class="line">            <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_image"</span></span><br><span class="line">            <span class="attr">android:title</span>=<span class="string">"@string/nav_item_images"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/navigation_item_location"</span></span><br><span class="line">            <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_place"</span></span><br><span class="line">            <span class="attr">android:title</span>=<span class="string">"@string/nav_item_location"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">group</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:title</span>=<span class="string">"@string/nav_sub_menu"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">menu</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">                <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_emoticon"</span></span><br><span class="line">                <span class="attr">android:title</span>=<span class="string">"@string/nav_sub_menu_item01"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">                <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_emoticon"</span></span><br><span class="line">                <span class="attr">android:title</span>=<span class="string">"@string/nav_sub_menu_item02"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，我们创建了抽屉的菜单项，第一部分是可勾选的菜单项的集合，勾选的项目会在导航抽屉视图中变得高亮，可以使用户确认现在被勾选的是哪个项目，第二部分，我们使用了子header与第一部分项目进行分离。</p>
+<p>在MainActivity.java中，添加以下变量。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> DrawerLayout mDrawerLayout;</span><br></pre></td></tr></table></figure></p>
+<p>然后在onCreate（Bundle）的末尾添加如下代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);</span><br></pre></td></tr></table></figure></p>
+<p>修改<code>onOptionsItemSelected（MenuItem)</code>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onOptionsItemSelected</span><span class="params">(MenuItem item)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Handle action bar item clicks here. The action bar will</span></span><br><span class="line">    <span class="comment">// automatically handle clicks on the Home/Up button, so long</span></span><br><span class="line">    <span class="comment">// as you specify a parent activity in AndroidManifest.xml.</span></span><br><span class="line">    <span class="keyword">int</span> id = item.getItemId();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (id) &#123;</span><br><span class="line">        <span class="keyword">case</span> android.R.id.home:</span><br><span class="line">            mDrawerLayout.openDrawer(GravityCompat.START);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">case</span> R.id.action_settings:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onOptionsItemSelected(item);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当为们点击那个看上去像汉堡的按钮时，抽屉将被打开。运行这个app你会看到：<br><img src="http://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2015/08/1438606769image_03.png" alt=""><br>为了抓取抽屉项目的点击事件，我们需要给<code>NavigationView</code>设置<code>OnNavigationItemSelectedListener</code>在<code>onCreate(Bundle)</code>最后添加：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);</span><br><span class="line">navigationView.setNavigationItemSelectedListener(<span class="keyword">new</span> NavigationView.OnNavigationItemSelectedListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onNavigationItemSelected</span><span class="params">(MenuItem menuItem)</span> </span>&#123;</span><br><span class="line">            menuItem.setChecked(<span class="keyword">true</span>);</span><br><span class="line">            mDrawerLayout.closeDrawers();</span><br><span class="line">            Toast.makeText(MainActivity.<span class="keyword">this</span>, menuItem.getTitle(), Toast.LENGTH_LONG).show();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码给<code>NavigationView</code>提供了监听器，所以当抽屉中的选项被选中时，它就被设置成已选，然后抽屉框会关闭，Toast会显示你所选的选项的标题。</p>
+<p>在真正的app当中你会想要导航到其他的Fragment而不是仅仅显示Toast，当你再次打开抽屉时，你可以根据高亮确认你所选的选项是否被选中。</p>
+<h3 id="Floating-Action-Button-FAB"><a href="#Floating-Action-Button-FAB" class="headerlink" title="Floating Action Button (FAB)"></a>Floating Action Button (FAB)</h3>
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/20/BluetoothTest/" rel="next" title="Android设备、外接蓝牙设备之间的连接与数据传输">
+                <i class="fa fa-chevron-left"></i> Android设备、外接蓝牙设备之间的连接与数据传输
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/04/21/MaterialDesign/"
+           data-title="Material Design学习（一）" data-url="http://chr10003566.github.io./2016/04/21/MaterialDesign/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Material-Design（一）"><span class="nav-number">1.</span> <span class="nav-text">Material Design（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些关于Material-Design的学习资料："><span class="nav-number">1.1.</span> <span class="nav-text">一些关于Material Design的学习资料：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍："><span class="nav-number">1.2.</span> <span class="nav-text">介绍：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Let‘-go："><span class="nav-number">1.3.</span> <span class="nav-text">Let‘ go：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Toolbar"><span class="nav-number">1.3.1.</span> <span class="nav-text">Toolbar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NavigationView"><span class="nav-number">1.3.2.</span> <span class="nav-text">NavigationView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Floating-Action-Button-FAB"><span class="nav-number">1.3.3.</span> <span class="nav-text">Floating Action Button (FAB)</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
