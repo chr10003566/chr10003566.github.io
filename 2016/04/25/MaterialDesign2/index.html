@@ -1,0 +1,684 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Material Design学习（二）上一篇介绍了一个Material Design的各种控件的使用，并且将其组成了一个完整的Demo，根据代码一步一步来我想收获应该是不少的。今天就学习下Material Design的其他方面的用法－－动画
+在Android L中新增了如下几种动画：
+
+Touch feedback（触摸反馈）
+Reveal effect（揭露效果）
+Activity tran">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Material Design学习（二）">
+<meta property="og:url" content="http://chr10003566.github.io./2016/04/25/MaterialDesign2/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="Material Design学习（二）上一篇介绍了一个Material Design的各种控件的使用，并且将其组成了一个完整的Demo，根据代码一步一步来我想收获应该是不少的。今天就学习下Material Design的其他方面的用法－－动画
+在Android L中新增了如下几种动画：
+
+Touch feedback（触摸反馈）
+Reveal effect（揭露效果）
+Activity tran">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/MaterialTheme.gif">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/Material.gif">
+<meta property="og:updated_time" content="2016-04-25T06:37:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Material Design学习（二）">
+<meta name="twitter:description" content="Material Design学习（二）上一篇介绍了一个Material Design的各种控件的使用，并且将其组成了一个完整的Demo，根据代码一步一步来我想收获应该是不少的。今天就学习下Material Design的其他方面的用法－－动画
+在Android L中新增了如下几种动画：
+
+Touch feedback（触摸反馈）
+Reveal effect（揭露效果）
+Activity tran">
+<meta name="twitter:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/MaterialTheme.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Material Design学习（二） | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Material Design学习（二）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-25T11:45:09+08:00" content="2016-04-25">
+              2016-04-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Material-Design学习/" itemprop="url" rel="index">
+                    <span itemprop="name">Material Design学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/25/MaterialDesign2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/25/MaterialDesign2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Material-Design学习（二）"><a href="#Material-Design学习（二）" class="headerlink" title="Material Design学习（二）"></a>Material Design学习（二）</h1><p>上一篇介绍了一个Material Design的各种控件的使用，并且将其组成了一个完整的Demo，根据代码一步一步来我想收获应该是不少的。今天就学习下Material Design的其他方面的用法－－<strong>动画</strong></p>
+<p>在Android L中新增了如下几种动画：</p>
+<ul>
+<li>Touch feedback（触摸反馈）</li>
+<li>Reveal effect（揭露效果）</li>
+<li>Activity transitions （Activity转换效果）</li>
+<li>Curved motion</li>
+<li>View state changes（视图状态改变）</li>
+<li>Animate Vector Drawables（可绘制矢量动画）</li>
+</ul>
+<h2 id="触摸反馈："><a href="#触摸反馈：" class="headerlink" title="触摸反馈："></a>触摸反馈：</h2><p>在Andorid L5.0中加入触摸反馈动画。<br>其中最明显的，最具代表的就是波纹动画，必入点击按钮会从点击的位置产生类似于波纹扩散的效果。</p>
+<h3 id="Ripple（波纹效果）"><a href="#Ripple（波纹效果）" class="headerlink" title="Ripple（波纹效果）"></a>Ripple（波纹效果）</h3><p>当你使用了Material主题，波纹动画会自动应用在所有控件上，我们可以设置其属性来调整我们需要的效果。</p>
+<p>首先创建一个Andorid studio的project，这里注意了你必须设置你的<code>Minimum SDK</code>至少在<code>API21：Android5.0（Lollipop）</code>以上，因为这样你才可以使用Material主题，项目创建好了之后。在<code>AndroidMainifest.xml</code>作修改。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span><br><span class="line">    <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></span><br><span class="line">    <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">    <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span><br><span class="line">    <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></span><br><span class="line">    <span class="attr">android:theme</span>=<span class="string">"@android:style/Theme.Material"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>将主题切换成Material主题即可。<br>之后修改<code>activity_main.xml</code>如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span><br><span class="line">    <span class="attr">tools:context</span>=<span class="string">"com.example.cui.materialthemedemo.MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"使用了MaterialDesign主题，默认"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">        <span class="attr">android:background</span>=<span class="string">"?android:attr/selectableItemBackground"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"使用了MaterialDesign主题,设置了背景边界"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line"></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"使用了MaterialDesign主题,设置了背景边界但可以超出边界"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"Hello World!"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>修改好了后，尝试运行，有的人可能会报错。说你必须使用<code>Theme.AppCompat theme</code>的主题。这就还需要修改一个地方即将Activity继承自<code>AppCompatAcitvity</code>改为继承自<code>Avtivity</code>改完之后就能正常运行了，效果如下：</p>
+<p><img src="http://7xtcu9.com1.z0.glb.clouddn.com/MaterialTheme.gif" alt="使用Material主题的Ripple效果"></p>
+<p>这种方法的好处想必大家也看出来了，代码量少，使用简单，操作方便。但它的缺点也十分的明显直接导致很少人这么使用，因为它必须得在<code>API21</code>以上的Android手机上才可以实现。还没有向后兼容的特点，故大多数人不会这么使用。</p>
+<p>既然你不可以向后兼容，那就创建一个View可以实现这种效果不就好了嘛，所以有了另一种实现<code>Ripple</code>的方法</p>
+<p><a href="https://github.com/traex/RippleEffect" target="_blank" rel="external">RippleEffect</a></p>
+<p>要实现<code>Ripple</code>十分简单，你只需要在你的项目的<code>build.gradle(Module:app)</code>（另一个project，不再是上面那个了）中加入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;     </span><br><span class="line">    compile &apos;com.github.traex.rippleeffect:library:1.3&apos; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就可以了。修改你的<code>activity_main.xml</code>:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">    <span class="attr">tools:context</span>=<span class="string">"com.example.cui.rippledemo.MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.v7.widget.Toolbar</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/actionbar"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:background</span>=<span class="string">"@android:color/holo_blue_dark"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">RelativeLayout</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"?android:actionBarSize"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">                <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span><br><span class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">                <span class="attr">android:layout_centerVertical</span>=<span class="string">"true"</span></span><br><span class="line">                <span class="attr">android:text</span>=<span class="string">"RippeleDemo"</span></span><br><span class="line">                <span class="attr">android:layout_marginLeft</span>=<span class="string">"25dp"</span></span><br><span class="line">                <span class="attr">android:textColor</span>=<span class="string">"@android:color/white"</span></span><br><span class="line">                <span class="attr">android:textSize</span>=<span class="string">"18sp"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">com.andexert.library.RippleView</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/more"</span></span><br><span class="line">                <span class="attr">android:layout_width</span>=<span class="string">"?android:actionBarSize"</span></span><br><span class="line">                <span class="attr">android:layout_height</span>=<span class="string">"?android:actionBarSize"</span></span><br><span class="line">                <span class="attr">android:layout_toLeftOf</span>=<span class="string">"@+id/more2"</span></span><br><span class="line">                <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></span><br><span class="line">                <span class="attr">app:rv_centered</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">                    <span class="attr">android:layout_width</span>=<span class="string">"?android:actionBarSize"</span></span><br><span class="line">                    <span class="attr">android:layout_height</span>=<span class="string">"?android:actionBarSize"</span></span><br><span class="line">                    <span class="attr">android:src</span>=<span class="string">"@android:drawable/ic_menu_edit"</span></span><br><span class="line">                    <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span><br><span class="line">                    <span class="attr">android:padding</span>=<span class="string">"10dp"</span></span><br><span class="line">                    <span class="attr">android:background</span>=<span class="string">"@android:color/holo_blue_dark"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">com.andexert.library.RippleView</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">com.andexert.library.RippleView</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/more2"</span></span><br><span class="line">                <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span><br><span class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">                <span class="attr">android:layout_alignParentRight</span>=<span class="string">"true"</span></span><br><span class="line">                <span class="attr">android:layout_margin</span>=<span class="string">"5dp"</span></span><br><span class="line">                <span class="attr">app:rv_type</span>=<span class="string">"doubleRipple"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">                    <span class="attr">android:layout_width</span>=<span class="string">"?android:actionBarSize"</span></span><br><span class="line">                    <span class="attr">android:layout_height</span>=<span class="string">"?android:actionBarSize"</span></span><br><span class="line">                    <span class="attr">android:src</span>=<span class="string">"@drawable/ic_profil_plus"</span></span><br><span class="line">                    <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span><br><span class="line">                    <span class="attr">android:padding</span>=<span class="string">"10dp"</span></span><br><span class="line">                    <span class="attr">android:background</span>=<span class="string">"@android:color/holo_blue_dark"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">com.andexert.library.RippleView</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.v7.widget.Toolbar</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:text</span>=<span class="string">"不在RippleView中哦"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">com.andexert.library.RippleView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/rect"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@id/actionbar"</span></span><br><span class="line">        <span class="attr">android:layout_marginTop</span>=<span class="string">"20dp"</span></span><br><span class="line">        <span class="attr">android:layout_marginLeft</span>=<span class="string">"30dp"</span></span><br><span class="line">        <span class="attr">android:background</span>=<span class="string">"@drawable/selector_row"</span></span><br><span class="line">        <span class="attr">app:rv_type</span>=<span class="string">"rectangle"</span></span><br><span class="line">        <span class="attr">android:padding</span>=<span class="string">"20dp"</span></span><br><span class="line">        <span class="attr">app:rv_zoom</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/rect_child"</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"200dp"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"50dp"</span></span><br><span class="line">            <span class="attr">android:layout_centerInParent</span>=<span class="string">"true"</span></span><br><span class="line">            <span class="attr">android:textColor</span>=<span class="string">"@android:color/white"</span></span><br><span class="line">            <span class="attr">android:textSize</span>=<span class="string">"18sp"</span></span><br><span class="line">            <span class="attr">android:gravity</span>=<span class="string">"center"</span></span><br><span class="line">            <span class="attr">android:text</span>=<span class="string">"Hello World"</span></span><br><span class="line">            <span class="attr">android:background</span>=<span class="string">"@android:color/holo_green_light"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">com.andexert.library.RippleView</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.v7.widget.RecyclerView</span></span><br><span class="line">        <span class="attr">android:layout_below</span>=<span class="string">"@id/rect"</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/recycler_view"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:scrollbars</span>=<span class="string">"vertical"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>RecyclerView</code>里面可以加载<code>RippleView</code>的（<code>ListView</code>也是可以的），之后我就不贴关于RecyclerView适配的一些代码了。（大家如果要学习可以Git下别人的源码，上不去Github就在后面我po的CSDN的链接上下载吧）</p>
+<p><code>MainAcitivity.java</code>修改如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.widget.LinearLayoutManager;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.widget.RecyclerView;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.widget.Toolbar;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.andexert.library.RippleView;</span><br><span class="line"><span class="keyword">import</span> com.example.cui.rippledemo.adpater.RrippleRecyclerAdapter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ArrayList&lt;String&gt; sourcesArrayList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"MainActivity"</span>;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> RippleView rippleView = (RippleView) findViewById(R.id.rect);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> TextView textView = (TextView) findViewById(R.id.rect_child);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> Toolbar toolbar = (Toolbar) findViewById(R.id.actionbar);</span><br><span class="line"></span><br><span class="line">        setSupportActionBar(toolbar);</span><br><span class="line"></span><br><span class="line">        rippleView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                Log.e(TAG, <span class="string">"onClick: Rect has clicked"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">        rippleView.setOnRippleCompleteListener(<span class="keyword">new</span> RippleView.OnRippleCompleteListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">(RippleView rippleView)</span> </span>&#123;</span><br><span class="line">                Log.d(TAG, <span class="string">"onComplete: RippleView has been Clicked"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">        textView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                Log.e(TAG, <span class="string">"rect Chlid has been clicked"</span> );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        sourcesArrayList.add(<span class="string">"Samsung"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Android"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Google"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Asus"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Apple"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Samsung"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Android"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Google"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Asus"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Apple"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Samsung"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Android"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Google"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Asus"</span>);</span><br><span class="line">        sourcesArrayList.add(<span class="string">"Apple"</span>);</span><br><span class="line"></span><br><span class="line">        RecyclerView recyclerView  = (RecyclerView) findViewById(R.id.recycler_view);</span><br><span class="line">        recyclerView.setHasFixedSize(<span class="keyword">true</span>);</span><br><span class="line">        recyclerView.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(getApplicationContext()));</span><br><span class="line">        RrippleRecyclerAdapter rippleRecyclerAdapter = <span class="keyword">new</span> RrippleRecyclerAdapter(sourcesArrayList);</span><br><span class="line">        recyclerView.setAdapter(rippleRecyclerAdapter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终实现效果如下：</p>
+<p><img src="http://7xtcu9.com1.z0.glb.clouddn.com/Material.gif" alt="RipplEffect的使用"></p>
+<p><a href="http://download.csdn.net/detail/cuihaoren01/9501883" target="_blank" rel="external">RippleDemo CSDN源码下载</a></p>
+<p>之后将会补充Activity Transition的学习内容。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/21/MaterialDesign/" rel="next" title="Material Design学习（一）">
+                <i class="fa fa-chevron-left"></i> Material Design学习（一）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/04/25/MaterialDesign2/"
+           data-title="Material Design学习（二）" data-url="http://chr10003566.github.io./2016/04/25/MaterialDesign2/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Material-Design学习（二）"><span class="nav-number">1.</span> <span class="nav-text">Material Design学习（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#触摸反馈："><span class="nav-number">1.1.</span> <span class="nav-text">触摸反馈：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ripple（波纹效果）"><span class="nav-number">1.1.1.</span> <span class="nav-text">Ripple（波纹效果）</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
