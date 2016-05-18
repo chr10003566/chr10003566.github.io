@@ -1,0 +1,687 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Material Design(三)上篇介绍了Material Design中的各种动画效果，结合第一篇就可以写出很棒的UI界面了，这次再学习下Material Design中其它控件.
+照常先贴学习链接:
+https://github.com/traex/ExpandableLayouthttp://githubonepiece.github.io/2015/11/26/Material-Des">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Material Design学习（三）">
+<meta property="og:url" content="http://chr10003566.github.io./2016/05/06/MaterialDesign3/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="Material Design(三)上篇介绍了Material Design中的各种动画效果，结合第一篇就可以写出很棒的UI界面了，这次再学习下Material Design中其它控件.
+照常先贴学习链接:
+https://github.com/traex/ExpandableLayouthttp://githubonepiece.github.io/2015/11/26/Material-Des">
+<meta property="og:image" content="http://7xtcu9.com2.z0.glb.clouddn.com/Palette.png">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/Bottom.gif">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/Screenshot_2016-05-16-14-39-19.jpeg">
+<meta property="og:updated_time" content="2016-05-18T03:17:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Material Design学习（三）">
+<meta name="twitter:description" content="Material Design(三)上篇介绍了Material Design中的各种动画效果，结合第一篇就可以写出很棒的UI界面了，这次再学习下Material Design中其它控件.
+照常先贴学习链接:
+https://github.com/traex/ExpandableLayouthttp://githubonepiece.github.io/2015/11/26/Material-Des">
+<meta name="twitter:image" content="http://7xtcu9.com2.z0.glb.clouddn.com/Palette.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Material Design学习（三） | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Material Design学习（三）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-06T16:24:00+08:00" content="2016-05-06">
+              2016-05-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Material-Design学习/" itemprop="url" rel="index">
+                    <span itemprop="name">Material Design学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/06/MaterialDesign3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/06/MaterialDesign3/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Material-Design-三"><a href="#Material-Design-三" class="headerlink" title="Material Design(三)"></a>Material Design(三)</h1><p>上篇介绍了Material Design中的各种动画效果，结合第一篇就可以写出很棒的UI界面了，这次再学习下Material Design中其它控件.</p>
+<p>照常先贴学习链接:</p>
+<p><a href="https://github.com/traex/ExpandableLayout" target="_blank" rel="external">https://github.com/traex/ExpandableLayout</a><br><a href="http://githubonepiece.github.io/2015/11/26/Material-Design-Palette/" target="_blank" rel="external">http://githubonepiece.github.io/2015/11/26/Material-Design-Palette/</a><br><a href="http://www.fx114.net/qa-26-168872.aspx" target="_blank" rel="external">http://www.fx114.net/qa-26-168872.aspx</a><br><a href="http://blog.csdn.net/jdsjlzx/article/details/41441083/" target="_blank" rel="external">http://blog.csdn.net/jdsjlzx/article/details/41441083/</a><br><a href="https://github.com/Flipboard/bottomsheet" target="_blank" rel="external">https://github.com/Flipboard/bottomsheet</a></p>
+<h2 id="ExpandableLayout"><a href="#ExpandableLayout" class="headerlink" title="ExpandableLayout"></a>ExpandableLayout</h2><p>这个组件还是很常用的，但是Android自带的那个ExpandableListView使用起来不是很好，而且其适配器得继承其自带的适配器，使得代码十分不好写。今天在Github上看到<code>ExpandableLayout</code>真的是比Android自带的<code>ExpandableListView</code>好用不是一点点。这个组件的效果大家都见过，比如QQ的好友展开等等就是使用了该控件。废话不多说，直接开始使用吧。</p>
+<p>要使用<code>ExpandableLayout</code>十分简单，在<code>build.gradle</code>中添加:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    compile &apos;com.github.traex.expandablelayout:library:1.2.2&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就可以调用了。接下来在<code>xml</code>文件中就可以添加<code>ExpandableLayout</code>,<code>ExpandableLayoutItem</code>,<code>ExpandableLayoutListView</code>这三个控件了。</p>
+<p>在<code>xml</code>文件中使用<code>ExpandableLayout</code>需要添加<code>head layout</code>和<code>content layout</code>(在下面代码中去理解).</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">com.andexert.expandablelayout.library.ExpandableLayout</span></span><br><span class="line">       <span class="attr">android:id</span>=<span class="string">"@+id/expandableLayout"</span></span><br><span class="line">       <span class="attr">xmlns:expandable</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">       <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">       <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">       <span class="attr">expandable:headerLayout</span>=<span class="string">"@layout/view_header"</span></span><br><span class="line">       <span class="attr">expandable:contentLayout</span>=<span class="string">"@layout/view_content"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>自己在写两个<code>xml</code>文件即可，测试效果就是点击<code>view_header</code>后<code>view_content</code>显示出来。效果自己也可以很好的实现，即写两个控件其中一个不可见，点击其中一个设置另一个控件可见。</p>
+<p>同样的<code>ExpandableLayoutListView</code>也可以添加到<code>xml</code>文件。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">com.andexert.expandablelayout.library.ExpandableLayoutListView</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/expandableLayout"</span></span><br><span class="line">        <span class="attr">xmlns:expandable</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>而填充ListView则可以使用<code>ExpandableLayoutItem</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">com.andexert.expandablelayout.library.ExpandableLayoutItem</span></span><br><span class="line">       <span class="attr">android:id</span>=<span class="string">"@+id/expandableLayout"</span></span><br><span class="line">       <span class="attr">xmlns:expandable</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">       <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">       <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">       <span class="attr">expandable:headerLayout</span>=<span class="string">"@layout/view_header"</span></span><br><span class="line">       <span class="attr">expandable:contentLayout</span>=<span class="string">"@layout/view_content"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>是不是特别的简单。在<code>MainAcitivity.java</code>中也不需要你做太多的事情，只需要你简单适配一下ListView就行，而ListView的适配就和正常ListView的适配相差无几。剩下的具体使用可以去Github上去看。这里只是做个简介！</p>
+<h2 id="Palette"><a href="#Palette" class="headerlink" title="Palette"></a>Palette</h2><p>在Material Design设计中很重要的一部分内容是应用中的图片颜色和文字颜色和主题相匹配。而在<code>Android Lollipop</code>发布的时候，<code>Palette</code>类则用来实现上面说的效果。这个类的作用就是提取某张图片中的主要颜色，比如你有一张大海的图片，那么这个类可以提取出的这张照片的主要颜色可能是蓝色。接下来看看怎么使用这个类。</p>
+<p>首先你要使用这个类的话，你得依赖于：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.android.support:palette-v7:23.0.0&apos;</span><br></pre></td></tr></table></figure></p>
+<p>Palette有四种生成方式，其中前两种已经被google抛弃，但这里学习下不至于以后碰到了看不懂。</p>
+<h3 id="已抛弃得用法"><a href="#已抛弃得用法" class="headerlink" title="已抛弃得用法."></a>已抛弃得用法.</h3><p><strong>两种同步的方式：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Palette p = generate(Bitmap bitmap);</span><br><span class="line">Palette p = generate(Bitmap bitmap ,<span class="keyword">int</span> size)<span class="comment">//设置调色板得大小为size</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>两种异步得方式</strong>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 简单快速的实现方法，内部使用AsyncTask</span></span><br><span class="line"><span class="comment">// 但是可能不是最优的方法(因为有线程的切换)</span></span><br><span class="line"><span class="comment">// 默认调色板大小(16).</span></span><br><span class="line">Palette.generateAsync(bitmap, <span class="keyword">new</span> Palette.PaletteAsyncListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGenerated</span><span class="params">(Palette palette)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// palette为生成的调色板</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 设置调色板大小(24)</span></span><br><span class="line">Palette.generateAsync(bitmap, <span class="number">24</span>, <span class="keyword">new</span> Palette.PaletteAsyncListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGenerated</span><span class="params">(Palette palette)</span> </span>&#123;</span><br><span class="line">       <span class="comment">// palette为生成的调色板</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="提倡的方法"><a href="#提倡的方法" class="headerlink" title="提倡的方法"></a>提倡的方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Palette.Builder builder = Palette.from(bitmap);</span><br><span class="line">builder.generate(<span class="keyword">new</span> Palette.PaletteAsyncListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGenerated</span><span class="params">(Palette palette)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//或者很多时候也可以直接写成</span></span><br><span class="line"></span><br><span class="line">Palette.from(bitmap).generate(<span class="keyword">new</span> PaletteAsyncListener() &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGenerated</span><span class="params">(Palette p)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>调色板的大小值越大，生成得调色的时间越长，数值越小，得到的颜色信息也越少，调色板的大小最好根据图像类型来决定。（默认是16.）</p>
+<p>生成了Palette对象后就可以尝试获取六种不同的色板了，具体如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. Palette.Swatch s1 = Palette.getVibrantSwatch(); <span class="comment">//充满活力的色板</span></span><br><span class="line"><span class="number">2</span>. Palette.Swatch s2 = Palette.getDarkVibrantSwatch(); <span class="comment">//充满活力的暗色类型色板</span></span><br><span class="line"><span class="number">3</span>. Palette.Swatch s3 = Palette.getLightVibrantSwatch(); <span class="comment">//充满活力的亮色类型色板</span></span><br><span class="line"><span class="number">4</span>. Palette.Swatch s4 = Palette.getMutedSwatch(); <span class="comment">//黯淡的色板</span></span><br><span class="line"><span class="number">5</span>. Palette.Swatch s5 = Palette.getDarkMutedSwatch(); <span class="comment">//黯淡的暗色类型色板（翻译过来没有原汁原味的赶脚啊！）</span></span><br><span class="line"><span class="number">6</span>. Palette.Swatch s6 = Palette.getLightMutedSwatch(); <span class="comment">//黯淡的亮色类型色板</span></span><br></pre></td></tr></table></figure></p>
+<p>可以根据需求自由选择色板类型，有了色板就可以根据色板来获取具体颜色信息，在<code>Swatch</code>色板中提供了五种颜色信息，分别如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. getPopulation(): the number of pixels represented by <span class="keyword">this</span> swatch</span><br><span class="line"><span class="number">2</span>. getRgb(): the RGB value of <span class="keyword">this</span> color.</span><br><span class="line"><span class="number">3</span>. getHsl(): the HSL value of <span class="keyword">this</span> color.</span><br><span class="line"><span class="number">4</span>. getBodyTextColor(): the RGB value of a text color which can be displayed on top of <span class="keyword">this</span> color.</span><br><span class="line"><span class="number">5</span>. getTitleTextColor(): the RGB value of a text color which can be displayed on top of <span class="keyword">this</span> color.</span><br></pre></td></tr></table></figure>
+<p>示例代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Palette.Swatch swatch = palette.getVibrantSwatch();</span><br><span class="line">TextView titleView = ...;</span><br><span class="line"><span class="keyword">if</span> (swatch != <span class="keyword">null</span>) &#123;</span><br><span class="line">    titleView.setBackgroundColor(swatch.getRgb());</span><br><span class="line">    titleView.setTextColor(swatch.getTitleTextColor()); <span class="comment">//设置文本颜色</span></span><br></pre></td></tr></table></figure></p>
+<p>请注意必须对<code>swatch</code>进行是否为<code>null</code>的判断，因为如果面板无法找到相匹配的标准色，那么然后将返回<code>null</code>，不进行判断将会出现空指针异常。也可以是用另一种方式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tv1.setBackgroundColor(palette.getVibrantColor(<span class="number">0x999933</span>));</span><br><span class="line">      tv2.setBackgroundColor(palette.getDarkVibrantColor(<span class="number">0x999933</span>));</span><br><span class="line">      tv3.setBackgroundColor(palette.getLightVibrantColor(<span class="number">0x999933</span>));</span><br><span class="line">      tv4.setBackgroundColor(palette.getMutedColor(<span class="number">0x999933</span>));</span><br><span class="line">      tv5.setBackgroundColor(palette.getDarkMutedColor(<span class="number">0x999933</span>));</span><br><span class="line">      tv6.setBackgroundColor(palette.getLightMutedColor(<span class="number">0x999933</span>));</span><br></pre></td></tr></table></figure></p>
+<p>设置默认的颜色<code>0x999933</code>即使为空也可以填充默认的颜色。</p>
+<p>这里也是个简单的说明，效果大概如下：<br><img src="http://7xtcu9.com2.z0.glb.clouddn.com/Palette.png" alt="Palette效果"></p>
+<p>这个代码很简单，大家按照上面的代码试试就能得到了，具体<code>Palette</code>在Material Design的App中的应用大家可以看看这个项目，链接：<br><a href="http://blog.csdn.net/jdsjlzx/article/details/41441083/" target="_blank" rel="external">Android Material Design之Toolbar与Palette实践</a>，博主源码也给了，大家可以试试看。</p>
+<h2 id="Bottom-Sheet"><a href="#Bottom-Sheet" class="headerlink" title="Bottom Sheet"></a>Bottom Sheet</h2><p>哇，这个看起来就不是一般的帅了。知乎的分享大家都用过吧，那个从底下弹出来然后一堆的可以分享应用(如微信，qq)给你选择。你上滑整个界面也会往上划，看上去是不是很帅。效果很棒代码应该很难写吧？ No No No，代码真的一点都不复杂，因为总有大神会帮你搞出个<code>Library</code>出来。今天学习的是<code>Flipboard</code>做的<code>bottomsheet</code>，链接已经贴在上面了。使用的话Github上有个sample你可以自己下下来看看效果然后实践下即可，这里就给大家抛砖引玉下吧。<br><img src="http://7xtcu9.com1.z0.glb.clouddn.com/Bottom.gif" alt="image description"><br>那么开始吧，如果你要使用bottom sheet的话，请记得在你的<code>build.gradle</code>中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dependencies&#123;</span><br><span class="line">    compile &apos;com.flipboard:bottomsheet-core:1.5.0&apos;</span><br><span class="line">    compile &apos;com.flipboard:bottomsheet-commons:1.5.0&apos; //optional</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里有个<code>optional</code>是什么个意思，解释下：如果你只需要bottom sheet显示一个页面的话，你可以不依赖第二个。否则请添加上。</p>
+<p>布局文件上呢也有轻微的变化，比如你曾经是这么写布局文件的。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span><br><span class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/root"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">View</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/view1"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>如果你要在这个布局文件中使用bottom sheet的话，请将你的布局文件该成下面这样：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">com.flipboard.bottomsheet.BottomSheetLayout</span></span><br><span class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/bottomsheet"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/root"</span></span><br><span class="line">        <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">View</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/view1"</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">com.flipboard.bottomsheet.BottomSheetLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>首先是最简单的：只显示一个界面那你只需要在你的<code>.java</code>文件中加下面2句话<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">BottomSheetLayout bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);</span><br><span class="line"></span><br><span class="line">bottomSheet.showWithSheetView(LayoutInflater.from(context).inflate(R.layout.my_sheet_layout, bottomSheet, <span class="keyword">false</span>));</span><br></pre></td></tr></table></figure></p>
+<p>这里的<code>R.layout.my_sheet_layout</code>即是你要显示的页面。</p>
+<p>第二个种就是知乎分享按钮弹出来的界面：即你可以在上面的View中进行点击后执行相应的操作。<br><img src="http://7xtcu9.com1.z0.glb.clouddn.com/Screenshot_2016-05-16-14-39-19.jpeg" alt="知乎的分享界面"><br>布局文件同样如上，只是你不需要再写一个需要显示的布局文件。相关的代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">btn2.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Intent intent = <span class="keyword">new</span> Intent(Intent.ACTION_SEND);</span><br><span class="line">        intent.putExtra(Intent.EXTRA_TEXT, <span class="string">"dasjdasjdsadasd"</span>);</span><br><span class="line">        intent.setType(<span class="string">"text/plain"</span>);</span><br><span class="line">        IntentPickerSheetView intentPickerSheet = <span class="keyword">new</span> IntentPickerSheetView(MainActivity.<span class="keyword">this</span>, intent,</span><br><span class="line">                <span class="string">"I love you"</span>, <span class="keyword">new</span> IntentPickerSheetView.OnIntentPickedListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onIntentPicked</span><span class="params">(IntentPickerSheetView.ActivityInfo activityInfo)</span> </span>&#123;</span><br><span class="line">                bottomsheet.dismissSheet();</span><br><span class="line">                startActivity(activityInfo.getConcreteIntent(intent));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        List&lt;IntentPickerSheetView.ActivityInfo&gt; activityInfo = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        Drawable customDrawable = ResourcesCompat.getDrawable(getResources(), R.mipmap.ic_launcher, <span class="keyword">null</span>);</span><br><span class="line">        IntentPickerSheetView.ActivityInfo customInfo = <span class="keyword">new</span> IntentPickerSheetView.ActivityInfo(customDrawable, <span class="string">"Custom mix-in"</span>, MainActivity.<span class="keyword">this</span>, MainActivity.class);</span><br><span class="line">        activityInfo.add(customInfo);</span><br><span class="line">        Drawable customDrawable2 = ResourcesCompat.getDrawable(getResources(), R.mipmap.ic_launcher, <span class="keyword">null</span>);</span><br><span class="line">        IntentPickerSheetView.ActivityInfo customInfo2 = <span class="keyword">new</span> IntentPickerSheetView.ActivityInfo(customDrawable2, <span class="string">"Custom mix-in123123"</span>, MainActivity.<span class="keyword">this</span>, Main2Activity.class);</span><br><span class="line">        activityInfo.add(customInfo2);</span><br><span class="line">        intentPickerSheet.setMixins(activityInfo);</span><br><span class="line"></span><br><span class="line">        bottomsheet.showWithSheetView(intentPickerSheet);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>这里稍微做点说明，具体的还是大家测试才知道。我也是试了然后看了作者的函数以及调用参数后自己写的。如果大家要实现知乎的那个分享效果的话，只需要把<code>Intent.ACTION_SEND</code>这里换成分享的<code>Intent</code>就好了。具体的我这里就不就不写了，也不是本文的重点。下面还有一堆的代码是我们用户自己添加到<code>bottomsheet</code>界面上的，添加了一个icon，title和点击该视图所执行的操作<br><code>intentPickerSheet.setMixins(List ActivityInfo)</code><br>你可以根据上面的方式添加多个你想要的<code>ActivityInfo</code>，之后你把它添加到<code>ActivityInfo</code>的集合中去即可。</p>
+<p>最后如果你想要自己定制的Bottom sheet的话，你就需要使用这个库中<code>MenuSheetView</code>了，这个也很好写。具体代码如下：</p>
+<p>首先你得创建一个<code>menu</code>文件夹（如果有就不必创建了），在<code>menu</code>文件夹下新建一个<code>activity_menu.xml</code>文件。代码如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">        <span class="attr">android:title</span>=<span class="string">"@string/document"</span></span><br><span class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">        /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">        <span class="attr">android:title</span>=<span class="string">"@string/spreadsheet"</span></span><br><span class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">        /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">        <span class="attr">android:title</span>=<span class="string">"@string/folder"</span></span><br><span class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">        /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/menu_subheader"</span></span><br><span class="line">        <span class="attr">android:title</span>=<span class="string">""</span></span><br><span class="line">        &gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">menu</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/navigation_sub_item_1"</span></span><br><span class="line">                <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">                <span class="attr">android:title</span>=<span class="string">"@string/upload_photos"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/navigation_sub_item_2"</span></span><br><span class="line">                <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">                <span class="attr">android:title</span>=<span class="string">"@string/use_camera"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/reopen"</span></span><br><span class="line">        <span class="attr">android:title</span>=<span class="string">"@string/reopen"</span></span><br><span class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">    /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>接着在<code>MainActivity.java</code>中为<code>menu</code>中的item添加点击事件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">MenuSheetView menuSheetView =</span><br><span class="line">        <span class="keyword">new</span> MenuSheetView(MenuActivity.<span class="keyword">this</span>, MenuSheetView.MenuType.LIST, <span class="string">"Create..."</span>, <span class="keyword">new</span> MenuSheetView.OnMenuItemClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onMenuItemClick</span><span class="params">(MenuItem item)</span> </span>&#123;</span><br><span class="line">                Toast.makeText(MenuActivity.<span class="keyword">this</span>, item.getTitle(), Toast.LENGTH_SHORT).show();</span><br><span class="line">                <span class="keyword">if</span> (bottomSheetLayout.isSheetShowing()) &#123;</span><br><span class="line">                    bottomSheetLayout.dismissSheet();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">menuSheetView.inflateMenu(R.menu.activity_menu);</span><br><span class="line">bottomSheetLayout.showWithSheetView(menuSheetView);</span><br></pre></td></tr></table></figure>
+<p>当然<code>MenuSheetView.MenuType</code>除了<code>LIST</code>还有<code>GRID</code>，一个是列表一个是表格，上面的GIF已经把效果显示出来了。</p>
+<p>在它的<code>sample</code>中还有两种其他的效果，一种是<code>ImagePicker</code>就是把相册中的图片放到了<code>bottomsheet</code>中。另一个是在<code>bottomsheet</code>中显示一个<code>Fragment</code>，竟然都能显示<code>Fragment</code>了那估计想干么就能干么了。但在实际的App中常见的用途是前面介绍的两种，后面两种等需要使用的时候在继续学习。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/25/MaterialDesign2/" rel="next" title="Material Design学习（二）">
+                <i class="fa fa-chevron-left"></i> Material Design学习（二）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/06/MaterialDesign3/"
+           data-title="Material Design学习（三）" data-url="http://chr10003566.github.io./2016/05/06/MaterialDesign3/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Material-Design-三"><span class="nav-number">1.</span> <span class="nav-text">Material Design(三)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ExpandableLayout"><span class="nav-number">1.1.</span> <span class="nav-text">ExpandableLayout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Palette"><span class="nav-number">1.2.</span> <span class="nav-text">Palette</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#已抛弃得用法"><span class="nav-number">1.2.1.</span> <span class="nav-text">已抛弃得用法.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提倡的方法"><span class="nav-number">1.2.2.</span> <span class="nav-text">提倡的方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bottom-Sheet"><span class="nav-number">1.3.</span> <span class="nav-text">Bottom Sheet</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
