@@ -1,0 +1,683 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Material Design(四)今天来学习下之前一直在用但却从没研究过的Toolbar吧。这个小东西在如今的Android开发中几乎是必用，用过很多次但每次自己想写的时候却只能写个简单的出来。现在就来深究下！
+照常先贴学习链接：http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2014/1118/2006.html
+这个链接呢，基本上把">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Material Design(四)">
+<meta property="og:url" content="http://chr10003566.github.io./2016/05/25/MaterialDesign4/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="Material Design(四)今天来学习下之前一直在用但却从没研究过的Toolbar吧。这个小东西在如今的Android开发中几乎是必用，用过很多次但每次自己想写的时候却只能写个简单的出来。现在就来深究下！
+照常先贴学习链接：http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2014/1118/2006.html
+这个链接呢，基本上把">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/QQ%E6%88%AA%E5%9B%BE20160526140250.png">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/131231.png">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/123123123.gif">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/132312312324.gif">
+<meta property="og:updated_time" content="2016-05-26T08:16:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Material Design(四)">
+<meta name="twitter:description" content="Material Design(四)今天来学习下之前一直在用但却从没研究过的Toolbar吧。这个小东西在如今的Android开发中几乎是必用，用过很多次但每次自己想写的时候却只能写个简单的出来。现在就来深究下！
+照常先贴学习链接：http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2014/1118/2006.html
+这个链接呢，基本上把">
+<meta name="twitter:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/QQ%E6%88%AA%E5%9B%BE20160526140250.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Material Design(四) | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Material Design(四)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-25T17:48:31+08:00" content="2016-05-25">
+              2016-05-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Material-Design学习/" itemprop="url" rel="index">
+                    <span itemprop="name">Material Design学习</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/25/MaterialDesign4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/25/MaterialDesign4/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Material-Design-四"><a href="#Material-Design-四" class="headerlink" title="Material Design(四)"></a>Material Design(四)</h1><p>今天来学习下之前一直在用但却从没研究过的Toolbar吧。这个小东西在如今的Android开发中几乎是必用，用过很多次但每次自己想写的时候却只能写个简单的出来。现在就来深究下！</p>
+<p>照常先贴学习链接：<br><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2014/1118/2006.html" target="_blank" rel="external">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2014/1118/2006.html</a></p>
+<p>这个链接呢，基本上把Toobar的一些主要知识点介绍了下。但少了一个很重要的功能就是Toolbar与DrawerLayout的搭配使用。</p>
+<h2 id="Toolbar基础"><a href="#Toolbar基础" class="headerlink" title="Toolbar基础"></a>Toolbar基础</h2><p>Toolbar是在Android 5.0开始推出的一个Material Design风格的导航控件，Google非常推荐大家使用Toolbar作为Android客户端的导航栏，以此来取代之前的Actionbar。与Actionbar相比，Toolbar明显要灵活的多，它不像Actionbar一样，一定要固定在Activity顶部，而是可以放到界面的任意位置，除此之外，在设计Toolbar的时候，Google也流给改开发者很多可以定制修改的地方。</p>
+<ol>
+<li>设置导航栏图标；</li>
+<li>设置App的logo</li>
+<li>支持设置标题核子标题</li>
+<li>支持添加一个或多个的自定义控件</li>
+<li>支持Action Menu</li>
+</ol>
+<p>在上面那个学习链接中，除了第四点均涉及了，我这里也不详述了。而第四点也很容易实现，在Toolbar的标签下再加控件就可以了。我这里补充一些上面学习链接的知识。</p>
+<p>Toolbar是替代掉Actionbar的，那我们的应用一定不能够使用带Actionbar的主题Theme，所以在<code>styles.xml</code> 中我们需要对其进行修改。如果使用<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppTheme"</span> <span class="attr">parent</span>=<span class="string">"AppTheme.Base"</span>&gt;</span><span class="undefined"></span><br><span class="line">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppTheme.Base"</span> <span class="attr">parent</span>=<span class="string">"Theme.AppCompat"</span>&gt;</span><span class="xml"></span><br><span class="line">  <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"windowActionBar"</span>&gt;</span>false<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowNoTitle"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>不晓得为什么我这边会报错。原因是<code>AppCompat...</code>不能这么设置之类的错误，那我就更狠一点<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Base application theme. --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppTheme"</span> <span class="attr">parent</span>=<span class="string">"AppTheme.Base"</span>&gt;</span><span class="xml"></span><br><span class="line">        <span class="comment">&lt;!-- Customize your theme here. --&gt;</span></span><br><span class="line">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppTheme.Base"</span> <span class="attr">parent</span>=<span class="string">"Theme.AppCompat.NoActionBar"</span>&gt;</span><span class="xml"></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorPrimary"</span>&gt;</span>@color/colorPrimary<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorPrimaryDark"</span>&gt;</span>@color/colorPrimaryDark<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorAccent"</span>&gt;</span>@color/colorAccent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>直接使用<code>Theme.AppCompat.NoActionBar</code>即可。接着在<code>res/layout</code>的<code>activity_main.xml</code>（布局文件可以在学习链接中找到）中添加Toobar然后再在<code>MainActivity.java</code>中添加</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">toolbar = (Toolbar) findViewById(R.id.toolbar);</span><br><span class="line"></span><br><span class="line">toolbar.setTitle(<span class="string">"My Title"</span>);</span><br><span class="line"></span><br><span class="line">toolbar.setSubtitle(<span class="string">"Sub title"</span>);</span><br><span class="line"></span><br><span class="line">setSupportActionBar(toolbar);</span><br></pre></td></tr></table></figure>
+<p>就能到得到如下效果了：<br><img src="http://7xtcu9.com1.z0.glb.clouddn.com/QQ%E6%88%AA%E5%9B%BE20160526140250.png" alt="image description"></p>
+<p>Toolbar就只这样的话那真是太不实用了，怎么也得整几个可以点的东西呀。这里就有些花样了。它可以将<code>menu</code>文件中的item显示出来，这么说可能不是很理解。举个例子：有的手机应该是还有菜单键的，点菜单键弹出来的item将会显示在Toolbar上。这也就能理解为什么越来越多的手机取消了菜单键（应该会有点关系）！</p>
+<p>在<code>res/menu</code>中添加一个<code>menu.xml</code>然后在其中添加如下代码：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/edit"</span></span><br><span class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">        <span class="attr">android:title</span>=<span class="string">"@string/action_edit"</span></span><br><span class="line">        <span class="attr">android:orderInCategory</span>=<span class="string">"100"</span></span><br><span class="line">        <span class="attr">app:showAsAction</span>=<span class="string">"ifRoom"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/share"</span></span><br><span class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">        <span class="attr">android:title</span>=<span class="string">"@string/action_share"</span></span><br><span class="line">        <span class="attr">android:orderInCategory</span>=<span class="string">"100"</span></span><br><span class="line">        <span class="attr">app:showAsAction</span>=<span class="string">"ifRoom"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/setting"</span></span><br><span class="line">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">        <span class="attr">android:title</span>=<span class="string">"@string/action_setting"</span></span><br><span class="line">        <span class="attr">android:orderInCategory</span>=<span class="string">"100"</span></span><br><span class="line">        <span class="attr">app:showAsAction</span>=<span class="string">"never"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后在<code>MainActivity.java</code>中覆写：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</span><br><span class="line">    getMenuInflater().inflate(R.menu.menu, menu);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onCreateOptionsMenu(menu);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onOptionsItemSelected</span><span class="params">(MenuItem item)</span> </span>&#123;</span><br><span class="line">    String msg = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">switch</span> (item.getItemId()) &#123;</span><br><span class="line"><span class="comment">//        case android.R.id.home:</span></span><br><span class="line"><span class="comment">//            mDrawerLayout.openDrawer(GravityCompat.START);</span></span><br><span class="line"><span class="comment">//           Log.i(TAG, "onMenuItemClick: Home had been click");</span></span><br><span class="line"><span class="comment">//            return true;</span></span><br><span class="line">        <span class="keyword">case</span> R.id.edit:</span><br><span class="line">            msg += <span class="string">"Click edit"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> R.id.share:</span><br><span class="line">            msg += <span class="string">"Click share"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> R.id.setting:</span><br><span class="line">            msg += <span class="string">"Click setting"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!msg.equals(<span class="string">""</span>)) &#123;</span><br><span class="line">        Toast.makeText(MainActivity.<span class="keyword">this</span>, msg, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>之后你在运行程序的话，就能看到下面的效果了：<br><img src="http://7xtcu9.com1.z0.glb.clouddn.com/131231.png" alt="image description"><br>在Toolbar中多了几个item，点击的话也会有相应的事件发生。学习链接中有这样一段代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Toolbar.OnMenuItemClickListener onMenuItemClick = <span class="keyword">new</span> Toolbar.OnMenuItemClickListener() &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onMenuItemClick</span><span class="params">(MenuItem menuItem)</span> </span>&#123;</span><br><span class="line">    String msg = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">switch</span> (menuItem.getItemId()) &#123;</span><br><span class="line">      <span class="keyword">case</span> R.id.action_edit:</span><br><span class="line">        msg += <span class="string">"Click edit"</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> R.id.action_share:</span><br><span class="line">        msg += <span class="string">"Click share"</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> R.id.action_settings:</span><br><span class="line">        msg += <span class="string">"Click setting"</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span>(!msg.equals(<span class="string">""</span>)) &#123;</span><br><span class="line">      Toast.makeText(MainActivity.<span class="keyword">this</span>, msg, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这个经我测试发现其功能和<code>onOptionsItemSelected</code>一模一样，并且还少了一个之后会讲到的功能（看我注释的代码就懂了）。<br>到这里Toolbar的基本使用就算学习结束了。</p>
+<h2 id="Toolbar进阶-–Toolbar与DrawerLayout的搭配使用"><a href="#Toolbar进阶-–Toolbar与DrawerLayout的搭配使用" class="headerlink" title="Toolbar进阶 –Toolbar与DrawerLayout的搭配使用"></a>Toolbar进阶 –Toolbar与DrawerLayout的搭配使用</h2><p>我也不知道算不算进阶，但我估计大部分和我一样的基础学习者应该是不会用的吧。对我来说算进阶，这里记录下来加深印象并分享给大家。</p>
+<p><code>DrawerLayout</code>大家应该不陌生，这个肯定是必用的了。在<a href="http://chr10003566.github.io/2016/04/21/MaterialDesign/" target="_blank" rel="external">Material Design（一）</a>中，我还给大家介绍了<code>Android Design Support Library</code>中的<code>NavigationView</code>作为配合<code>DrawerLayout</code>的控件。今天也会在用到。</p>
+<p>首先布局代码在上面就有所改变了，需要添加<code>DrawerLayout</code>。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.v7.widget.Toolbar</span></span><br><span class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/toolbar"</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"?attr/actionBarSize"</span></span><br><span class="line">        <span class="attr">android:background</span>=<span class="string">"@color/colorAccent"</span></span><br><span class="line">        <span class="attr">android:popupTheme</span>=<span class="string">"@style/ThemeOverlay.AppCompat.Light"</span></span><br><span class="line">        <span class="attr">app:theme</span>=<span class="string">"@style/ThemeOverlay.AppCompat.ActionBar"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.v7.widget.Toolbar</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">android.support.v4.widget.DrawerLayout</span></span><br><span class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/drawer"</span></span><br><span class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">RelativeLayout</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">            <span class="attr">android:text</span>=<span class="string">"Hello World!"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.design.widget.NavigationView</span></span><br><span class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span><br><span class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span><br><span class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"start"</span></span><br><span class="line">        <span class="attr">app:headerLayout</span>=<span class="string">"@layout/drawer_header"</span></span><br><span class="line">        <span class="attr">app:menu</span>=<span class="string">"@menu/drawer"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.design.widget.NavigationView</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.v4.widget.DrawerLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里稍微提一下，有的App比如<a href="http://chr10003566.github.io/2016/04/21/MaterialDesign/" target="_blank" rel="external">Material Design（一）</a>中的Demo <code>DrawerLayout</code>的高度是整个屏幕的大小，而这里<code>DrawerLayout</code>没有占整个屏幕的高度，其关键在与Toolbar的位置，如果你把Toolbar发在<code>DrawerLayout</code>的外面，并在外面把Toolbar和<code>DrawerLayout</code> “垂直”放置的话，那么<code>DrawerLayout</code>就只能显示在Toolbar之下了。这样就能看到抽屉打开关闭Toolbar的变化了。至于<code>@layout/drawer_header</code>和<code>@menu/drawer</code>大家可以在<a href="http://chr10003566.github.io/2016/04/21/MaterialDesign/" target="_blank" rel="external">Material Design（一）</a>去找。我这里就不贴了。然后你在<code>MainActivity.java</code>的<code>onCreate()</code>中加入下面的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getSupportActionBar().setHomeButtonEnabled(<span class="keyword">true</span>); <span class="comment">//设置返回键可用</span></span><br><span class="line">getSupportActionBar().setDisplayHomeAsUpEnabled(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure></p>
+<p>以及将<code>onOptionsItemSelected</code>的注释去掉，你就可以看到如下效果：<br><img src="http://7xtcu9.com1.z0.glb.clouddn.com/123123123.gif" alt="image description"></p>
+<p>点击左上角的按钮可以打开<code>DrawerLayout</code>，这是为什么呢？<br>经我测试发现主要是<code>getSupportActionBar().setDisplayHomeAsUpEnabled(true);</code>这个函数起的功劳，查官方API发现：</p>
+<blockquote>
+<p>public abstract void setDisplayHomeAsUpEnabled (boolean showHomeAsUp)</p>
+<p>Set whether home should be displayed as an “up” affordance. Set this to true if selecting “home” returns up by a single level in your UI rather than back to the top level or front page.</p>
+</blockquote>
+<p>所以才会有在<code>onOptionsItemSelected</code>的注释的那段！如果你嫌弃那个自带的箭头，没事我们把它换了，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);</span><br><span class="line">getSupportActionBar().setDisplayHomeAsUpEnabled(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+<p>使用<code>setHomeAsUpIndicator</code>函数可以选择相关图片加载。最后就是Toolbar和<code>DrawerLayout</code>的配合了,效果如下：<br><img src="http://7xtcu9.com1.z0.glb.clouddn.com/132312312324.gif" alt="image description"><br>代码添加如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mDrawerToggle = <span class="keyword">new</span> ActionBarDrawerToggle(<span class="keyword">this</span>, mDrawerLayout, toolbar, <span class="string">""</span>, <span class="string">""</span>) &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDrawerOpened</span><span class="params">(View drawerView)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.onDrawerOpened(drawerView);</span><br><span class="line">            toolbar.setTitle(<span class="string">"Opened"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDrawerClosed</span><span class="params">(View drawerView)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.onDrawerClosed(drawerView);</span><br><span class="line">            toolbar.setTitle(<span class="string">"Closed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    mDrawerToggle.syncState();</span><br><span class="line">    mDrawerLayout.setDrawerListener(mDrawerToggle);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有一些变量的声明代码中没有给出，对于有些基础的人来说应该是可以解决的，如果不行最后给大家一个下载链接，大家下载下来自己去实践吧。</p>
+<p>到这里Material Design的学习可能就告一段落了。Material Design很多的模式我没有学习，之后真正开始做项目的时候可能就需要用到。</p>
+<p>下载链接：<a href="http://download.csdn.net/detail/cuihaoren01/9532123" target="_blank" rel="external">http://download.csdn.net/detail/cuihaoren01/9532123</a></p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/06/MaterialDesign3/" rel="next" title="Material Design学习（三）">
+                <i class="fa fa-chevron-left"></i> Material Design学习（三）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/25/MaterialDesign4/"
+           data-title="Material Design(四)" data-url="http://chr10003566.github.io./2016/05/25/MaterialDesign4/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Material-Design-四"><span class="nav-number">1.</span> <span class="nav-text">Material Design(四)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Toolbar基础"><span class="nav-number">1.1.</span> <span class="nav-text">Toolbar基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Toolbar进阶-–Toolbar与DrawerLayout的搭配使用"><span class="nav-number">1.2.</span> <span class="nav-text">Toolbar进阶 –Toolbar与DrawerLayout的搭配使用</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
