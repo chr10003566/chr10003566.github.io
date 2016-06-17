@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chr10003566.github.io./"/>
-  <updated>2016-05-26T08:16:31.000Z</updated>
+  <updated>2016-06-17T04:51:34.000Z</updated>
   <id>http://chr10003566.github.io./</id>
   
   <author>
@@ -14,6 +14,104 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>layout_*的一些注意事项</title>
+    <link href="http://chr10003566.github.io./2016/06/17/layout/"/>
+    <id>http://chr10003566.github.io./2016/06/17/layout/</id>
+    <published>2016-06-17T04:47:35.000Z</published>
+    <updated>2016-06-17T04:51:34.000Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;layout-的一些注意事项&quot;&gt;&lt;a href=&quot;#layout-的一些注意事项&quot; class=&quot;headerlink&quot; title=&quot;layout_*的一些注意事项&quot;&gt;&lt;/a&gt;layout_*的一些注意事项&lt;/h1&gt;&lt;p&gt;在Android UI的开发中layout_*应该是用的很多的，但其中有很多的坑想必大家也碰到过，今天就来写写自己碰到的！之后如果还有碰到就在添加。&lt;/p&gt;
+&lt;h2 id=&quot;layout-width-layout-height&quot;&gt;&lt;a href=&quot;#layout-width-layout-height&quot; class=&quot;headerlink&quot; title=&quot;layout_width   |   layout_height&quot;&gt;&lt;/a&gt;&lt;code&gt;layout_width&lt;/code&gt;   |   &lt;code&gt;layout_height&lt;/code&gt;&lt;/h2&gt;&lt;h3 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h3&gt;&lt;p&gt;先来说说起因，做一个自定义的Dialog。这本来是很简单的事情，以前也做过很多次包括&lt;code&gt;PopupWindow&lt;/code&gt;。可能是之前到处借鉴别人的代码，没怎么注意，今天自己动手写。出现了个之前出现却没仔细解决的问题！然后就花了一下午甚至还去stackoverflow上提了一发问，不得不说国外的环境就是比国内的好。国内的论坛”杂鱼”太多。真正好好回答你问题的没几个！但也不乏有细心的大神指导~&lt;br&gt;问题描述见stackoverflow:&lt;br&gt;&lt;a href=&quot;http://stackoverflow.com/questions/37854419/why-can-android-alertdialogs-width-and-height-1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://stackoverflow.com/questions/37854419/why-can-android-alertdialogs-width-and-height-1&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h3&gt;&lt;p&gt;看了stackoverflow的人应该知道我出现了什么样的问题，问题总的来说是4个：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;问题1：我在&lt;code&gt;AlertDialog&lt;/code&gt;实例化的时候，直接获取其高度和宽度，结果得到-1 ，出现-1的原因&lt;/li&gt;
+&lt;li&gt;问题2：&lt;code&gt;setLayout&lt;/code&gt;必须在&lt;code&gt;dialog.show()&lt;/code&gt;之后执行，理由是？&lt;/li&gt;
+&lt;li&gt;问题3：&lt;code&gt;getWindow.setLayout(int width, int height)&lt;/code&gt;这里&lt;code&gt;width&lt;/code&gt; 和&lt;code&gt;height&lt;/code&gt;的单位是什么？&lt;/li&gt;
+&lt;li&gt;问题4：为何xml文件中的&lt;code&gt;LinearLayout&lt;/code&gt;中的&lt;code&gt;layout_width&lt;/code&gt;和&lt;code&gt;layout_height&lt;/code&gt;没有起到作用！&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;问题解决&quot;&gt;&lt;a href=&quot;#问题解决&quot; class=&quot;headerlink&quot; title=&quot;问题解决&quot;&gt;&lt;/a&gt;问题解决&lt;/h3&gt;&lt;h4 id=&quot;问题1：&quot;&gt;&lt;a href=&quot;#问题1：&quot; class=&quot;headerlink&quot; title=&quot;问题1：&quot;&gt;&lt;/a&gt;问题1：&lt;/h4&gt;&lt;p&gt;&lt;code&gt;AlertDialog&lt;/code&gt;实例化&lt;code&gt;AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).setView(view).create();&lt;/code&gt;后，&lt;code&gt;AlertDialog&lt;/code&gt;并没有真正被创建。只有当&lt;code&gt;dialog.create()&lt;/code&gt;[API 21才允许使用]和&lt;code&gt;dialog.show()&lt;/code&gt;之后才真正被创建。所以当我这个时候去获取它的高度和宽度的时候会得到”-1”，这个“-1”是有深意的&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@Deprecated&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; FILL_PARENT = -&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/**&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * Special value for the height or width requested by a View.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * MATCH_PARENT means that the view wants to be as big as its parent,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * minus the parent&#39;s padding, if any. Introduced in API Level 8.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; MATCH_PARENT = -&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/**&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * Special value for the height or width requested by a View.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * WRAP_CONTENT means that the view wants to be just large enough to fit&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * its own internal content, taking its own padding into account.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; WRAP_CONTENT = -&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;“-1”即全屏。默认是全屏的。如果我们把&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; Log.d(&lt;span class=&quot;string&quot;&gt;&quot;TAG&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;First lp width and height&quot;&lt;/span&gt; + lp.width + &lt;span class=&quot;string&quot;&gt;&quot;  &quot;&lt;/span&gt; + lp.height);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;我门得到的结果为“-2“。至于为何我也不知所以！&lt;/p&gt;
+&lt;h4 id=&quot;问题2&quot;&gt;&lt;a href=&quot;#问题2&quot; class=&quot;headerlink&quot; title=&quot;问题2&quot;&gt;&lt;/a&gt;问题2&lt;/h4&gt;&lt;p&gt;问题2和问题1是一样的问题，同样是由于Dialog还未生成，所以在&lt;code&gt;.show()&lt;/code&gt;之后，&lt;code&gt;setLayout()&lt;/code&gt;是可以起到作用的！&lt;/p&gt;
+&lt;h4 id=&quot;问题3&quot;&gt;&lt;a href=&quot;#问题3&quot; class=&quot;headerlink&quot; title=&quot;问题3&quot;&gt;&lt;/a&gt;问题3&lt;/h4&gt;&lt;p&gt;这里的&lt;code&gt;int width&lt;/code&gt;和&lt;code&gt;int height&lt;/code&gt;都是px单位的。可以看到我设置了TextView的高度和宽度分别是&lt;code&gt;200dp&lt;/code&gt;设置了Dialog的高度和宽度分贝是&lt;code&gt;500px&lt;/code&gt;则会出现下面的效果：&lt;br&gt;&lt;img src=&quot;http://7xtcu9.com1.z0.glb.clouddn.com/QQ%E5%9B%BE%E7%89%8720160617112302.png&quot; alt=&quot;image description&quot;&gt;&lt;/p&gt;
+&lt;p&gt;发现&lt;code&gt;200dp&lt;/code&gt;和&lt;code&gt;500px&lt;/code&gt;差的不多。&lt;/p&gt;
+&lt;h4 id=&quot;问题4&quot;&gt;&lt;a href=&quot;#问题4&quot; class=&quot;headerlink&quot; title=&quot;问题4&quot;&gt;&lt;/a&gt;问题4&lt;/h4&gt;&lt;p&gt;这个问题就很高深了，具体为啥是由国外友人告诉我的。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;layout_ prefixed attributes are set on a LayoutParams object provided by parent view. Since there’s no parent, there are no LayoutParams you can work with. Try setting android:minHeight and android:minWidth instead.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;国外友人说的很详细，&lt;code&gt;layout_*&lt;/code&gt;这个属性要能使用必须有父视图（父布局）。如果你不是很懂（其实我也不是很懂），看看郭神的这篇博客可能会有点体会：&lt;br&gt;&lt;a href=&quot;http://blog.csdn.net/guolin_blog/article/details/12921889&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/guolin_blog/article/details/12921889&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;平时我们经常使用layout_width和layout_height来设置View的大小，并且一直都能正常工作，就好像这两个属性确实是用于设置View的大小的。而实际上则不然，它们其实是用于设置View在布局中的大小的，也就是说，首先View必须存在于一个布局中&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这也就是为啥有时候在xml那边设置了宽、高，但是却没能在界面中体现出来的某一个原因。&lt;/p&gt;
+&lt;h2 id=&quot;layout-weight&quot;&gt;&lt;a href=&quot;#layout-weight&quot; class=&quot;headerlink&quot; title=&quot;layout_weight&quot;&gt;&lt;/a&gt;&lt;code&gt;layout_weight&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;链接在这里：&lt;a href=&quot;http://blog.csdn.net/cuihaoren01/article/details/51373887&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/cuihaoren01/article/details/51373887&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;layout-gravity-gravity&quot;&gt;&lt;a href=&quot;#layout-gravity-gravity&quot; class=&quot;headerlink&quot; title=&quot;layout_gravity   |    gravity&quot;&gt;&lt;/a&gt;&lt;code&gt;layout_gravity&lt;/code&gt;   |    &lt;code&gt;gravity&lt;/code&gt;&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;android:gravity&lt;/code&gt; 是用于设置View组建对齐方式。是针对控件里面的元素来说的，用来控制元素在该空间里的显示位置。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;android:layout_gravity&lt;/code&gt; 用于设置Container组建的对齐方式。是针对控件本身而言，用来控制该控件在包涵该控件的父控件的位置。&lt;/li&gt;
+&lt;li&gt;特殊情况：当我们采用&lt;code&gt;LinearLayout&lt;/code&gt;布局时：&lt;br&gt;1）当&lt;code&gt;android:orientation = veritical&lt;/code&gt;时，&lt;code&gt;android:layout_gravity&lt;/code&gt;只有水平方向的设置才起作用，垂直方向的设置是不起作用的&lt;br&gt;2）当&lt;code&gt;android:orientation = horizontal&lt;/code&gt;时，&lt;code&gt;android:layout_gravity&lt;/code&gt;只有垂直方向的设置才起作用，水平方向的设置不起作用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;之后如果还出现什么问题或者Bug的话在补充也希望有人能给我补充！&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;layout-的一些注意事项&quot;&gt;&lt;a href=&quot;#layout-的一些注意事项&quot; class=&quot;headerlink&quot; title=&quot;layout_*的一些注意事项&quot;&gt;&lt;/a&gt;layout_*的一些注意事项&lt;/h1&gt;&lt;p&gt;在Android UI的开发中layou
+    
+    </summary>
+    
+      <category term="Android开发查缺补漏" scheme="http://chr10003566.github.io./categories/Android%E5%BC%80%E5%8F%91%E6%9F%A5%E7%BC%BA%E8%A1%A5%E6%BC%8F/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>RecyclerView总结学习(一)</title>
+    <link href="http://chr10003566.github.io./2016/06/13/RecycleView1/"/>
+    <id>http://chr10003566.github.io./2016/06/13/RecycleView1/</id>
+    <published>2016-06-13T03:06:42.000Z</published>
+    <updated>2016-06-13T06:23:47.000Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;RecyclerView总结学习（一）&quot;&gt;&lt;a href=&quot;#RecyclerView总结学习（一）&quot; class=&quot;headerlink&quot; title=&quot;RecyclerView总结学习（一）&quot;&gt;&lt;/a&gt;RecyclerView总结学习（一）&lt;/h1&gt;&lt;p&gt;RecyclerView已经出现有一年多了，各种“该有的”东西也都有了。这里就来总结学习一发！&lt;/p&gt;
+&lt;p&gt;照常先贴学习链接：&lt;br&gt;&lt;a href=&quot;http://blog.csdn.net/lmj623565791/article/details/45059587&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/lmj623565791/article/details/45059587&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://github.com/codepath/android_guides/wiki/Using-the-RecyclerView&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/codepath/android_guides/wiki/Using-the-RecyclerView&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;第一篇博客鸿洋大神已经写的非常非常完美了，第二篇算是google工程是提供的一些RecyclerView的使用。两篇相互学习相互补充吧！&lt;/p&gt;
+&lt;h2 id=&quot;RecyclerView综述&quot;&gt;&lt;a href=&quot;#RecyclerView综述&quot; class=&quot;headerlink&quot; title=&quot;RecyclerView综述&quot;&gt;&lt;/a&gt;RecyclerView综述&lt;/h2&gt;&lt;p&gt;如果你想使用RecyclerView的话，你将必须按照下面这么做：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;RecyclerView.Adapter&lt;/code&gt; 将数据集与相应的视图绑定&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LayoutManager&lt;/code&gt; 解决数据项的放置位置问题&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ItemAnimator&lt;/code&gt; 与动画的常用操作，如添加或项目删除的动画效果&lt;br&gt;&lt;img src=&quot;http://7xtcu9.com1.z0.glb.clouddn.com/RecyclerView.png&quot; alt=&quot;image description&quot;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;与ListView相比较（面试）&quot;&gt;&lt;a href=&quot;#与ListView相比较（面试）&quot; class=&quot;headerlink&quot; title=&quot;与ListView相比较（面试）&quot;&gt;&lt;/a&gt;与ListView相比较（面试）&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;在Adapters中需要使用ViewHolder  -&lt;code&gt;ListView&lt;/code&gt;的Adapter没有强制要求使用ViewHolder来提高性能，相比较使用&lt;code&gt;RecyclerView&lt;/code&gt;的Adapter则需要使用ViewHolder。&lt;/li&gt;
+&lt;li&gt;可定制的项目布局  -&lt;code&gt;ListView&lt;/code&gt;仅仅能够垂直布局或者线性布局，它不能够被定制。相反，&lt;code&gt;RecyclerView&lt;/code&gt;通过&lt;code&gt;RecyclerView.LayoutManager&lt;/code&gt;可以设置任何数据项的布局，包括水平列表或交错网格。&lt;/li&gt;
+&lt;li&gt;简单的数据操作动画 -数据项的添加和删除&lt;code&gt;ListView&lt;/code&gt;都不提供任何的特殊方法。相反，&lt;code&gt;RecyclerView&lt;/code&gt;则通过&lt;code&gt;RecyclerView.ItemAnimator&lt;/code&gt;来处理操作数据项的动画。&lt;/li&gt;
+&lt;li&gt;手动的数据来源 -&lt;code&gt;ListView&lt;/code&gt;有&lt;code&gt;ArrayAdapter&lt;/code&gt;和&lt;code&gt;CursorAdapter&lt;/code&gt;分别来处理数组和数据库等一些数据。相反&lt;code&gt;RecyclerView.Adapter&lt;/code&gt;需要我们自己定义实现数据提供给Adapter。&lt;/li&gt;
+&lt;li&gt;手动的项目分割线 -&lt;code&gt;ListView&lt;/code&gt;有&lt;code&gt;android:divider&lt;/code&gt;属性来提供简单的列表中数据项之间的分割线，相反&lt;code&gt;RecyclerView&lt;/code&gt;则需要使用&lt;code&gt;RecyclerView.ItemDecoration&lt;/code&gt;来设置分割线&lt;/li&gt;
+&lt;li&gt;手动的点击检测 -&lt;code&gt;ListView&lt;/code&gt;有&lt;code&gt;AdapterView.OnItemClickListener&lt;/code&gt;接口为列表的独立项绑定点击事件。而&lt;code&gt;RecyclerView&lt;/code&gt;仅仅对&lt;code&gt;RecyclerView.onItemTouchListener&lt;/code&gt;提供了支持，但没有内置的点击处理操作。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;关于&lt;code&gt;RecyclerView&lt;/code&gt;使用，在鸿洋老师的博客中可以学习到，我这里就不累述了。讲讲现在很流行的&lt;code&gt;RecyclerView&lt;/code&gt;与&lt;code&gt;CardView&lt;/code&gt;的搭配使用吧。原文如下：&lt;br&gt;&lt;a href=&quot;http://www.androidhive.info/2016/05/android-working-with-card-view-and-recycler-view/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.androidhive.info/2016/05/android-working-with-card-view-and-recycler-view/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这里面有很多的&lt;code&gt;Material Design&lt;/code&gt;的知识，大家可以翻阅我之前写的Material Design专题的内容。&lt;/p&gt;
+&lt;p&gt;总的来说还是按照&lt;code&gt;RecyclerView&lt;/code&gt;的使用方法走的。具体使用步骤如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;准备好数据集&lt;/li&gt;
+&lt;li&gt;设置&lt;code&gt;RecyclerView.LayoutManager&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;写好&lt;code&gt;RecyclerView.Adpater&lt;/code&gt;并设置适配&lt;/li&gt;
+&lt;li&gt;设置&lt;code&gt;RecyclerView.ItemAnimator&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如果你不是使用&lt;code&gt;CardView&lt;/code&gt;你可能还需要设置&lt;code&gt;RecyclerView.ItemDecoration&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;RecyclerView总结学习（一）&quot;&gt;&lt;a href=&quot;#RecyclerView总结学习（一）&quot; class=&quot;headerlink&quot; title=&quot;RecyclerView总结学习（一）&quot;&gt;&lt;/a&gt;RecyclerView总结学习（一）&lt;/h1&gt;&lt;p&gt;Re
+    
+    </summary>
+    
+      <category term="Android开发" scheme="http://chr10003566.github.io./categories/Android%E5%BC%80%E5%8F%91/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Material Design(四)</title>
