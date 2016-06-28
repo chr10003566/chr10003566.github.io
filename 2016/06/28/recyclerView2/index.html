@@ -1,0 +1,729 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="RecyclerView总结学习（二）前言上一篇学习了下RecyclerView的基本使用，主要是一些基本操作。回顾下：
+
+RecyclerView 是Android L版本中新添加的一个用来取代ListView的SDK，它的灵活性与可替代性比listview更好.
+
+首先还是POST出我的学习链接：http://blog.csdn.net/lmj623565791/article/details">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RecyclerView总结学习(二)">
+<meta property="og:url" content="http://chr10003566.github.io./2016/06/28/recyclerView2/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="RecyclerView总结学习（二）前言上一篇学习了下RecyclerView的基本使用，主要是一些基本操作。回顾下：
+
+RecyclerView 是Android L版本中新添加的一个用来取代ListView的SDK，它的灵活性与可替代性比listview更好.
+
+首先还是POST出我的学习链接：http://blog.csdn.net/lmj623565791/article/details">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/QQ%E6%88%AA%E5%9B%BE20160618151930.png">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/12123.gif">
+<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/1231241342.gif">
+<meta property="og:updated_time" content="2016-06-28T09:31:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RecyclerView总结学习(二)">
+<meta name="twitter:description" content="RecyclerView总结学习（二）前言上一篇学习了下RecyclerView的基本使用，主要是一些基本操作。回顾下：
+
+RecyclerView 是Android L版本中新添加的一个用来取代ListView的SDK，它的灵活性与可替代性比listview更好.
+
+首先还是POST出我的学习链接：http://blog.csdn.net/lmj623565791/article/details">
+<meta name="twitter:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/QQ%E6%88%AA%E5%9B%BE20160618151930.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> RecyclerView总结学习(二) | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                RecyclerView总结学习(二)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-28T17:25:18+08:00" content="2016-06-28">
+              2016-06-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android开发/" itemprop="url" rel="index">
+                    <span itemprop="name">Android开发</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/28/recyclerView2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/28/recyclerView2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="RecyclerView总结学习（二）"><a href="#RecyclerView总结学习（二）" class="headerlink" title="RecyclerView总结学习（二）"></a>RecyclerView总结学习（二）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇学习了下RecyclerView的基本使用，主要是一些基本操作。回顾下：</p>
+<blockquote>
+<p>RecyclerView 是Android L版本中新添加的一个用来取代ListView的SDK，它的灵活性与可替代性比listview更好.</p>
+</blockquote>
+<p>首先还是POST出我的学习链接：<br><a href="http://blog.csdn.net/lmj623565791/article/details/44014941" target="_blank" rel="external">http://blog.csdn.net/lmj623565791/article/details/44014941</a><br><a href="http://blog.csdn.net/lmj623565791/article/details/51118836" target="_blank" rel="external">http://blog.csdn.net/lmj623565791/article/details/51118836</a><br><a href="https://github.com/hongyangAndroid/base-adapter" target="_blank" rel="external">https://github.com/hongyangAndroid/base-adapter</a><br><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/1120/3705.html" target="_blank" rel="external">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/1120/3705.html</a></p>
+<p>要使用RecyclerView你需要做一些几件事情:</p>
+<ul>
+<li>设置布局管理器LayoutManager，控制其显示的方式。</li>
+<li>通过ItemDecoration来设置Item间的间隔。</li>
+<li>通过ItemAnimator来设置Item间的增删动画。</li>
+<li>自写RecyclerView.Adapter。</li>
+</ul>
+<p>Adapter要自己来写，这多麻烦啊。还不像ListView可以使用多种适配器像ArrayAdapter、SimpleAdapter等等啊。RecyclerView还必须使用ViewHolder。但是总有大神会帮你解决这些问题的！</p>
+<p>在RecyclerView没出来之前就有ListView的万能适配器了，既然RecyclerView相似，那么适配器上也可以有所借鉴了。</p>
+<p>本文主要学习两种RecyclerView的万能适配器的使用，第一种是鸿洋老师写的万能适配器，第二种是陈宇明老师的万能适配器。从使用上来看陈宇明老师的适配器功能更加完善。本文只学习使用并不研究代码~</p>
+<h2 id="万能适配器（一）"><a href="#万能适配器（一）" class="headerlink" title="万能适配器（一）"></a>万能适配器（一）</h2><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>首先要使用鸿洋老师的万能适配器，你要在你的<code>build.gradle</code>中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.android.support:recyclerview-v7:23.2.0&apos;//使用RecyclerView</span><br><span class="line">compile &apos;com.zhy:base-adapter:2.0.0&apos;//使用万能适配器</span><br></pre></td></tr></table></figure></p>
+<p>对于简单的RecyclerView即从鸿洋老师的例子来看是只有一个ItemType的RecyclerView，比如下面这种形式统一的RecyclerView。<br><img src="http://7xtcu9.com1.z0.glb.clouddn.com/QQ%E6%88%AA%E5%9B%BE20160618151930.png" alt="enter image description here"></p>
+<p>要实现上面的效果你只需要在完成以下几件事情：</p>
+<ul>
+<li>数据封装，以及数据集的准备。</li>
+<li>设置布局管理器和分割线，通过以下代码设置：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mRecyclerView.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>));</span><br><span class="line">        mRecyclerView.addItemDecoration(<span class="keyword">new</span> DividerItemDecoration(<span class="keyword">this</span>, DividerItemDecoration.VERTICAL_LIST));</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如果使用CardView的话可以不设置分割线…</p>
+<ul>
+<li><p>完成<code>item_list.xml</code>的编写，这个就是<code>RecylerView</code>每一项的布局格式，本人测试的<code>item_list.xml</code>如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">	&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">android.support.v7.widget.CardView</span></span><br><span class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attr">android:layout_marginTop</span>=<span class="string">"10dp"</span></span><br><span class="line">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span> <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">LinearLayout</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ImageView</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/icon1"</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">            <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">            /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/name"</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">            <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span><br><span class="line">            <span class="attr">android:text</span>=<span class="string">"li"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">TextView</span></span><br><span class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/info1"</span></span><br><span class="line">            <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span><br><span class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span><br><span class="line">            <span class="attr">android:layout_weight</span>=<span class="string">"2"</span></span><br><span class="line">            /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.v7.widget.CardView</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用万能适配器，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">recyclerView.setAdapter(<span class="keyword">new</span> CommonAdapter&lt;Persons&gt;(<span class="keyword">this</span>, R.layout.item_list, mDatas) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">convert</span><span class="params">(ViewHolder holder, Persons persons)</span> </span>&#123;</span><br><span class="line">                holder.setText(R.id.name, persons.getName());</span><br><span class="line">                holder.setText(R.id.info1, persons.getInfo());</span><br><span class="line">                holder.setImageResource(R.id.icon1, persons.getIcon());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以看到适配器这部分的代码确实简单了很多，以往还得自己写个Adapter，现在只要将数据和相应的视图对应就可以了。相当的方便。这样的话那些数据项是统一样式的RecyclerView就能够几句话完成适配了！</p>
+<h3 id="多个ItemViewTyped的RecyclerView"><a href="#多个ItemViewTyped的RecyclerView" class="headerlink" title="多个ItemViewTyped的RecyclerView"></a>多个ItemViewTyped的RecyclerView</h3><p>针对于多个ItemViewType的RecyclerView则可以通过MutiItemCommonAdapter来实现，比如鸿洋大神Sample里的聊天记录的展示。这个的代码实现就没有上面那么简单了，需要自己写一个适配器（这也是理所应当的，不然谁知道你哪种情况下需要使用哪种视图展示啊）。<br>其构造适配器的步骤如下：</p>
+<ul>
+<li>首先你的数据集肯定是要考虑到这个点的，你可以在之前的数据集中设置一个布尔值。在适配的时候进行判断！（鸿洋老师的例子），当然你也可以设置多个数据集，分别对应不同的视图。</li>
+<li>之后你就需要写<code>RecyclerView</code>的适配器了，继承自<code>MultiItemCommonAdapter</code>,在构造器中我们要告诉代码我们有几种当时的ItemType，设置好对应关系。</li>
+<li>之后在<code>convert()</code>函数中完成数据项与视图的一一对应。</li>
+</ul>
+<p>这个我个人感觉会用的不会很多，有很多问题我也没有问题研究。等到使用到这种方式的时候着重研究下，这里先记个笔记。</p>
+<h3 id="带Header的RecyclerView"><a href="#带Header的RecyclerView" class="headerlink" title="带Header的RecyclerView"></a>带Header的RecyclerView</h3><p>第三种，添加Header。关于给<code>RecyclerView</code>添加Header的原理，请看第四篇学习博客，里面详细介绍了如何实现给<code>RecyclerView</code>添加Header。其实Header同样是作为RecyclerView的一个Item来考虑的，只是我们通过<code>ItemType</code>去找到它，如果是Header就设置<code>HeaderView</code>如果不是Header就正常设置Item。大致的原理就是这样。</p>
+<p>在鸿洋老师的万能适配器中，封装好后你只需要按如下步骤做就可以了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">	SectionSupport&lt;String&gt; sectionSupport = <span class="keyword">new</span> SectionSupport&lt;String&gt;()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sectionHeaderLayoutId</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> R.layout.header;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sectionTitleTextViewId</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> R.id.id_header_title;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTitle</span><span class="params">(String s)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> s.substring(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>在上面的代码中 首先指定Header的布局，以及布局中显示标题的<code>TextView</code>，以及根据Item显示什么样的标题。通过上面的 <code>SectionSupport</code>来指定。这里有一点需要注意的就是，标题栏里的标题是通过<code>getTitle（）</code> 设置的，在鸿洋老师的例子中，鸿洋老师在<code>initData()</code>设置数据集的时候做了点手脚，就是每个数据就都是“A(B.C…) + 数字”，这样标题就取第一个字母就行了，但这里有两个问题不晓得是鸿洋老师例子中没有展示还是没有实现，一个是这里默认的标题是<code>TextView</code>，如果是要以<code>ImageView</code>作为标题呢？<br>第二个问题就是标题栏的标题设置有什么更好的办法吗？</p>
+<p>在接下来就很简单了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SectionAdapter&lt;String&gt; adapter = <span class="keyword">new</span> SectionAdapter&lt;String&gt;(<span class="keyword">this</span>, R.layout.item_list, mDatas, sectionSupport)</span><br><span class="line">      &#123;</span><br><span class="line"></span><br><span class="line">          <span class="meta">@Override</span></span><br><span class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">convert</span><span class="params">(ViewHolder holder, String s)</span></span><br><span class="line">          </span>&#123;</span><br><span class="line">              holder.setText(R.id.id_item_list_title, s);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">      mRecyclerView.setAdapter(adapter);</span><br></pre></td></tr></table></figure></p>
+<p>这样就完成了Header的添加。最后是鸿洋老师Sample的展示。<br><img src="http://7xtcu9.com1.z0.glb.clouddn.com/12123.gif" alt="enter image description here"></p>
+<h2 id="万能适配器（二）"><a href="#万能适配器（二）" class="headerlink" title="万能适配器（二）"></a>万能适配器（二）</h2><h3 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h3><p>学习完鸿洋老师的万能适配器的使用，接下来学习下陈宇明大神的万能适配器，就例子的功能和效果来看确实要比鸿洋老师更丰富一些。使用起来也很好，但我看陈大神github首页的介绍使用的时候没有鸿洋老师来的省力，因为陈大神把很多的数据封装起来了，所以光看他的Github介绍是无法了解如何使用的，必须把他的代码Clone或者DownLoad下来看看才知道如何使用。但总的来说陈大神的万能适配器还是很好使用的。</p>
+<p>学习链接：<br><a href="http://www.jianshu.com/p/411ab861034f" target="_blank" rel="external">http://www.jianshu.com/p/411ab861034f</a><br><a href="http://www.jianshu.com/p/fa3f97c19263" target="_blank" rel="external">http://www.jianshu.com/p/fa3f97c19263</a><br><a href="http://www.jianshu.com/p/9d75c22f0964" target="_blank" rel="external">http://www.jianshu.com/p/9d75c22f0964</a><br><a href="http://www.jianshu.com/p/cf29d4e45536" target="_blank" rel="external">http://www.jianshu.com/p/cf29d4e45536</a><br><a href="https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/README-cn.md" target="_blank" rel="external">https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/README-cn.md</a></p>
+<p>因为陈大神的数据全部封装起来了，我这里就不用他的例子了，我自己学习了下如何使用后，自己实践了下！</p>
+<p>首先还是数据集的创建:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Persons</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String info;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> icon;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Persons</span><span class="params">(String name, String info, <span class="keyword">int</span> icon)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.info = info;</span><br><span class="line">        <span class="keyword">this</span>.icon = icon;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setInfo</span><span class="params">(String info)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.info = info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getIcon</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> icon;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIcon</span><span class="params">(<span class="keyword">int</span> icon)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.icon = icon;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这就类似陈大神例子中的<code>Status</code>，然后我们就直接写<code>QuickAdapter</code>了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuickAdapter</span> <span class="keyword">extends</span> <span class="title">BaseQuickAdapter</span>&lt;<span class="title">Persons</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">QuickAdapter</span><span class="params">(<span class="keyword">int</span> layoutResId, List&lt;Persons&gt; data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(layoutResId, data);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">convert</span><span class="params">(BaseViewHolder baseViewHolder, Persons persons)</span> </span>&#123;</span><br><span class="line">        baseViewHolder.setText(R.id.name, persons.getName());</span><br><span class="line">        baseViewHolder.setText(R.id.info1, persons.getInfo());</span><br><span class="line">        baseViewHolder.setImageResource(R.id.icon1, persons.getIcon());</span><br><span class="line">        baseViewHolder.setOnClickListener(R.id.name, <span class="keyword">new</span> OnItemChildClickListener());</span><br><span class="line"><span class="comment">//        baseViewHolder.setOnClickListener(R.id.info1, new OnItemChildClickListener());</span></span><br><span class="line">        baseViewHolder.setOnClickListener(R.id.icon1, <span class="keyword">new</span> OnItemChildClickListener());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个<code>RecyclerView.Adapater</code>基本类似，上面说的两个万能适配器都是参考<br><a href="https://github.com/JoanZapata/base-adapter-helper" target="_blank" rel="external">JoanZapata / base-adapter-helper</a><br>所以适配器的代码普遍相似。</p>
+<p>然后就回到<code>MainAcitivity</code>中去：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> RecyclerView rv_list;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Persons&gt; mDatas = <span class="keyword">new</span> ArrayList&lt;Persons&gt;();</span><br><span class="line">    <span class="keyword">private</span> QuickAdapter mQuickAdapter;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"MainActivity"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        initDatas();</span><br><span class="line"></span><br><span class="line">        rv_list = (RecyclerView) findViewById(R.id.rv_list);</span><br><span class="line">        rv_list.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>));</span><br><span class="line">        mQuickAdapter = <span class="keyword">new</span> QuickAdapter(R.layout.item_list, mDatas);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//添加RecyclerView的点击事件</span></span><br><span class="line">        mQuickAdapter.setOnRecyclerViewItemClickListener(<span class="keyword">new</span> BaseQuickAdapter.OnRecyclerViewItemClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(View view, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">                Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"Item"</span> + i + <span class="string">"has been clicked"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//添加RecyclerView的长按事件</span></span><br><span class="line">        mQuickAdapter.setOnRecyclerViewItemLongClickListener(<span class="keyword">new</span> BaseQuickAdapter.OnRecyclerViewItemLongClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onItemLongClick</span><span class="params">(View view, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">                Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"长按"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//添加RecyclerView的子布局多个控件的点击事件</span></span><br><span class="line">        mQuickAdapter.setOnRecyclerViewItemChildClickListener(<span class="keyword">new</span> BaseQuickAdapter.OnRecyclerViewItemChildClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemChildClick</span><span class="params">(BaseQuickAdapter baseQuickAdapter, View view, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">switch</span> (view.getId())&#123;</span><br><span class="line">                    <span class="keyword">case</span> R.id.icon1:</span><br><span class="line">                        Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"icon1"</span> + i + <span class="string">"has been clicked"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                        Log.d(TAG, <span class="string">"onItemChildClick: had been finished"</span>);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> R.id.name:</span><br><span class="line">                        Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"name"</span> + i + <span class="string">"has been clicked"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                        Log.d(TAG, <span class="string">"onItemChildClick: had been finished"</span>);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> R.id.info1:</span><br><span class="line">                        Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"info"</span> + i + <span class="string">"has been clicked"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                        Log.d(TAG, <span class="string">"onItemChildClick: had been finished"</span>);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        mQuickAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);</span><br><span class="line">        mQuickAdapter.isFirstOnly(<span class="keyword">false</span>);</span><br><span class="line">        rv_list.setAdapter(mQuickAdapter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initDatas</span><span class="params">()</span></span>&#123;</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li"</span>, <span class="string">"qedasc6456qdsadas"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li2"</span>, <span class="string">"qedascqdsa6456das"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li3"</span>, <span class="string">"qed43asc754qdsadas"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li4"</span>, <span class="string">"qedascqdsadas"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li5"</span>, <span class="string">"qe43dascqd31sadas"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li6"</span>, <span class="string">"qedascqd1sad31as"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li7"</span>, <span class="string">"qedascqdsa12das"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li8"</span>, <span class="string">"qedascqdsa123das"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li9"</span>, <span class="string">"qedascqds321adas"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li10"</span>, <span class="string">"qedasc1231qdsadas"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li11"</span>, <span class="string">"qed3123cqdsadas"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li12"</span>, <span class="string">"qeewqdascqdsadas"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li13"</span>, <span class="string">"qedascqds23ss"</span>, R.drawable.ic_launcher));</span><br><span class="line">        mDatas.add(<span class="keyword">new</span> Persons(<span class="string">"li14"</span>, <span class="string">"qedascqdsaas"</span>, R.drawable.ic_launcher));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>很简单，和鸿洋老师那个万能适配器做的事情一样。但这里有两个优点，第一个添加动画方面很方便，只需要一行代码就可以搞定<br><code>quickAdapter.openLoadAnimation();</code><br>不加参数的话就是默认的动画效果，其还提供其他五种效果</p>
+<blockquote>
+<p>BaseQuickAdapter.ALPHAIN 渐显<br>BaseQuickAdapter.SCALEIN 缩放<br>BaseQuickAdapter.SLIDEIN_BOTTOM 从下到上滑进<br>BaseQuickAdapter.SLIDEIN_LEFT 从左到右滑进<br>BaseQuickAdapter.SLIDEIN_RIGHT 从右到左滑进</p>
+</blockquote>
+<p>第二个能够添加子布局多个控件的点击事件，这个功能应该比长按功能更来得实际。要实现也很简单:</p>
+<p>首先在你写的Adapter中，这里即<code>QuickAdapter</code>中添加控件的点击事件即可：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">convert</span><span class="params">(BaseViewHolder helper, Status item)</span> </span>&#123;</span><br><span class="line">   helper.setOnClickListener(R.id.tweetAvatar, <span class="keyword">new</span> OnItemChildClickListener())</span><br><span class="line">     .setOnClickListener(R.id.tweetName, <span class="keyword">new</span> OnItemChildClickListener());</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后在Activity中实现子布局的控件的点击事件：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mQuickAdapter.setOnRecyclerViewItemChildClickListener(<span class="keyword">new</span> BaseQuickAdapter.OnRecyclerViewItemChildClickListener() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemChildClick</span><span class="params">(BaseQuickAdapter baseQuickAdapter, View view, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">               <span class="keyword">switch</span> (view.getId())&#123;</span><br><span class="line">                   <span class="keyword">case</span> R.id.icon1:</span><br><span class="line">                       Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"icon1"</span> + i + <span class="string">"has been clicked"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                       Log.d(TAG, <span class="string">"onItemChildClick: had been finished"</span>);</span><br><span class="line">                       <span class="keyword">break</span>;</span><br><span class="line">                   <span class="keyword">case</span> R.id.name:</span><br><span class="line">                       Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"name"</span> + i + <span class="string">"has been clicked"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                       Log.d(TAG, <span class="string">"onItemChildClick: had been finished"</span>);</span><br><span class="line">                       <span class="keyword">break</span>;</span><br><span class="line">                   <span class="keyword">case</span> R.id.info1:</span><br><span class="line">                       Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"info"</span> + i + <span class="string">"has been clicked"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                       Log.d(TAG, <span class="string">"onItemChildClick: had been finished"</span>);</span><br><span class="line">                       <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>是不是特别简单，这样感觉QQ都能自己写了呢~（开个玩笑）最后的效果如下：<br><img src="http://7xtcu9.com1.z0.glb.clouddn.com/1231241342.gif" alt="enter image description here"></p>
+<h3 id="多个ItemViewTyped的RecyclerView-1"><a href="#多个ItemViewTyped的RecyclerView-1" class="headerlink" title="多个ItemViewTyped的RecyclerView"></a>多个ItemViewTyped的RecyclerView</h3><p>接着就是多个ItemViewType的RecyclerView的使用了，实话实说，在这个方面的使用上来讲，陈大神的万能适配器真的比鸿洋老师的好用不少，还记得鸿洋老师的如何使用吗…回顾下：</p>
+<ul>
+<li>首先你的数据集得多一个变量，作用是做判断是哪种ItemType</li>
+<li>接着在Adapter里你就是对变量进行判断然后对应其ItemType</li>
+<li>再接着就是每种ItemType对应一个布局了。</li>
+</ul>
+<p>而陈大神的万能适配器的具体使用步骤如下：</p>
+<ul>
+<li>首先也是需要一个数据集的，当然这个数据集也得给出ItemType，但不需要多余的变量来进行判断。这里需要注意的是这个数据集必须继承自<code>MultiItemEntity</code>，因为它提供了一个<code>setItemType</code>的方法，去设置每个数据的ItemType</li>
+<li>再来就是编写Adapter了，这个适配器得继承自<code>BaseMultiItemQuickAdapter&lt;T&gt;</code>，这里重载实现<code>convert()</code>方法。</li>
+</ul>
+<p>说的太虚又说不准，拿例子来说话吧。<br>第一步数据集的构造：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MutiItem</span> <span class="keyword">extends</span> <span class="title">MultiItemEntity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SEND = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FROM = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> icon;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String content;</span><br><span class="line">    <span class="keyword">private</span> String createDate;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MutiItem</span><span class="params">(<span class="keyword">int</span> icon, String name, String content, String createDate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.icon = icon;</span><br><span class="line">        <span class="keyword">this</span>.content = content;</span><br><span class="line">        <span class="keyword">this</span>.createDate = createDate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getIcon</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> icon;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIcon</span><span class="params">(<span class="keyword">int</span> icon)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.icon = icon;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContent</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.content = content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCreateDate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> createDate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCreateDate</span><span class="params">(String createDate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.createDate = createDate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里我直接把鸿洋老师的<code>ChatMessage</code>去了一个变量后直接拿来用了</p>
+<p>前面两个常量就是ItemType。而Adapter就更简单了。只需要设置ItemType对应的视图，以及<code>convert</code>里做数据填充就可以了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MutiItemAdapter</span> <span class="keyword">extends</span> <span class="title">BaseMultiItemQuickAdapter</span>&lt;<span class="title">MutiItem</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MutiItemAdapter</span><span class="params">(Context context, List&lt;MutiItem&gt; data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(data);</span><br><span class="line">        addItemType(MutiItem.SEND, R.layout.main_chat_send_msg);</span><br><span class="line">        addItemType(MutiItem.FROM, R.layout.main_chat_from_msg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">convert</span><span class="params">(BaseViewHolder baseViewHolder, MutiItem mutiItem)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (baseViewHolder.getItemViewType()) &#123;</span><br><span class="line">            <span class="keyword">case</span> MutiItem.SEND:</span><br><span class="line">                baseViewHolder.setText(R.id.chat_send_content, mutiItem.getContent());</span><br><span class="line">                baseViewHolder.setText(R.id.chat_send_name, mutiItem.getName());</span><br><span class="line">                baseViewHolder.setImageResource(R.id.chat_send_icon, mutiItem.getIcon());</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MutiItem.FROM:</span><br><span class="line">                baseViewHolder.setText(R.id.chat_from_content, mutiItem.getContent());</span><br><span class="line">                baseViewHolder.setText(R.id.chat_from_name, mutiItem.getName());</span><br><span class="line">                baseViewHolder.setImageResource(R.id.chat_from_icon, mutiItem.getIcon());</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后就可以在Activity中设置RecyclerView的Adapter了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MutiItemActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> RecyclerView mRecyclerView;</span><br><span class="line">    <span class="keyword">private</span> List&lt;MutiItem&gt; mutiItemList = <span class="keyword">new</span> ArrayList&lt;MutiItem&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"></span><br><span class="line">        setContentView(R.layout.mutiitem);</span><br><span class="line">        mRecyclerView = (RecyclerView) findViewById(R.id.id_recyclerview);</span><br><span class="line">        mRecyclerView.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>));</span><br><span class="line"></span><br><span class="line">        initData();</span><br><span class="line">        MutiItemAdapter mutiItemAdapter = <span class="keyword">new</span> MutiItemAdapter(<span class="keyword">this</span>, mutiItemList);</span><br><span class="line">        mRecyclerView.setAdapter(mutiItemAdapter);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initData</span><span class="params">()</span></span>&#123;</span><br><span class="line">        MutiItem item = <span class="keyword">null</span>;</span><br><span class="line">        item =  <span class="keyword">new</span> MutiItem(R.drawable.xiaohei, <span class="string">"xiaohei"</span>, <span class="string">"where are you "</span>, <span class="keyword">null</span>);</span><br><span class="line">        item.setItemType(MutiItem.SEND);</span><br><span class="line">        mutiItemList.add(item);</span><br><span class="line">        item =  <span class="keyword">new</span> MutiItem(R.drawable.xiaohei, <span class="string">"renma"</span>, <span class="string">"where are you "</span>, <span class="keyword">null</span>);</span><br><span class="line">        item.setItemType(MutiItem.FROM);</span><br><span class="line">        mutiItemList.add(item);</span><br><span class="line">        item =  <span class="keyword">new</span> MutiItem(R.drawable.xiaohei, <span class="string">"xiaohei"</span>, <span class="string">"where are you "</span>, <span class="keyword">null</span>);</span><br><span class="line">        item.setItemType(MutiItem.SEND);</span><br><span class="line">        mutiItemList.add(item);</span><br><span class="line">        item =  <span class="keyword">new</span> MutiItem(R.drawable.xiaohei, <span class="string">"renma"</span>, <span class="string">"where are you "</span>, <span class="keyword">null</span>);</span><br><span class="line">        item.setItemType(MutiItem.FROM);</span><br><span class="line">        mutiItemList.add(item);</span><br><span class="line">        item =  <span class="keyword">new</span> MutiItem(R.drawable.xiaohei, <span class="string">"xiaohei"</span>, <span class="string">"where are you "</span>, <span class="keyword">null</span>);</span><br><span class="line">        item.setItemType(MutiItem.SEND);</span><br><span class="line">        mutiItemList.add(item);</span><br><span class="line">        item =  <span class="keyword">new</span> MutiItem(R.drawable.xiaohei, <span class="string">"xiaohei"</span>, <span class="string">"where are you "</span>, <span class="keyword">null</span>);</span><br><span class="line">        item.setItemType(MutiItem.SEND);</span><br><span class="line">        mutiItemList.add(item);</span><br><span class="line">        item =  <span class="keyword">new</span> MutiItem(R.drawable.xiaohei, <span class="string">"renma"</span>, <span class="string">"where are you "</span>, <span class="keyword">null</span>);</span><br><span class="line">        item.setItemType(MutiItem.FROM);</span><br><span class="line">        mutiItemList.add(item);</span><br><span class="line">        item =  <span class="keyword">new</span> MutiItem(R.drawable.xiaohei, <span class="string">"xiaohei"</span>, <span class="string">"where are you "</span>, <span class="keyword">null</span>);</span><br><span class="line">        item.setItemType(MutiItem.SEND);</span><br><span class="line">        mutiItemList.add(item);</span><br><span class="line">        item =  <span class="keyword">new</span> MutiItem(R.drawable.xiaohei, <span class="string">"renma"</span>, <span class="string">"where are you "</span>, <span class="keyword">null</span>);</span><br><span class="line">        item.setItemType(MutiItem.FROM);</span><br><span class="line">        mutiItemList.add(item);</span><br><span class="line">        item =  <span class="keyword">new</span> MutiItem(R.drawable.xiaohei, <span class="string">"xiaohei"</span>, <span class="string">"where are you "</span>, <span class="keyword">null</span>);</span><br><span class="line">        item.setItemType(MutiItem.SEND);</span><br><span class="line">        mutiItemList.add(item);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>是不是超级简单，只是别忘了在数据构造的时候记得使用<code>setItemType</code>。</p>
+<h3 id="带Header的RecyclerView-1"><a href="#带Header的RecyclerView-1" class="headerlink" title="带Header的RecyclerView"></a>带Header的RecyclerView</h3><p>根据官方的介绍，要添加HeaderView和FooterView，只需要两句代码就可以搞定。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mQuickAdapter.addHeaderView(getView());</span><br><span class="line">mQuickAdapter.addFooterView(getView());</span><br></pre></td></tr></table></figure></p>
+<p>这里的<code>getView()</code>返回的是一个<code>View</code>.</p>
+<p>如果只有一个HeaderView和FooterView那这个万能适配器就能完美实现，但像鸿洋老师那种可以添加多个HeaderView的，这边没有提及。但也不是没有解决办法，添加Header的思想其实也就是多加一个ItemType，如果真要实现分类，有多个Header的话，那就把HeaderView作为一个ItemType，指定其视图就好了~</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/17/layout/" rel="next" title="layout_*的一些注意事项">
+                <i class="fa fa-chevron-left"></i> layout_*的一些注意事项
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/28/recyclerView2/"
+           data-title="RecyclerView总结学习(二)" data-url="http://chr10003566.github.io./2016/06/28/recyclerView2/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RecyclerView总结学习（二）"><span class="nav-number">1.</span> <span class="nav-text">RecyclerView总结学习（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#万能适配器（一）"><span class="nav-number">1.2.</span> <span class="nav-text">万能适配器（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个ItemViewTyped的RecyclerView"><span class="nav-number">1.2.2.</span> <span class="nav-text">多个ItemViewTyped的RecyclerView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带Header的RecyclerView"><span class="nav-number">1.2.3.</span> <span class="nav-text">带Header的RecyclerView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#万能适配器（二）"><span class="nav-number">1.3.</span> <span class="nav-text">万能适配器（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个ItemViewTyped的RecyclerView-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">多个ItemViewTyped的RecyclerView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带Header的RecyclerView-1"><span class="nav-number">1.3.3.</span> <span class="nav-text">带Header的RecyclerView</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
