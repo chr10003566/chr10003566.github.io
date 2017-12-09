@@ -51,11 +51,11 @@
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://chr10003566.github.io./2017/01/03/%E7%AC%94%E8%AE%B0/"/>
-    <id>http://chr10003566.github.io./2017/01/03/笔记/</id>
-    <published>2017-01-03T12:09:15.000Z</published>
-    <updated>2017-09-09T11:21:14.000Z</updated>
+    <title>Android开发学习笔记秘籍(二十一)</title>
+    <link href="http://chr10003566.github.io./2017/01/04/tips/"/>
+    <id>http://chr10003566.github.io./2017/01/04/tips/</id>
+    <published>2017-01-04T03:31:44.000Z</published>
+    <updated>2017-12-09T13:14:14.583Z</updated>
     
     <content type="html">&lt;h1 id=&quot;Android开发学习笔记秘籍-二十一&quot;&gt;&lt;a href=&quot;#Android开发学习笔记秘籍-二十一&quot; class=&quot;headerlink&quot; title=&quot;Android开发学习笔记秘籍(二十一)&quot;&gt;&lt;/a&gt;Android开发学习笔记秘籍(二十一)&lt;/h1&gt;&lt;p&gt;时隔半年重新捡起Android开发，以前学习的各种零零散散的Android开发技巧也忘的差不多了，但人总不能走回头路吧，只能猛向前走，遗忘的呢也正好通过翻阅以前的笔记进行复习。&lt;/p&gt;
 &lt;p&gt;以前都是学习一些UI方面的知识，很少涉及网络。现在开始往网络方向学习。&lt;/p&gt;
@@ -83,6 +83,8 @@
       &lt;h1 id=&quot;Android开发学习笔记秘籍-二十一&quot;&gt;&lt;a href=&quot;#Android开发学习笔记秘籍-二十一&quot; class=&quot;headerlink&quot; title=&quot;Android开发学习笔记秘籍(二十一)&quot;&gt;&lt;/a&gt;Android开发学习笔记秘籍(二十一)&lt;/h1&gt;&lt;p&gt;
     
     </summary>
+    
+      <category term="Android开发学习" scheme="http://chr10003566.github.io./categories/Android%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
     
     
   </entry>
