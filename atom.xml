@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chr10003566.github.io./"/>
-  <updated>2019-07-15T09:22:14.999Z</updated>
+  <updated>2019-12-02T08:53:33.259Z</updated>
   <id>http://chr10003566.github.io./</id>
   
   <author>
@@ -14,6 +14,87 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mmDetection源码分析（一）：inference阶段，代码调用</title>
+    <link href="http://chr10003566.github.io./2019/12/02/mmdetection(1)/"/>
+    <id>http://chr10003566.github.io./2019/12/02/mmdetection(1)/</id>
+    <published>2019-12-02T08:48:14.000Z</published>
+    <updated>2019-12-02T08:53:33.259Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;mmdetection介绍&quot;&gt;&lt;a href=&quot;#mmdetection介绍&quot; class=&quot;headerlink&quot; title=&quot;mmdetection介绍&quot;&gt;&lt;/a&gt;mmdetection介绍&lt;/h1&gt;&lt;p&gt;mmDetection（&lt;a href=&quot;https://github.com/open-mmlab/mmdetection&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;mmdetection&lt;/a&gt;）应该是目前最流行的检测网络框架了，由香港中文大学与商汤合作维护的一个检测工具箱，目前仍然在不断的更新中。&lt;/p&gt;
+&lt;p&gt;本系列打算研究学习下如何使用mmDetection去复现其他论文的检测网络模型或者构建自己的网络模型，以及如何使用mmDetection训练自己的数据。网上已有不少mmDetection源码分析博客，大家也都是按照各自学习的节奏来排版的，这里记录下学习的过程。&lt;/p&gt;
+&lt;p&gt;照例将学习的链接贴出，尊重原创～&lt;/p&gt;
+&lt;p&gt;DateLoader学习链接：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/u014380165/article/details/79058479&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;AI之路-PyTorch源码解读之torch.utils.data.DataLoader&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/76893455&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;一文弄懂Pytorch的DataLoader, DataSet, Sampler之间的关系&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://blog.csdn.net/TH_NUM/article/details/80877687&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;pytorch 函数DataLoade&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;推理阶段—demo-py（通过读取一张图像，显示效果）&quot;&gt;&lt;a href=&quot;#推理阶段—demo-py（通过读取一张图像，显示效果）&quot; class=&quot;headerlink&quot; title=&quot;推理阶段—demo.py（通过读取一张图像，显示效果）&quot;&gt;&lt;/a&gt;推理阶段—&lt;code&gt;demo.py&lt;/code&gt;（通过读取一张图像，显示效果）&lt;/h1&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; mmdet.apis &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; init_detector, inference_detector, show_result&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; mmcv&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;config_file = &lt;span class=&quot;string&quot;&gt;&#39;configs/faster_rcnn_r50_fpn_1x.py&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;checkpoint_file = &lt;span class=&quot;string&quot;&gt;&#39;checkpoints/faster_rcnn_r50_fpn_1x_20181010-3d1b3351.pth&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# build the model from a config file and a checkpoint file&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;model = init_detector(config_file, checkpoint_file, device=&lt;span class=&quot;string&quot;&gt;&#39;cuda:0&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# test a single image and show the results&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;img = &lt;span class=&quot;string&quot;&gt;&#39;test.jpg&#39;&lt;/span&gt;  &lt;span class=&quot;comment&quot;&gt;# or img = mmcv.imread(img), which will only load it once&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;result = inference_detector(model, img)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# visualize the results in a new window&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;show_result(img, result, model.CLASSES)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# or save the visualization results to image files&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;show_result(img, result, model.CLASSES, out_file=&lt;span class=&quot;string&quot;&gt;&#39;result.jpg&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;init-detector&quot;&gt;&lt;a href=&quot;#init-detector&quot; class=&quot;headerlink&quot; title=&quot;init_detector&quot;&gt;&lt;/a&gt;&lt;code&gt;init_detector&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;init_detector三个输入参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;config：检测模型的配置文件，一般位于 mmdetection/config/ 中&lt;/li&gt;
+&lt;li&gt;checkpoint：即训练好的权重 在mmdetection的model zoo中可以下载&lt;/li&gt;
+&lt;li&gt;device：分配到的设备对象&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;返回：model（检测模型）&lt;/p&gt;
+&lt;h2 id=&quot;inference-detector&quot;&gt;&lt;a href=&quot;#inference-detector&quot; class=&quot;headerlink&quot; title=&quot;inference_detector&quot;&gt;&lt;/a&gt;&lt;code&gt;inference_detector&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;inference_detector 输入两个参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;model: init_detector返回的model&lt;/li&gt;
+&lt;li&gt;imgs: 图像的路径&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;返回：测试图像的结果&lt;/p&gt;
+&lt;h3 id=&quot;inference-single&quot;&gt;&lt;a href=&quot;#inference-single&quot; class=&quot;headerlink&quot; title=&quot;_ inference_single&quot;&gt;&lt;/a&gt;&lt;code&gt;_ inference_single&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;将输入的图像进过resize后，输入到模型中。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;_prepare_data&lt;/p&gt;
+&lt;p&gt;用于将图像转换成config中test.img_scale&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;inference-generator&quot;&gt;&lt;a href=&quot;#inference-generator&quot; class=&quot;headerlink&quot; title=&quot;_ inference_generator&quot;&gt;&lt;/a&gt;&lt;code&gt;_ inference_generator&lt;/code&gt;&lt;/h3&gt;&lt;h2 id=&quot;show-result&quot;&gt;&lt;a href=&quot;#show-result&quot; class=&quot;headerlink&quot; title=&quot;show_result&quot;&gt;&lt;/a&gt;&lt;code&gt;show_result&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;show_result参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;img :图像的路径（字符串）&lt;/li&gt;
+&lt;li&gt;result：inference_detector的返回值&lt;/li&gt;
+&lt;li&gt;class_name：训练图像的类别名称&lt;br&gt;阈值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;推理阶段—-tools-test-py（对数据集进行测试）&quot;&gt;&lt;a href=&quot;#推理阶段—-tools-test-py（对数据集进行测试）&quot; class=&quot;headerlink&quot; title=&quot;推理阶段—./tools/test.py（对数据集进行测试）&quot;&gt;&lt;/a&gt;推理阶段—&lt;code&gt;./tools/test.py&lt;/code&gt;（对数据集进行测试）&lt;/h1&gt;&lt;p&gt;通过&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;# single-gpu testing&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;python tools/test.py $&amp;#123;CONFIG_FILE&amp;#125; $&amp;#123;CHECKPOINT_FILE&amp;#125; [--out $&amp;#123;RESULT_FILE&amp;#125;] [--eval $&amp;#123;EVAL_METRICS&amp;#125;] [--show]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;# multi-gpu testing&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;./tools/dist_test.sh $&amp;#123;CONFIG_FILE&amp;#125; $&amp;#123;CHECKPOINT_FILE&amp;#125; $&amp;#123;GPU_NUM&amp;#125; [--out $&amp;#123;RESULT_FILE&amp;#125;] [--eval $&amp;#123;EVAL_METRICS&amp;#125;]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;build-dataset&quot;&gt;&lt;a href=&quot;#build-dataset&quot; class=&quot;headerlink&quot; title=&quot;build_dataset&quot;&gt;&lt;/a&gt;&lt;code&gt;build_dataset&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;build_dataset一个输入参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;cfg.data.test&lt;/code&gt;: 是mmcv.utils.config.ConfigDict类型。cfg则是通过&lt;code&gt;mmcv.Config.fromfile&lt;/code&gt;(mmdetection/config/xx.py的路径）转换成&lt;code&gt;mmcv.utils.config.Config&lt;/code&gt;得到。&lt;code&gt;cfg.data.test&lt;/code&gt;：包含了测试集的路径，标注文件路径，测试图像大小等信息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;返回：mmdet定义的Dataset类（是&lt;code&gt;torch.utils.data.Dataset&lt;/code&gt;的子类）&lt;/p&gt;
+&lt;h2 id=&quot;build-dataloader&quot;&gt;&lt;a href=&quot;#build-dataloader&quot; class=&quot;headerlink&quot; title=&quot;build_dataloader&quot;&gt;&lt;/a&gt;&lt;code&gt;build_dataloader&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;build_dataloader:将数据转换成pytorch可读的类型&lt;/p&gt;
+&lt;p&gt;DataLoader的学习链接见上～&lt;/p&gt;
+&lt;h2 id=&quot;build-detector&quot;&gt;&lt;a href=&quot;#build-detector&quot; class=&quot;headerlink&quot; title=&quot;build_detector&quot;&gt;&lt;/a&gt;&lt;code&gt;build_detector&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;build_detector三个参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;cfg: 仍然是目标检测框架配置文件（如：faster_rcnn_r50_fpn_1x.py）中model部分。需要包括目标检测框架backbone、neck、head等部分信息&lt;/li&gt;
+&lt;li&gt;train_cfg: 推理阶段，该参数为None&lt;/li&gt;
+&lt;li&gt;test_cfg: cfg中test_cfg字段的内容，需要包含阈值等信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;init_detector中包含函数，init_detector=build_detector + load_checkpoint&lt;/p&gt;
+&lt;h2 id=&quot;load-checkpoint&quot;&gt;&lt;a href=&quot;#load-checkpoint&quot; class=&quot;headerlink&quot; title=&quot;load_checkpoint&quot;&gt;&lt;/a&gt;&lt;code&gt;load_checkpoint&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;load_checkpoint两个个主要输入参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;model：build_detecor返回的model&lt;/li&gt;
+&lt;li&gt;checkpoint：训练权重（.pth，如 /models/faster_rcnn_r50_fpn_1x_20181010-3d1b3351.pth）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;gpt-test&quot;&gt;&lt;a href=&quot;#gpt-test&quot; class=&quot;headerlink&quot; title=&quot;gpt_test&quot;&gt;&lt;/a&gt;gpt_test&lt;/h2&gt;&lt;h3 id=&quot;single-gpu-test&quot;&gt;&lt;a href=&quot;#single-gpu-test&quot; class=&quot;headerlink&quot; title=&quot;single_gpu_test&quot;&gt;&lt;/a&gt;&lt;code&gt;single_gpu_test&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;single_gpu_test三个输入参数：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;model：build_detector返回的model，并通过 load_checkpoint初始化了权重。&lt;/li&gt;
+&lt;li&gt;data_loader：build_dataloader返回的DataLoader&lt;/li&gt;
+&lt;li&gt;show：默认为False&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;multi-gpu-test&quot;&gt;&lt;a href=&quot;#multi-gpu-test&quot; class=&quot;headerlink&quot; title=&quot;multi_gpu_test&quot;&gt;&lt;/a&gt;&lt;code&gt;multi_gpu_test&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;与single_gpu_test相似，用多块GPU进行测试。&lt;/p&gt;
+&lt;h2 id=&quot;eval&quot;&gt;&lt;a href=&quot;#eval&quot; class=&quot;headerlink&quot; title=&quot;eval&quot;&gt;&lt;/a&gt;eval&lt;/h2&gt;&lt;p&gt;调用&lt;code&gt;mmdet.core&lt;/code&gt;中&lt;code&gt;coco_eval&lt;/code&gt;，根据&lt;code&gt;eval_type&lt;/code&gt;对COCO数据集进行评估。&lt;/p&gt;
+&lt;p&gt;eval_type有以下几种：&lt;br&gt;&lt;code&gt;&amp;#39;proposal&amp;#39;, &amp;#39;proposal_fast&amp;#39;, &amp;#39;bbox&amp;#39;, &amp;#39;segm&amp;#39;, &amp;#39;keypoints&amp;#39;&lt;/code&gt;.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;mmdetection介绍&quot;&gt;&lt;a href=&quot;#mmdetection介绍&quot; class=&quot;headerlink&quot; title=&quot;mmdetection介绍&quot;&gt;&lt;/a&gt;mmdetection介绍&lt;/h1&gt;&lt;p&gt;mmDetection（&lt;a href=&quot;https
+    
+    </summary>
+    
+      <category term="mmDetection源码分析" scheme="http://chr10003566.github.io./categories/mmDetection%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>2D坐标系与3D坐标系的相互转换--python实现</title>

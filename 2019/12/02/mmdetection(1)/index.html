@@ -1,0 +1,698 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="mmdetection介绍mmDetection（mmdetection）应该是目前最流行的检测网络框架了，由香港中文大学与商汤合作维护的一个检测工具箱，目前仍然在不断的更新中。
+本系列打算研究学习下如何使用mmDetection去复现其他论文的检测网络模型或者构建自己的网络模型，以及如何使用mmDetection训练自己的数据。网上已有不少mmDetection源码分析博客，大家也都是按照各自学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mmDetection源码分析（一）：inference阶段，代码调用">
+<meta property="og:url" content="http://chr10003566.github.io./2019/12/02/mmdetection(1)/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="mmdetection介绍mmDetection（mmdetection）应该是目前最流行的检测网络框架了，由香港中文大学与商汤合作维护的一个检测工具箱，目前仍然在不断的更新中。
+本系列打算研究学习下如何使用mmDetection去复现其他论文的检测网络模型或者构建自己的网络模型，以及如何使用mmDetection训练自己的数据。网上已有不少mmDetection源码分析博客，大家也都是按照各自学">
+<meta property="og:updated_time" content="2019-12-02T08:53:33.259Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mmDetection源码分析（一）：inference阶段，代码调用">
+<meta name="twitter:description" content="mmdetection介绍mmDetection（mmdetection）应该是目前最流行的检测网络框架了，由香港中文大学与商汤合作维护的一个检测工具箱，目前仍然在不断的更新中。
+本系列打算研究学习下如何使用mmDetection去复现其他论文的检测网络模型或者构建自己的网络模型，以及如何使用mmDetection训练自己的数据。网上已有不少mmDetection源码分析博客，大家也都是按照各自学">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> mmDetection源码分析（一）：inference阶段，代码调用 | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                mmDetection源码分析（一）：inference阶段，代码调用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-12-02T16:48:14+08:00" content="2019-12-02">
+              2019-12-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mmDetection源码分析/" itemprop="url" rel="index">
+                    <span itemprop="name">mmDetection源码分析</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/12/02/mmdetection(1)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/12/02/mmdetection(1)/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="mmdetection介绍"><a href="#mmdetection介绍" class="headerlink" title="mmdetection介绍"></a>mmdetection介绍</h1><p>mmDetection（<a href="https://github.com/open-mmlab/mmdetection" target="_blank" rel="external">mmdetection</a>）应该是目前最流行的检测网络框架了，由香港中文大学与商汤合作维护的一个检测工具箱，目前仍然在不断的更新中。</p>
+<p>本系列打算研究学习下如何使用mmDetection去复现其他论文的检测网络模型或者构建自己的网络模型，以及如何使用mmDetection训练自己的数据。网上已有不少mmDetection源码分析博客，大家也都是按照各自学习的节奏来排版的，这里记录下学习的过程。</p>
+<p>照例将学习的链接贴出，尊重原创～</p>
+<p>DateLoader学习链接：</p>
+<p><a href="https://blog.csdn.net/u014380165/article/details/79058479" target="_blank" rel="external">AI之路-PyTorch源码解读之torch.utils.data.DataLoader</a><br><a href="https://zhuanlan.zhihu.com/p/76893455" target="_blank" rel="external">一文弄懂Pytorch的DataLoader, DataSet, Sampler之间的关系</a><br><a href="https://blog.csdn.net/TH_NUM/article/details/80877687" target="_blank" rel="external">pytorch 函数DataLoade</a></p>
+<h1 id="推理阶段—demo-py（通过读取一张图像，显示效果）"><a href="#推理阶段—demo-py（通过读取一张图像，显示效果）" class="headerlink" title="推理阶段—demo.py（通过读取一张图像，显示效果）"></a>推理阶段—<code>demo.py</code>（通过读取一张图像，显示效果）</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mmdet.apis <span class="keyword">import</span> init_detector, inference_detector, show_result</span><br><span class="line"><span class="keyword">import</span> mmcv</span><br><span class="line"></span><br><span class="line">config_file = <span class="string">'configs/faster_rcnn_r50_fpn_1x.py'</span></span><br><span class="line">checkpoint_file = <span class="string">'checkpoints/faster_rcnn_r50_fpn_1x_20181010-3d1b3351.pth'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># build the model from a config file and a checkpoint file</span></span><br><span class="line">model = init_detector(config_file, checkpoint_file, device=<span class="string">'cuda:0'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># test a single image and show the results</span></span><br><span class="line">img = <span class="string">'test.jpg'</span>  <span class="comment"># or img = mmcv.imread(img), which will only load it once</span></span><br><span class="line">result = inference_detector(model, img)</span><br><span class="line"><span class="comment"># visualize the results in a new window</span></span><br><span class="line">show_result(img, result, model.CLASSES)</span><br><span class="line"><span class="comment"># or save the visualization results to image files</span></span><br><span class="line">show_result(img, result, model.CLASSES, out_file=<span class="string">'result.jpg'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="init-detector"><a href="#init-detector" class="headerlink" title="init_detector"></a><code>init_detector</code></h2><p>init_detector三个输入参数：</p>
+<ul>
+<li>config：检测模型的配置文件，一般位于 mmdetection/config/ 中</li>
+<li>checkpoint：即训练好的权重 在mmdetection的model zoo中可以下载</li>
+<li>device：分配到的设备对象</li>
+</ul>
+<p>返回：model（检测模型）</p>
+<h2 id="inference-detector"><a href="#inference-detector" class="headerlink" title="inference_detector"></a><code>inference_detector</code></h2><p>inference_detector 输入两个参数：</p>
+<ul>
+<li>model: init_detector返回的model</li>
+<li>imgs: 图像的路径</li>
+</ul>
+<p>返回：测试图像的结果</p>
+<h3 id="inference-single"><a href="#inference-single" class="headerlink" title="_ inference_single"></a><code>_ inference_single</code></h3><p>将输入的图像进过resize后，输入到模型中。</p>
+<ul>
+<li><p>_prepare_data</p>
+<p>用于将图像转换成config中test.img_scale</p>
+</li>
+</ul>
+<h3 id="inference-generator"><a href="#inference-generator" class="headerlink" title="_ inference_generator"></a><code>_ inference_generator</code></h3><h2 id="show-result"><a href="#show-result" class="headerlink" title="show_result"></a><code>show_result</code></h2><p>show_result参数：</p>
+<ul>
+<li>img :图像的路径（字符串）</li>
+<li>result：inference_detector的返回值</li>
+<li>class_name：训练图像的类别名称<br>阈值</li>
+</ul>
+<h1 id="推理阶段—-tools-test-py（对数据集进行测试）"><a href="#推理阶段—-tools-test-py（对数据集进行测试）" class="headerlink" title="推理阶段—./tools/test.py（对数据集进行测试）"></a>推理阶段—<code>./tools/test.py</code>（对数据集进行测试）</h1><p>通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># single-gpu testing</span><br><span class="line">python tools/test.py $&#123;CONFIG_FILE&#125; $&#123;CHECKPOINT_FILE&#125; [--out $&#123;RESULT_FILE&#125;] [--eval $&#123;EVAL_METRICS&#125;] [--show]</span><br><span class="line"></span><br><span class="line"># multi-gpu testing</span><br><span class="line">./tools/dist_test.sh $&#123;CONFIG_FILE&#125; $&#123;CHECKPOINT_FILE&#125; $&#123;GPU_NUM&#125; [--out $&#123;RESULT_FILE&#125;] [--eval $&#123;EVAL_METRICS&#125;]</span><br></pre></td></tr></table></figure>
+<h2 id="build-dataset"><a href="#build-dataset" class="headerlink" title="build_dataset"></a><code>build_dataset</code></h2><p>build_dataset一个输入参数：</p>
+<ul>
+<li><code>cfg.data.test</code>: 是mmcv.utils.config.ConfigDict类型。cfg则是通过<code>mmcv.Config.fromfile</code>(mmdetection/config/xx.py的路径）转换成<code>mmcv.utils.config.Config</code>得到。<code>cfg.data.test</code>：包含了测试集的路径，标注文件路径，测试图像大小等信息。</li>
+</ul>
+<p>返回：mmdet定义的Dataset类（是<code>torch.utils.data.Dataset</code>的子类）</p>
+<h2 id="build-dataloader"><a href="#build-dataloader" class="headerlink" title="build_dataloader"></a><code>build_dataloader</code></h2><p>build_dataloader:将数据转换成pytorch可读的类型</p>
+<p>DataLoader的学习链接见上～</p>
+<h2 id="build-detector"><a href="#build-detector" class="headerlink" title="build_detector"></a><code>build_detector</code></h2><p>build_detector三个参数：</p>
+<ul>
+<li>cfg: 仍然是目标检测框架配置文件（如：faster_rcnn_r50_fpn_1x.py）中model部分。需要包括目标检测框架backbone、neck、head等部分信息</li>
+<li>train_cfg: 推理阶段，该参数为None</li>
+<li>test_cfg: cfg中test_cfg字段的内容，需要包含阈值等信息</li>
+</ul>
+<p>init_detector中包含函数，init_detector=build_detector + load_checkpoint</p>
+<h2 id="load-checkpoint"><a href="#load-checkpoint" class="headerlink" title="load_checkpoint"></a><code>load_checkpoint</code></h2><p>load_checkpoint两个个主要输入参数：</p>
+<ul>
+<li>model：build_detecor返回的model</li>
+<li>checkpoint：训练权重（.pth，如 /models/faster_rcnn_r50_fpn_1x_20181010-3d1b3351.pth）</li>
+</ul>
+<h2 id="gpt-test"><a href="#gpt-test" class="headerlink" title="gpt_test"></a>gpt_test</h2><h3 id="single-gpu-test"><a href="#single-gpu-test" class="headerlink" title="single_gpu_test"></a><code>single_gpu_test</code></h3><p>single_gpu_test三个输入参数：</p>
+<ul>
+<li>model：build_detector返回的model，并通过 load_checkpoint初始化了权重。</li>
+<li>data_loader：build_dataloader返回的DataLoader</li>
+<li>show：默认为False</li>
+</ul>
+<h3 id="multi-gpu-test"><a href="#multi-gpu-test" class="headerlink" title="multi_gpu_test"></a><code>multi_gpu_test</code></h3><p>与single_gpu_test相似，用多块GPU进行测试。</p>
+<h2 id="eval"><a href="#eval" class="headerlink" title="eval"></a>eval</h2><p>调用<code>mmdet.core</code>中<code>coco_eval</code>，根据<code>eval_type</code>对COCO数据集进行评估。</p>
+<p>eval_type有以下几种：<br><code>&#39;proposal&#39;, &#39;proposal_fast&#39;, &#39;bbox&#39;, &#39;segm&#39;, &#39;keypoints&#39;</code>.</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/15/2D坐标系与3D坐标系的相互转换--python实现/" rel="next" title="2D坐标系与3D坐标系的相互转换--python实现">
+                <i class="fa fa-chevron-left"></i> 2D坐标系与3D坐标系的相互转换--python实现
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/12/02/mmdetection(1)/"
+           data-title="mmDetection源码分析（一）：inference阶段，代码调用" data-url="http://chr10003566.github.io./2019/12/02/mmdetection(1)/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#mmdetection介绍"><span class="nav-number">1.</span> <span class="nav-text">mmdetection介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推理阶段—demo-py（通过读取一张图像，显示效果）"><span class="nav-number">2.</span> <span class="nav-text">推理阶段—demo.py（通过读取一张图像，显示效果）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#init-detector"><span class="nav-number">2.1.</span> <span class="nav-text">init_detector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inference-detector"><span class="nav-number">2.2.</span> <span class="nav-text">inference_detector</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#inference-single"><span class="nav-number">2.2.1.</span> <span class="nav-text">_ inference_single</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#inference-generator"><span class="nav-number">2.2.2.</span> <span class="nav-text">_ inference_generator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#show-result"><span class="nav-number">2.3.</span> <span class="nav-text">show_result</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推理阶段—-tools-test-py（对数据集进行测试）"><span class="nav-number">3.</span> <span class="nav-text">推理阶段—./tools/test.py（对数据集进行测试）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#build-dataset"><span class="nav-number">3.1.</span> <span class="nav-text">build_dataset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#build-dataloader"><span class="nav-number">3.2.</span> <span class="nav-text">build_dataloader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#build-detector"><span class="nav-number">3.3.</span> <span class="nav-text">build_detector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#load-checkpoint"><span class="nav-number">3.4.</span> <span class="nav-text">load_checkpoint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gpt-test"><span class="nav-number">3.5.</span> <span class="nav-text">gpt_test</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#single-gpu-test"><span class="nav-number">3.5.1.</span> <span class="nav-text">single_gpu_test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multi-gpu-test"><span class="nav-number">3.5.2.</span> <span class="nav-text">multi_gpu_test</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eval"><span class="nav-number">3.6.</span> <span class="nav-text">eval</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
