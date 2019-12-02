@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chr10003566.github.io./"/>
-  <updated>2019-12-02T08:53:33.259Z</updated>
+  <updated>2019-12-02T09:57:04.368Z</updated>
   <id>http://chr10003566.github.io./</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>mmDetection源码分析（一）：inference阶段，代码调用</title>
+    <title>mmDetection源码分析（一）：inference阶段代码调用</title>
     <link href="http://chr10003566.github.io./2019/12/02/mmdetection(1)/"/>
     <id>http://chr10003566.github.io./2019/12/02/mmdetection(1)/</id>
     <published>2019-12-02T08:48:14.000Z</published>
-    <updated>2019-12-02T08:53:33.259Z</updated>
+    <updated>2019-12-02T09:57:04.368Z</updated>
     
     <content type="html">&lt;h1 id=&quot;mmdetection介绍&quot;&gt;&lt;a href=&quot;#mmdetection介绍&quot; class=&quot;headerlink&quot; title=&quot;mmdetection介绍&quot;&gt;&lt;/a&gt;mmdetection介绍&lt;/h1&gt;&lt;p&gt;mmDetection（&lt;a href=&quot;https://github.com/open-mmlab/mmdetection&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;mmdetection&lt;/a&gt;）应该是目前最流行的检测网络框架了，由香港中文大学与商汤合作维护的一个检测工具箱，目前仍然在不断的更新中。&lt;/p&gt;
 &lt;p&gt;本系列打算研究学习下如何使用mmDetection去复现其他论文的检测网络模型或者构建自己的网络模型，以及如何使用mmDetection训练自己的数据。网上已有不少mmDetection源码分析博客，大家也都是按照各自学习的节奏来排版的，这里记录下学习的过程。&lt;/p&gt;
