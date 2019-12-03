@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chr10003566.github.io./"/>
-  <updated>2019-12-03T07:42:47.379Z</updated>
+  <updated>2019-12-03T07:58:35.712Z</updated>
   <id>http://chr10003566.github.io./</id>
   
   <author>
@@ -20,9 +20,10 @@
     <link href="http://chr10003566.github.io./2019/12/03/%E5%AD%A6%E4%B9%A0%20FCOS-%20Fully%20Convolutional%20One-Stage%20Object%20Detection/"/>
     <id>http://chr10003566.github.io./2019/12/03/学习 FCOS- Fully Convolutional One-Stage Object Detection/</id>
     <published>2019-12-03T07:24:14.000Z</published>
-    <updated>2019-12-03T07:42:47.379Z</updated>
+    <updated>2019-12-03T07:58:35.712Z</updated>
     
-    <content type="html">&lt;h1 id=&quot;FCOS-Fully-Convolutional-One-Stage-Object-Detection解读&quot;&gt;&lt;a href=&quot;#FCOS-Fully-Convolutional-One-Stage-Object-Detection解读&quot; class=&quot;headerlink&quot; title=&quot;FCOS- Fully Convolutional One-Stage Object Detection解读&quot;&gt;&lt;/a&gt;FCOS- Fully Convolutional One-Stage Object Detection解读&lt;/h1&gt;&lt;h2 id=&quot;Motivation&quot;&gt;&lt;a href=&quot;#Motivation&quot; class=&quot;headerlink&quot; title=&quot;Motivation&quot;&gt;&lt;/a&gt;Motivation&lt;/h2&gt;&lt;h3 id=&quot;1-Anchor-Based存在的问题&quot;&gt;&lt;a href=&quot;#1-Anchor-Based存在的问题&quot; class=&quot;headerlink&quot; title=&quot;1. Anchor-Based存在的问题&quot;&gt;&lt;/a&gt;1. Anchor-Based存在的问题&lt;/h3&gt;&lt;ul&gt;
+    <content type="html">&lt;h1 id=&quot;FCOS-Fully-Convolutional-One-Stage-Object-Detection解读&quot;&gt;&lt;a href=&quot;#FCOS-Fully-Convolutional-One-Stage-Object-Detection解读&quot; class=&quot;headerlink&quot; title=&quot;FCOS- Fully Convolutional One-Stage Object Detection解读&quot;&gt;&lt;/a&gt;FCOS- Fully Convolutional One-Stage Object Detection解读&lt;/h1&gt;&lt;p&gt;本文属于个人基于论文的一些标注与理解，大部分截至原文的内容，未读过论文的同学看起来可能会有点吃力，可以先阅读&lt;a href=&quot;https://blog.csdn.net/u014380165&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;AI之路&lt;/a&gt;博主对论文的解读&lt;a href=&quot;https://blog.csdn.net/u014380165/article/details/90962991&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;FCOS算法详解&lt;/a&gt;。若已经通读论文的同学，可以阅读本文，或许能为您查缺补漏。谢谢～&lt;/p&gt;
+&lt;h2 id=&quot;Motivation&quot;&gt;&lt;a href=&quot;#Motivation&quot; class=&quot;headerlink&quot; title=&quot;Motivation&quot;&gt;&lt;/a&gt;Motivation&lt;/h2&gt;&lt;h3 id=&quot;1-Anchor-Based存在的问题&quot;&gt;&lt;a href=&quot;#1-Anchor-Based存在的问题&quot; class=&quot;headerlink&quot; title=&quot;1. Anchor-Based存在的问题&quot;&gt;&lt;/a&gt;1. Anchor-Based存在的问题&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;detection performance is sensitive to the sizes, aspect ratios and number of anchor boxes.&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;the scales and aspect ratios of anchor boxes are kept fixed, detectors encounter difficulties to deal with object candidates with large shape variations, par- ticularly for small objects.&lt;/p&gt;
 &lt;p&gt;anchor-boxes 尺寸和比例固定，导致其处理尺度变化大或者尺寸小的物体有难度。&lt;/p&gt;

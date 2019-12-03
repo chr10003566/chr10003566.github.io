@@ -82,25 +82,25 @@
 
 
 
-<meta name="description" content="FCOS- Fully Convolutional One-Stage Object Detection解读Motivation1. Anchor-Based存在的问题
-detection performance is sensitive to the sizes, aspect ratios and number of anchor boxes.
-the scales and aspect ra">
+<meta name="description" content="FCOS- Fully Convolutional One-Stage Object Detection解读本文属于个人基于论文的一些标注与理解，大部分截至原文的内容，未读过论文的同学看起来可能会有点吃力，可以先阅读AI之路博主对论文的解读FCOS算法详解。若已经通读论文的同学，可以阅读本文，或许能为您查缺补漏。谢谢～
+Motivation1. Anchor-Based存在的问题
+detectio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FCOS- Fully Convolutional One-Stage Object Detection论文解读">
 <meta property="og:url" content="http://chr10003566.github.io./2019/12/03/学习 FCOS- Fully Convolutional One-Stage Object Detection/index.html">
 <meta property="og:site_name" content="Cui的个人博客">
-<meta property="og:description" content="FCOS- Fully Convolutional One-Stage Object Detection解读Motivation1. Anchor-Based存在的问题
-detection performance is sensitive to the sizes, aspect ratios and number of anchor boxes.
-the scales and aspect ra">
+<meta property="og:description" content="FCOS- Fully Convolutional One-Stage Object Detection解读本文属于个人基于论文的一些标注与理解，大部分截至原文的内容，未读过论文的同学看起来可能会有点吃力，可以先阅读AI之路博主对论文的解读FCOS算法详解。若已经通读论文的同学，可以阅读本文，或许能为您查缺补漏。谢谢～
+Motivation1. Anchor-Based存在的问题
+detectio">
 <meta property="og:image" content="https://pic1.superbed.cn/item/5de60f58f1f6f81c504fd591.png">
 <meta property="og:image" content="https://pic.superbed.cn/item/5de60fadf1f6f81c504fdf0e.png">
 <meta property="og:image" content="https://pic2.superbed.cn/item/5de60fe6f1f6f81c504fe443.png">
-<meta property="og:updated_time" content="2019-12-03T07:42:47.379Z">
+<meta property="og:updated_time" content="2019-12-03T07:58:35.712Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FCOS- Fully Convolutional One-Stage Object Detection论文解读">
-<meta name="twitter:description" content="FCOS- Fully Convolutional One-Stage Object Detection解读Motivation1. Anchor-Based存在的问题
-detection performance is sensitive to the sizes, aspect ratios and number of anchor boxes.
-the scales and aspect ra">
+<meta name="twitter:description" content="FCOS- Fully Convolutional One-Stage Object Detection解读本文属于个人基于论文的一些标注与理解，大部分截至原文的内容，未读过论文的同学看起来可能会有点吃力，可以先阅读AI之路博主对论文的解读FCOS算法详解。若已经通读论文的同学，可以阅读本文，或许能为您查缺补漏。谢谢～
+Motivation1. Anchor-Based存在的问题
+detectio">
 <meta name="twitter:image" content="https://pic1.superbed.cn/item/5de60f58f1f6f81c504fd591.png">
 
 
@@ -315,7 +315,8 @@ the scales and aspect ra">
       
 
       
-        <h1 id="FCOS-Fully-Convolutional-One-Stage-Object-Detection解读"><a href="#FCOS-Fully-Convolutional-One-Stage-Object-Detection解读" class="headerlink" title="FCOS- Fully Convolutional One-Stage Object Detection解读"></a>FCOS- Fully Convolutional One-Stage Object Detection解读</h1><h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><h3 id="1-Anchor-Based存在的问题"><a href="#1-Anchor-Based存在的问题" class="headerlink" title="1. Anchor-Based存在的问题"></a>1. Anchor-Based存在的问题</h3><ul>
+        <h1 id="FCOS-Fully-Convolutional-One-Stage-Object-Detection解读"><a href="#FCOS-Fully-Convolutional-One-Stage-Object-Detection解读" class="headerlink" title="FCOS- Fully Convolutional One-Stage Object Detection解读"></a>FCOS- Fully Convolutional One-Stage Object Detection解读</h1><p>本文属于个人基于论文的一些标注与理解，大部分截至原文的内容，未读过论文的同学看起来可能会有点吃力，可以先阅读<a href="https://blog.csdn.net/u014380165" target="_blank" rel="external">AI之路</a>博主对论文的解读<a href="https://blog.csdn.net/u014380165/article/details/90962991" target="_blank" rel="external">FCOS算法详解</a>。若已经通读论文的同学，可以阅读本文，或许能为您查缺补漏。谢谢～</p>
+<h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><h3 id="1-Anchor-Based存在的问题"><a href="#1-Anchor-Based存在的问题" class="headerlink" title="1. Anchor-Based存在的问题"></a>1. Anchor-Based存在的问题</h3><ul>
 <li>detection performance is sensitive to the sizes, aspect ratios and number of anchor boxes.</li>
 <li><p>the scales and aspect ratios of anchor boxes are kept fixed, detectors encounter difficulties to deal with object candidates with large shape variations, par- ticularly for small objects.</p>
 <p>anchor-boxes 尺寸和比例固定，导致其处理尺度变化大或者尺寸小的物体有难度。</p>
