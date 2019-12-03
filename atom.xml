@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chr10003566.github.io./"/>
-  <updated>2019-12-02T09:57:04.368Z</updated>
+  <updated>2019-12-03T07:42:47.379Z</updated>
   <id>http://chr10003566.github.io./</id>
   
   <author>
@@ -14,6 +14,94 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>FCOS- Fully Convolutional One-Stage Object Detection论文解读</title>
+    <link href="http://chr10003566.github.io./2019/12/03/%E5%AD%A6%E4%B9%A0%20FCOS-%20Fully%20Convolutional%20One-Stage%20Object%20Detection/"/>
+    <id>http://chr10003566.github.io./2019/12/03/学习 FCOS- Fully Convolutional One-Stage Object Detection/</id>
+    <published>2019-12-03T07:24:14.000Z</published>
+    <updated>2019-12-03T07:42:47.379Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;FCOS-Fully-Convolutional-One-Stage-Object-Detection解读&quot;&gt;&lt;a href=&quot;#FCOS-Fully-Convolutional-One-Stage-Object-Detection解读&quot; class=&quot;headerlink&quot; title=&quot;FCOS- Fully Convolutional One-Stage Object Detection解读&quot;&gt;&lt;/a&gt;FCOS- Fully Convolutional One-Stage Object Detection解读&lt;/h1&gt;&lt;h2 id=&quot;Motivation&quot;&gt;&lt;a href=&quot;#Motivation&quot; class=&quot;headerlink&quot; title=&quot;Motivation&quot;&gt;&lt;/a&gt;Motivation&lt;/h2&gt;&lt;h3 id=&quot;1-Anchor-Based存在的问题&quot;&gt;&lt;a href=&quot;#1-Anchor-Based存在的问题&quot; class=&quot;headerlink&quot; title=&quot;1. Anchor-Based存在的问题&quot;&gt;&lt;/a&gt;1. Anchor-Based存在的问题&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;detection performance is sensitive to the sizes, aspect ratios and number of anchor boxes.&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;the scales and aspect ratios of anchor boxes are kept fixed, detectors encounter difficulties to deal with object candidates with large shape variations, par- ticularly for small objects.&lt;/p&gt;
+&lt;p&gt;anchor-boxes 尺寸和比例固定，导致其处理尺度变化大或者尺寸小的物体有难度。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The excessive number of negative samples aggravates the imbalance between positive and negative samples in training.&lt;/p&gt;
+&lt;p&gt;基于anchor-based的算法，由于要照顾到recall，要定义较多的尺寸和比例，因此会导致在训练过程，正负样本数量差异较大。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;involve complicated computation such as calculating the intersection-over-union (IoU) scores with ground-truth bounding boxes&lt;/p&gt;
+&lt;p&gt;anchor-based算法需要复杂的计算（候选框和真值框的IoU）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;2-FCNs-have-achieved-tremendous-success-in-dense-prediction-tasks&quot;&gt;&lt;a href=&quot;#2-FCNs-have-achieved-tremendous-success-in-dense-prediction-tasks&quot; class=&quot;headerlink&quot; title=&quot;2. FCNs have achieved tremendous success in dense prediction tasks&quot;&gt;&lt;/a&gt;2. FCNs have achieved tremendous success in dense prediction tasks&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Can we solve object detection in the neat per-pixel prediction fashion, analogue to FCN for semantic segmentation, for example&lt;/p&gt;
+&lt;p&gt;FCN在分割，关键点检测上取得了不错的效果，能否在目标检测上有所表现。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;3-DenseBox存在的问题&quot;&gt;&lt;a href=&quot;#3-DenseBox存在的问题&quot; class=&quot;headerlink&quot; title=&quot;3. DenseBox存在的问题&quot;&gt;&lt;/a&gt;3. DenseBox存在的问题&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;DenseBox crops and resizes training images to a fixed scale. Thus DenseBox has to perform detection on image pyramids, which is against FCN’s philosophy of computing all convolutions once.&lt;/p&gt;
+&lt;p&gt;由于DenseBox需要将候选框裁剪到固定的尺寸，因此其必须使用图像金字塔进行训练。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;the highly overlapped bounding boxes result in an intractable ambiguity&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;https://pic1.superbed.cn/item/5de60f58f1f6f81c504fd591.png&quot; alt=&quot;DenseBox&quot;&gt;&lt;/p&gt;
+&lt;p&gt;  更重要的原因是，在常规的目标检测中，高度重合的候选框很常见。同一个像素点要回归哪一个候选框是难以界定的。&lt;/p&gt;
+&lt;h2 id=&quot;FCOS的优势&quot;&gt;&lt;a href=&quot;#FCOS的优势&quot; class=&quot;headerlink&quot; title=&quot;FCOS的优势&quot;&gt;&lt;/a&gt;FCOS的优势&lt;/h2&gt;&lt;h3 id=&quot;1-proposal-free-and-anchor-free&quot;&gt;&lt;a href=&quot;#1-proposal-free-and-anchor-free&quot; class=&quot;headerlink&quot; title=&quot;1. proposal free and anchor free&quot;&gt;&lt;/a&gt;1. proposal free and anchor free&lt;/h3&gt;&lt;p&gt;减少超参数的个数&lt;/p&gt;
+&lt;h3 id=&quot;2-avoids-the-complicated-computation-related-to-anchor-boxes-such-as-the-IOU-computation-and-matching-between-the-anchor-boxes-and-ground-truth-boxes-during-training&quot;&gt;&lt;a href=&quot;#2-avoids-the-complicated-computation-related-to-anchor-boxes-such-as-the-IOU-computation-and-matching-between-the-anchor-boxes-and-ground-truth-boxes-during-training&quot; class=&quot;headerlink&quot; title=&quot;2. avoids the complicated computation related to anchor boxes such as the IOU computation and matching between the anchor boxes and ground-truth boxes during training&quot;&gt;&lt;/a&gt;2. avoids the complicated computation related to anchor boxes such as the IOU computation and matching between the anchor boxes and ground-truth boxes during training&lt;/h3&gt;&lt;p&gt;取消了anchor，就减少了候选框与GT框IoU计算的步骤&lt;/p&gt;
+&lt;h3 id=&quot;3-achieve-state-of-the-art-results-among-one-stage-detectors&quot;&gt;&lt;a href=&quot;#3-achieve-state-of-the-art-results-among-one-stage-detectors&quot; class=&quot;headerlink&quot; title=&quot;3. achieve state-of-the- art results among one-stage detectors&quot;&gt;&lt;/a&gt;3. achieve state-of-the- art results among one-stage detectors&lt;/h3&gt;&lt;p&gt;达到了当前one-stage检测器的最好效果&lt;/p&gt;
+&lt;p&gt;show that the proposed FCOS can be used as a Region Proposal Networks (RPNs) in two-stage detectors and can achieve significantly better performance than its anchor-based RPN counterpartsFCOS&lt;/p&gt;
+&lt;p&gt;甚至可以取代RPNs，用在两阶段的检测器中，并且能达到更好的效果。&lt;/p&gt;
+&lt;h3 id=&quot;4-immediately-extended-to-solve-other-vision-tasks-with-minimal-modification-including-instance-segmentation-and-key-point-detection&quot;&gt;&lt;a href=&quot;#4-immediately-extended-to-solve-other-vision-tasks-with-minimal-modification-including-instance-segmentation-and-key-point-detection&quot; class=&quot;headerlink&quot; title=&quot;4. immediately extended to solve other vision tasks with minimal modification, including instance segmentation and key-point detection.&quot;&gt;&lt;/a&gt;4. immediately extended to solve other vision tasks with minimal modification, including instance segmentation and key-point detection.&lt;/h3&gt;&lt;p&gt;很小的改变就可以用于实例分割和关键点检测等领域。&lt;/p&gt;
+&lt;h2 id=&quot;FCOS检测器&quot;&gt;&lt;a href=&quot;#FCOS检测器&quot; class=&quot;headerlink&quot; title=&quot;FCOS检测器&quot;&gt;&lt;/a&gt;FCOS检测器&lt;/h2&gt;&lt;h3 id=&quot;1-FCOS模型设计&quot;&gt;&lt;a href=&quot;#1-FCOS模型设计&quot; class=&quot;headerlink&quot; title=&quot;1. FCOS模型设计&quot;&gt;&lt;/a&gt;1. FCOS模型设计&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Different from anchor-based detectors, which consider the location on the input image as the center of (multiple) anchor boxes and regress the target bounding box with these anchor boxes as references, we directly regress the target bounding box at the location&lt;/p&gt;
+&lt;p&gt;将Feature map上的点映射回原图后，不使用Anchor而是直接回归目标候选框的位置。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;If a location falls into multiple bounding boxes, it is considered as an ambiguous sample. We simply choose the bounding box with minimal area as its regression target. &lt;/p&gt;
+&lt;p&gt;与DenseBox的思路一致：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;若Feature map上的点映射会原图，如果落入GT框中，则认为该点是正样本。&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果该位置同时落到了多个GT框中，选择回归到面积更小的候选框中。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It is worth noting that FCOS can leverage as many fore- ground samples as possible to train the regressor. It is dif- ferent from anchor-based detectors, which only consider the anchor boxes with a highly enough IOU with ground-truth boxes as positive samples. We argue that it may be one of the reasons that FCOS outperforms its anchor-based counterparts.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;作者认为因为将Feature map上所有的点作为样本点，落入GT框的点都算正样本，会有更多的正样本加入回归器，而Anchor-based的检测器由于只使用那些与GT框 IOU较大的anchor作为训练样本。这可能是FCOS比anchor-based算法表现更好的原因。
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;https://pic.superbed.cn/item/5de60fadf1f6f81c504fdf0e.png&quot; alt=&quot;model&quot;&gt;&lt;/p&gt;
+&lt;p&gt;  从结构上来看，似乎与RetinaNet十分的相似。多了一个center-ness的branch！&lt;/p&gt;
+&lt;h3 id=&quot;2-损失函数&quot;&gt;&lt;a href=&quot;#2-损失函数&quot; class=&quot;headerlink&quot; title=&quot;2. 损失函数&quot;&gt;&lt;/a&gt;2. 损失函数&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;https://pic2.superbed.cn/item/5de60fe6f1f6f81c504fe443.png&quot; alt=&quot;loss&quot;&gt;&lt;/p&gt;
+&lt;p&gt;  分类使用Focal loss的分类损失函数，而回归则采用了IoU loss。&lt;/p&gt;
+&lt;p&gt;   对feature map中所有点都会计算分类损失，而对正样本的点计算回归损失。&lt;/p&gt;
+&lt;h2 id=&quot;FCOS多层级预测&quot;&gt;&lt;a href=&quot;#FCOS多层级预测&quot; class=&quot;headerlink&quot; title=&quot;FCOS多层级预测&quot;&gt;&lt;/a&gt;FCOS多层级预测&lt;/h2&gt;&lt;h3 id=&quot;1-模块解决问题&quot;&gt;&lt;a href=&quot;#1-模块解决问题&quot; class=&quot;headerlink&quot; title=&quot;1. 模块解决问题&quot;&gt;&lt;/a&gt;1. 模块解决问题&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The large stride of the final feature maps in a CNN can result in a relatively low best possible recall (BPR)&lt;/p&gt;
+&lt;p&gt;存在问题：感受野过大，导致小物体漏检，recall会比较低。对于FCOS而言，下降x16后，小物体的点可能也没有了，则会导致recall下降。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Overlaps in ground-truth boxes can cause intractable ambiguity&lt;/p&gt;
+&lt;p&gt;真值框重叠的话会导致 训练的时候，特征图上的像素点不知道回归到哪一个真值框。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;2-we-directly-limit-the-range-of-bounding-box-regression-for-each-level&quot;&gt;&lt;a href=&quot;#2-we-directly-limit-the-range-of-bounding-box-regression-for-each-level&quot; class=&quot;headerlink&quot; title=&quot;2. we directly limit the range of bounding box regression for each level.&quot;&gt;&lt;/a&gt;2. we directly limit the range of bounding box regression for each level.&lt;/h3&gt;&lt;p&gt; we firstly compute the regression targets l∗, t∗, r∗ and b∗for each location on all feature levels. Next, if a location satisfies max(l∗, t∗, r∗, b∗) &amp;gt; mi or max(l∗, t∗, r∗, b∗) &amp;lt; mi−1, it is set as a negative sample and is thus not required to regress a bounding box any- more.&lt;/p&gt;
+&lt;p&gt;Since objects with different sizes are assigned to different feature levels and most overlapping happens between ob- jects with considerably different sizes. If a location, even with multi-level prediction used, is still assigned to more than one ground-truth boxes, we simply choose the groundtruth box with minimal area as its target. &lt;/p&gt;
+&lt;p&gt;FCOS在FPN每一层的特征图上都做回归，如果回归的得到的结果超过了预定的边界，则认为该像素点为负样本，在计算loss的时候不考虑该点。&lt;/p&gt;
+&lt;p&gt; 在解决真值框重叠问题的情况中，作者是这样解释的，不同尺寸的物体是通过FPN的不同层检测出来的，大部分真值框重叠都是真值框大小不同的情况。在同一层特征图中，某一个像素点仍然分配到两个真值框的话，那就回归到那个面积更小的框！&lt;/p&gt;
+&lt;h2 id=&quot;3-Center-ness-for-FCOS&quot;&gt;&lt;a href=&quot;#3-Center-ness-for-FCOS&quot; class=&quot;headerlink&quot; title=&quot;3. Center-ness for FCOS&quot;&gt;&lt;/a&gt;3. Center-ness for FCOS&lt;/h2&gt;&lt;h3 id=&quot;due-to-a-lot-of-low-quality-predicted-bounding-boxes-produced-by-locations-far-away-from-the-center-of-an-object&quot;&gt;&lt;a href=&quot;#due-to-a-lot-of-low-quality-predicted-bounding-boxes-produced-by-locations-far-away-from-the-center-of-an-object&quot; class=&quot;headerlink&quot; title=&quot;due to a lot of low-quality predicted bounding boxes produced by locations far away from the center of an object.&quot;&gt;&lt;/a&gt;due to a lot of low-quality predicted bounding boxes produced by locations far away from the center of an object.&lt;/h3&gt;&lt;p&gt;存在很多低质量，远离物体中心点的矩形框&lt;/p&gt;
+&lt;h3 id=&quot;The-center-ness-depicts-the-normalized-distance-from-the-location-to-the-center-of-the-object&quot;&gt;&lt;a href=&quot;#The-center-ness-depicts-the-normalized-distance-from-the-location-to-the-center-of-the-object&quot; class=&quot;headerlink&quot; title=&quot;The center-ness depicts the normalized distance from the location to the center of the object&quot;&gt;&lt;/a&gt;The center-ness depicts the normalized distance from the location to the center of the object&lt;/h3&gt;&lt;h3 id=&quot;The-center-ness-ranges-from-0-to-1-and-is-thus-trained-with-binary-cross-entropy-BCE-loss-The-loss-is-added-to-the-loss-function-Eq-2-When-testing-the-final-score-used-for-ranking-the-detected-bounding-boxes-is-computed-by-multiplying-the-predicted-center-ness-with-the-correspond-ing-classification-score-Thus-the-center-ness-can-down-weight-the-scores-of-bounding-boxes-far-from-the-center-of-an-object&quot;&gt;&lt;a href=&quot;#The-center-ness-ranges-from-0-to-1-and-is-thus-trained-with-binary-cross-entropy-BCE-loss-The-loss-is-added-to-the-loss-function-Eq-2-When-testing-the-final-score-used-for-ranking-the-detected-bounding-boxes-is-computed-by-multiplying-the-predicted-center-ness-with-the-correspond-ing-classification-score-Thus-the-center-ness-can-down-weight-the-scores-of-bounding-boxes-far-from-the-center-of-an-object&quot; class=&quot;headerlink&quot; title=&quot;The center-ness ranges from 0 to 1 and is thus trained with binary cross entropy (BCE) loss. The loss is added to the loss function Eq. (2). When testing, the final score (used for ranking the detected bounding boxes) is computed by multiplying the predicted center-ness with the correspond- ing classification score. Thus the center-ness can down- weight the scores of bounding boxes far from the center of an object.&quot;&gt;&lt;/a&gt;The center-ness ranges from 0 to 1 and is thus trained with binary cross entropy (BCE) loss. The loss is added to the loss function Eq. (2). When testing, the final score (used for ranking the detected bounding boxes) is computed by multiplying the predicted center-ness with the correspond- ing classification score. Thus the center-ness can down- weight the scores of bounding boxes far from the center of an object.&lt;/h3&gt;&lt;p&gt;在训练阶段：center-ness用交叉熵损失函数，测试阶段：center-ness x classification score作为最后classification score的值，通过这种方式将远离中心点的候选框的置信度降低。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;FCOS-Fully-Convolutional-One-Stage-Object-Detection解读&quot;&gt;&lt;a href=&quot;#FCOS-Fully-Convolutional-One-Stage-Object-Detection解读&quot; class=&quot;heade
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="http://chr10003566.github.io./categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>mmDetection源码分析（一）：inference阶段代码调用</title>

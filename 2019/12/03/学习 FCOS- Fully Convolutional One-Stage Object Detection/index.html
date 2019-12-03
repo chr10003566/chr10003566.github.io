@@ -1,0 +1,712 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="FCOS- Fully Convolutional One-Stage Object Detection解读Motivation1. Anchor-Based存在的问题
+detection performance is sensitive to the sizes, aspect ratios and number of anchor boxes.
+the scales and aspect ra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FCOS- Fully Convolutional One-Stage Object Detection论文解读">
+<meta property="og:url" content="http://chr10003566.github.io./2019/12/03/学习 FCOS- Fully Convolutional One-Stage Object Detection/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="FCOS- Fully Convolutional One-Stage Object Detection解读Motivation1. Anchor-Based存在的问题
+detection performance is sensitive to the sizes, aspect ratios and number of anchor boxes.
+the scales and aspect ra">
+<meta property="og:image" content="https://pic1.superbed.cn/item/5de60f58f1f6f81c504fd591.png">
+<meta property="og:image" content="https://pic.superbed.cn/item/5de60fadf1f6f81c504fdf0e.png">
+<meta property="og:image" content="https://pic2.superbed.cn/item/5de60fe6f1f6f81c504fe443.png">
+<meta property="og:updated_time" content="2019-12-03T07:42:47.379Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FCOS- Fully Convolutional One-Stage Object Detection论文解读">
+<meta name="twitter:description" content="FCOS- Fully Convolutional One-Stage Object Detection解读Motivation1. Anchor-Based存在的问题
+detection performance is sensitive to the sizes, aspect ratios and number of anchor boxes.
+the scales and aspect ra">
+<meta name="twitter:image" content="https://pic1.superbed.cn/item/5de60f58f1f6f81c504fd591.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> FCOS- Fully Convolutional One-Stage Object Detection论文解读 | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                FCOS- Fully Convolutional One-Stage Object Detection论文解读
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-12-03T15:24:14+08:00" content="2019-12-03">
+              2019-12-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/论文阅读/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/12/03/学习 FCOS- Fully Convolutional One-Stage Object Detection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/12/03/学习 FCOS- Fully Convolutional One-Stage Object Detection/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="FCOS-Fully-Convolutional-One-Stage-Object-Detection解读"><a href="#FCOS-Fully-Convolutional-One-Stage-Object-Detection解读" class="headerlink" title="FCOS- Fully Convolutional One-Stage Object Detection解读"></a>FCOS- Fully Convolutional One-Stage Object Detection解读</h1><h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><h3 id="1-Anchor-Based存在的问题"><a href="#1-Anchor-Based存在的问题" class="headerlink" title="1. Anchor-Based存在的问题"></a>1. Anchor-Based存在的问题</h3><ul>
+<li>detection performance is sensitive to the sizes, aspect ratios and number of anchor boxes.</li>
+<li><p>the scales and aspect ratios of anchor boxes are kept fixed, detectors encounter difficulties to deal with object candidates with large shape variations, par- ticularly for small objects.</p>
+<p>anchor-boxes 尺寸和比例固定，导致其处理尺度变化大或者尺寸小的物体有难度。</p>
+</li>
+<li><p>The excessive number of negative samples aggravates the imbalance between positive and negative samples in training.</p>
+<p>基于anchor-based的算法，由于要照顾到recall，要定义较多的尺寸和比例，因此会导致在训练过程，正负样本数量差异较大。</p>
+</li>
+<li><p>involve complicated computation such as calculating the intersection-over-union (IoU) scores with ground-truth bounding boxes</p>
+<p>anchor-based算法需要复杂的计算（候选框和真值框的IoU）</p>
+</li>
+</ul>
+<h3 id="2-FCNs-have-achieved-tremendous-success-in-dense-prediction-tasks"><a href="#2-FCNs-have-achieved-tremendous-success-in-dense-prediction-tasks" class="headerlink" title="2. FCNs have achieved tremendous success in dense prediction tasks"></a>2. FCNs have achieved tremendous success in dense prediction tasks</h3><ul>
+<li><p>Can we solve object detection in the neat per-pixel prediction fashion, analogue to FCN for semantic segmentation, for example</p>
+<p>FCN在分割，关键点检测上取得了不错的效果，能否在目标检测上有所表现。</p>
+</li>
+</ul>
+<h3 id="3-DenseBox存在的问题"><a href="#3-DenseBox存在的问题" class="headerlink" title="3. DenseBox存在的问题"></a>3. DenseBox存在的问题</h3><ul>
+<li><p>DenseBox crops and resizes training images to a fixed scale. Thus DenseBox has to perform detection on image pyramids, which is against FCN’s philosophy of computing all convolutions once.</p>
+<p>由于DenseBox需要将候选框裁剪到固定的尺寸，因此其必须使用图像金字塔进行训练。</p>
+</li>
+<li><p>the highly overlapped bounding boxes result in an intractable ambiguity</p>
+</li>
+</ul>
+<p><img src="https://pic1.superbed.cn/item/5de60f58f1f6f81c504fd591.png" alt="DenseBox"></p>
+<p>  更重要的原因是，在常规的目标检测中，高度重合的候选框很常见。同一个像素点要回归哪一个候选框是难以界定的。</p>
+<h2 id="FCOS的优势"><a href="#FCOS的优势" class="headerlink" title="FCOS的优势"></a>FCOS的优势</h2><h3 id="1-proposal-free-and-anchor-free"><a href="#1-proposal-free-and-anchor-free" class="headerlink" title="1. proposal free and anchor free"></a>1. proposal free and anchor free</h3><p>减少超参数的个数</p>
+<h3 id="2-avoids-the-complicated-computation-related-to-anchor-boxes-such-as-the-IOU-computation-and-matching-between-the-anchor-boxes-and-ground-truth-boxes-during-training"><a href="#2-avoids-the-complicated-computation-related-to-anchor-boxes-such-as-the-IOU-computation-and-matching-between-the-anchor-boxes-and-ground-truth-boxes-during-training" class="headerlink" title="2. avoids the complicated computation related to anchor boxes such as the IOU computation and matching between the anchor boxes and ground-truth boxes during training"></a>2. avoids the complicated computation related to anchor boxes such as the IOU computation and matching between the anchor boxes and ground-truth boxes during training</h3><p>取消了anchor，就减少了候选框与GT框IoU计算的步骤</p>
+<h3 id="3-achieve-state-of-the-art-results-among-one-stage-detectors"><a href="#3-achieve-state-of-the-art-results-among-one-stage-detectors" class="headerlink" title="3. achieve state-of-the- art results among one-stage detectors"></a>3. achieve state-of-the- art results among one-stage detectors</h3><p>达到了当前one-stage检测器的最好效果</p>
+<p>show that the proposed FCOS can be used as a Region Proposal Networks (RPNs) in two-stage detectors and can achieve significantly better performance than its anchor-based RPN counterpartsFCOS</p>
+<p>甚至可以取代RPNs，用在两阶段的检测器中，并且能达到更好的效果。</p>
+<h3 id="4-immediately-extended-to-solve-other-vision-tasks-with-minimal-modification-including-instance-segmentation-and-key-point-detection"><a href="#4-immediately-extended-to-solve-other-vision-tasks-with-minimal-modification-including-instance-segmentation-and-key-point-detection" class="headerlink" title="4. immediately extended to solve other vision tasks with minimal modification, including instance segmentation and key-point detection."></a>4. immediately extended to solve other vision tasks with minimal modification, including instance segmentation and key-point detection.</h3><p>很小的改变就可以用于实例分割和关键点检测等领域。</p>
+<h2 id="FCOS检测器"><a href="#FCOS检测器" class="headerlink" title="FCOS检测器"></a>FCOS检测器</h2><h3 id="1-FCOS模型设计"><a href="#1-FCOS模型设计" class="headerlink" title="1. FCOS模型设计"></a>1. FCOS模型设计</h3><ul>
+<li><p>Different from anchor-based detectors, which consider the location on the input image as the center of (multiple) anchor boxes and regress the target bounding box with these anchor boxes as references, we directly regress the target bounding box at the location</p>
+<p>将Feature map上的点映射回原图后，不使用Anchor而是直接回归目标候选框的位置。</p>
+</li>
+<li><p>If a location falls into multiple bounding boxes, it is considered as an ambiguous sample. We simply choose the bounding box with minimal area as its regression target. </p>
+<p>与DenseBox的思路一致：</p>
+<ol>
+<li>若Feature map上的点映射会原图，如果落入GT框中，则认为该点是正样本。</li>
+<li><p>如果该位置同时落到了多个GT框中，选择回归到面积更小的候选框中。</p>
+<ul>
+<li>It is worth noting that FCOS can leverage as many fore- ground samples as possible to train the regressor. It is dif- ferent from anchor-based detectors, which only consider the anchor boxes with a highly enough IOU with ground-truth boxes as positive samples. We argue that it may be one of the reasons that FCOS outperforms its anchor-based counterparts.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<pre><code>作者认为因为将Feature map上所有的点作为样本点，落入GT框的点都算正样本，会有更多的正样本加入回归器，而Anchor-based的检测器由于只使用那些与GT框 IOU较大的anchor作为训练样本。这可能是FCOS比anchor-based算法表现更好的原因。
+</code></pre><p><img src="https://pic.superbed.cn/item/5de60fadf1f6f81c504fdf0e.png" alt="model"></p>
+<p>  从结构上来看，似乎与RetinaNet十分的相似。多了一个center-ness的branch！</p>
+<h3 id="2-损失函数"><a href="#2-损失函数" class="headerlink" title="2. 损失函数"></a>2. 损失函数</h3><p><img src="https://pic2.superbed.cn/item/5de60fe6f1f6f81c504fe443.png" alt="loss"></p>
+<p>  分类使用Focal loss的分类损失函数，而回归则采用了IoU loss。</p>
+<p>   对feature map中所有点都会计算分类损失，而对正样本的点计算回归损失。</p>
+<h2 id="FCOS多层级预测"><a href="#FCOS多层级预测" class="headerlink" title="FCOS多层级预测"></a>FCOS多层级预测</h2><h3 id="1-模块解决问题"><a href="#1-模块解决问题" class="headerlink" title="1. 模块解决问题"></a>1. 模块解决问题</h3><ul>
+<li><p>The large stride of the final feature maps in a CNN can result in a relatively low best possible recall (BPR)</p>
+<p>存在问题：感受野过大，导致小物体漏检，recall会比较低。对于FCOS而言，下降x16后，小物体的点可能也没有了，则会导致recall下降。</p>
+</li>
+<li><p>Overlaps in ground-truth boxes can cause intractable ambiguity</p>
+<p>真值框重叠的话会导致 训练的时候，特征图上的像素点不知道回归到哪一个真值框。</p>
+</li>
+</ul>
+<h3 id="2-we-directly-limit-the-range-of-bounding-box-regression-for-each-level"><a href="#2-we-directly-limit-the-range-of-bounding-box-regression-for-each-level" class="headerlink" title="2. we directly limit the range of bounding box regression for each level."></a>2. we directly limit the range of bounding box regression for each level.</h3><p> we firstly compute the regression targets l∗, t∗, r∗ and b∗for each location on all feature levels. Next, if a location satisfies max(l∗, t∗, r∗, b∗) &gt; mi or max(l∗, t∗, r∗, b∗) &lt; mi−1, it is set as a negative sample and is thus not required to regress a bounding box any- more.</p>
+<p>Since objects with different sizes are assigned to different feature levels and most overlapping happens between ob- jects with considerably different sizes. If a location, even with multi-level prediction used, is still assigned to more than one ground-truth boxes, we simply choose the groundtruth box with minimal area as its target. </p>
+<p>FCOS在FPN每一层的特征图上都做回归，如果回归的得到的结果超过了预定的边界，则认为该像素点为负样本，在计算loss的时候不考虑该点。</p>
+<p> 在解决真值框重叠问题的情况中，作者是这样解释的，不同尺寸的物体是通过FPN的不同层检测出来的，大部分真值框重叠都是真值框大小不同的情况。在同一层特征图中，某一个像素点仍然分配到两个真值框的话，那就回归到那个面积更小的框！</p>
+<h2 id="3-Center-ness-for-FCOS"><a href="#3-Center-ness-for-FCOS" class="headerlink" title="3. Center-ness for FCOS"></a>3. Center-ness for FCOS</h2><h3 id="due-to-a-lot-of-low-quality-predicted-bounding-boxes-produced-by-locations-far-away-from-the-center-of-an-object"><a href="#due-to-a-lot-of-low-quality-predicted-bounding-boxes-produced-by-locations-far-away-from-the-center-of-an-object" class="headerlink" title="due to a lot of low-quality predicted bounding boxes produced by locations far away from the center of an object."></a>due to a lot of low-quality predicted bounding boxes produced by locations far away from the center of an object.</h3><p>存在很多低质量，远离物体中心点的矩形框</p>
+<h3 id="The-center-ness-depicts-the-normalized-distance-from-the-location-to-the-center-of-the-object"><a href="#The-center-ness-depicts-the-normalized-distance-from-the-location-to-the-center-of-the-object" class="headerlink" title="The center-ness depicts the normalized distance from the location to the center of the object"></a>The center-ness depicts the normalized distance from the location to the center of the object</h3><h3 id="The-center-ness-ranges-from-0-to-1-and-is-thus-trained-with-binary-cross-entropy-BCE-loss-The-loss-is-added-to-the-loss-function-Eq-2-When-testing-the-final-score-used-for-ranking-the-detected-bounding-boxes-is-computed-by-multiplying-the-predicted-center-ness-with-the-correspond-ing-classification-score-Thus-the-center-ness-can-down-weight-the-scores-of-bounding-boxes-far-from-the-center-of-an-object"><a href="#The-center-ness-ranges-from-0-to-1-and-is-thus-trained-with-binary-cross-entropy-BCE-loss-The-loss-is-added-to-the-loss-function-Eq-2-When-testing-the-final-score-used-for-ranking-the-detected-bounding-boxes-is-computed-by-multiplying-the-predicted-center-ness-with-the-correspond-ing-classification-score-Thus-the-center-ness-can-down-weight-the-scores-of-bounding-boxes-far-from-the-center-of-an-object" class="headerlink" title="The center-ness ranges from 0 to 1 and is thus trained with binary cross entropy (BCE) loss. The loss is added to the loss function Eq. (2). When testing, the final score (used for ranking the detected bounding boxes) is computed by multiplying the predicted center-ness with the correspond- ing classification score. Thus the center-ness can down- weight the scores of bounding boxes far from the center of an object."></a>The center-ness ranges from 0 to 1 and is thus trained with binary cross entropy (BCE) loss. The loss is added to the loss function Eq. (2). When testing, the final score (used for ranking the detected bounding boxes) is computed by multiplying the predicted center-ness with the correspond- ing classification score. Thus the center-ness can down- weight the scores of bounding boxes far from the center of an object.</h3><p>在训练阶段：center-ness用交叉熵损失函数，测试阶段：center-ness x classification score作为最后classification score的值，通过这种方式将远离中心点的候选框的置信度降低。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/02/mmdetection(1)/" rel="next" title="mmDetection源码分析（一）：inference阶段代码调用">
+                <i class="fa fa-chevron-left"></i> mmDetection源码分析（一）：inference阶段代码调用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/12/03/学习 FCOS- Fully Convolutional One-Stage Object Detection/"
+           data-title="FCOS- Fully Convolutional One-Stage Object Detection论文解读" data-url="http://chr10003566.github.io./2019/12/03/学习 FCOS- Fully Convolutional One-Stage Object Detection/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#FCOS-Fully-Convolutional-One-Stage-Object-Detection解读"><span class="nav-number">1.</span> <span class="nav-text">FCOS- Fully Convolutional One-Stage Object Detection解读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation"><span class="nav-number">1.1.</span> <span class="nav-text">Motivation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Anchor-Based存在的问题"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. Anchor-Based存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-FCNs-have-achieved-tremendous-success-in-dense-prediction-tasks"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. FCNs have achieved tremendous success in dense prediction tasks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-DenseBox存在的问题"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. DenseBox存在的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FCOS的优势"><span class="nav-number">1.2.</span> <span class="nav-text">FCOS的优势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-proposal-free-and-anchor-free"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. proposal free and anchor free</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-avoids-the-complicated-computation-related-to-anchor-boxes-such-as-the-IOU-computation-and-matching-between-the-anchor-boxes-and-ground-truth-boxes-during-training"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. avoids the complicated computation related to anchor boxes such as the IOU computation and matching between the anchor boxes and ground-truth boxes during training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-achieve-state-of-the-art-results-among-one-stage-detectors"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. achieve state-of-the- art results among one-stage detectors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-immediately-extended-to-solve-other-vision-tasks-with-minimal-modification-including-instance-segmentation-and-key-point-detection"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. immediately extended to solve other vision tasks with minimal modification, including instance segmentation and key-point detection.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FCOS检测器"><span class="nav-number">1.3.</span> <span class="nav-text">FCOS检测器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-FCOS模型设计"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. FCOS模型设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-损失函数"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 损失函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FCOS多层级预测"><span class="nav-number">1.4.</span> <span class="nav-text">FCOS多层级预测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-模块解决问题"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 模块解决问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-we-directly-limit-the-range-of-bounding-box-regression-for-each-level"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. we directly limit the range of bounding box regression for each level.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Center-ness-for-FCOS"><span class="nav-number">1.5.</span> <span class="nav-text">3. Center-ness for FCOS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#due-to-a-lot-of-low-quality-predicted-bounding-boxes-produced-by-locations-far-away-from-the-center-of-an-object"><span class="nav-number">1.5.1.</span> <span class="nav-text">due to a lot of low-quality predicted bounding boxes produced by locations far away from the center of an object.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-center-ness-depicts-the-normalized-distance-from-the-location-to-the-center-of-the-object"><span class="nav-number">1.5.2.</span> <span class="nav-text">The center-ness depicts the normalized distance from the location to the center of the object</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-center-ness-ranges-from-0-to-1-and-is-thus-trained-with-binary-cross-entropy-BCE-loss-The-loss-is-added-to-the-loss-function-Eq-2-When-testing-the-final-score-used-for-ranking-the-detected-bounding-boxes-is-computed-by-multiplying-the-predicted-center-ness-with-the-correspond-ing-classification-score-Thus-the-center-ness-can-down-weight-the-scores-of-bounding-boxes-far-from-the-center-of-an-object"><span class="nav-number">1.5.3.</span> <span class="nav-text">The center-ness ranges from 0 to 1 and is thus trained with binary cross entropy (BCE) loss. The loss is added to the loss function Eq. (2). When testing, the final score (used for ranking the detected bounding boxes) is computed by multiplying the predicted center-ness with the correspond- ing classification score. Thus the center-ness can down- weight the scores of bounding boxes far from the center of an object.</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
