@@ -1,0 +1,691 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="训练函数调用训练脚本python tools/train.py configs/faster_rcnn_r50_fpn_1x.py
+训练可选项：
+
+–work_dir：模型checkpoint以及训练log文件的输出目录，若在脚本中不设置，则为config/*.py中work_dir中的路径。
+–resume_from：指定在某个checkpoint的基础上继续训练，若在脚本中不设置，则为conf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mmDetection源码分析（2）：训练与配置文件">
+<meta property="og:url" content="http://chr10003566.github.io./2019/12/03/mmdetection(2)/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="训练函数调用训练脚本python tools/train.py configs/faster_rcnn_r50_fpn_1x.py
+训练可选项：
+
+–work_dir：模型checkpoint以及训练log文件的输出目录，若在脚本中不设置，则为config/*.py中work_dir中的路径。
+–resume_from：指定在某个checkpoint的基础上继续训练，若在脚本中不设置，则为conf">
+<meta property="og:updated_time" content="2019-12-03T14:26:20.260Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mmDetection源码分析（2）：训练与配置文件">
+<meta name="twitter:description" content="训练函数调用训练脚本python tools/train.py configs/faster_rcnn_r50_fpn_1x.py
+训练可选项：
+
+–work_dir：模型checkpoint以及训练log文件的输出目录，若在脚本中不设置，则为config/*.py中work_dir中的路径。
+–resume_from：指定在某个checkpoint的基础上继续训练，若在脚本中不设置，则为conf">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> mmDetection源码分析（2）：训练与配置文件 | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                mmDetection源码分析（2）：训练与配置文件
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-12-03T22:22:22+08:00" content="2019-12-03">
+              2019-12-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mmDetection源码分析/" itemprop="url" rel="index">
+                    <span itemprop="name">mmDetection源码分析</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/12/03/mmdetection(2)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/12/03/mmdetection(2)/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="训练函数调用"><a href="#训练函数调用" class="headerlink" title="训练函数调用"></a>训练函数调用</h1><h2 id="训练脚本"><a href="#训练脚本" class="headerlink" title="训练脚本"></a>训练脚本</h2><p><code>python tools/train.py configs/faster_rcnn_r50_fpn_1x.py</code></p>
+<p>训练可选项：</p>
+<ul>
+<li>–work_dir：模型checkpoint以及训练log文件的输出目录，若在脚本中不设置，则为<code>config/*.py</code>中work_dir中的路径。</li>
+<li>–resume_from：指定在某个checkpoint的基础上继续训练，若在脚本中不设置，则为<code>config/*.py</code>中resume_from中的值，默认为None。</li>
+<li>–validate：指是否在训练中建立checkpoint的时候对该checkpoint进行评估</li>
+<li>–gpus: 指使用GPU的数量，默认值为1</li>
+</ul>
+<h2 id="build-detector"><a href="#build-detector" class="headerlink" title="build_detector"></a>build_detector</h2><h2 id="build-dataset"><a href="#build-dataset" class="headerlink" title="build_dataset"></a>build_dataset</h2><h2 id="train-detector"><a href="#train-detector" class="headerlink" title="train_detector"></a>train_detector</h2><p>train_detector三个输入参数：</p>
+<ul>
+<li>model：build_detector返回的模型</li>
+<li>train_dataset：build_dataset返回的dataset</li>
+<li>cfg：模型的配置文件</li>
+<li>distributed：默认为False</li>
+<li>validate：默认为False</li>
+<li>logger：默认为None，若为None则会重新创建</li>
+</ul>
+<h1 id="配置文件详解"><a href="#配置文件详解" class="headerlink" title="配置文件详解"></a>配置文件详解</h1><h2 id="model"><a href="#model" class="headerlink" title="model"></a>model</h2><ul>
+<li>type：model类型，需要在<code>/mmdet/models/detectors/__init__.py</code>中定义</li>
+<li>pretrained：预训练的模型</li>
+<li>backbone: 骨架参数字典  types需要在<code>/mmdet/models/backbones/__init__.py</code>中定义</li>
+<li>neck:neck的类型，需要在<code>/mmdet/models/necks/__init__.py</code>中定义</li>
+<li>rpn_head: RPN的类型需要在<code>/mmdet/models/anchor_heads/__init__.py</code>中定义</li>
+<li>bbox_roi_extractor: 目前只有<code>SingleRoIExtractor</code>这一种类型，需在<code>/mmdet/models/roi_extractors/__init__.py</code>中定义</li>
+<li>bbox_head: head的类型需要在<code>/mmdet/models/bbox_heads/__init__.py</code>中定义</li>
+</ul>
+<h2 id="train-cfg"><a href="#train-cfg" class="headerlink" title="train_cfg"></a>train_cfg</h2><p>训练超参数的设置。需要设置一下参数字典rpn，rcnn。<br>其中assigner和sampler的类型分别要在<code>/mmdet/core/box/assigners/__init__.py</code>和<code>/mmdet/core/box/samplers/__init__.py</code>中进行配置。</p>
+<h2 id="test-cfg"><a href="#test-cfg" class="headerlink" title="test_cfg"></a>test_cfg</h2><p>测试阶段的超参数的配置</p>
+<p>需要设置rpn、rcnn的参数字典，要配置如nms的阈值与置信度的阈值。</p>
+<h2 id="data"><a href="#data" class="headerlink" title="data"></a>data</h2><p>dataset_type：数据集类型，需要在<code>/mmdet/datasets/__init__.py</code>中设置数据集类型。<br>data_root：数据集根目录</p>
+<p>参数字典data配置，配置train、val、test数据集的参数。</p>
+<h2 id="optimizer"><a href="#optimizer" class="headerlink" title="optimizer"></a>optimizer</h2><p>优化器的选择。</p>
+<p>通过设置参数，构造优化器。</p>
+<h2 id="lr-config"><a href="#lr-config" class="headerlink" title="lr_config"></a>lr_config</h2><p>学习率优化策略参数设置。</p>
+<h2 id="checkpoint-config"><a href="#checkpoint-config" class="headerlink" title="checkpoint_config"></a>checkpoint_config</h2><p>设置多少epoch存储一次checkpoint</p>
+<h2 id="log-config"><a href="#log-config" class="headerlink" title="log_config"></a>log_config</h2><p>输出log文件的配置<br>多少个batch输出一次信息<br>log文件的风格</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>total_epoches: 最大epoch数</li>
+<li>log_level:</li>
+<li>work_dir：log文件和模型文件存储路径</li>
+<li>load_from：训练模型的路径</li>
+<li>resume_from：恢复训练模型的路径</li>
+</ul>
+<p>以下内容从<a href="https://blog.csdn.net/hajlyx/article/details/85991400" target="_blank" rel="external">mmdetection的configs中的各项参数具体解释</a>转载过来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># model settings</span></span><br><span class="line">model = dict(</span><br><span class="line">	type=<span class="string">'FasterRCNN'</span>,                         <span class="comment"># model类型</span></span><br><span class="line">    pretrained=<span class="string">'modelzoo://resnet50'</span>,          <span class="comment"># 预训练模型：imagenet-resnet50</span></span><br><span class="line">    backbone=dict(</span><br><span class="line">        type=<span class="string">'ResNet'</span>,                         <span class="comment"># backbone类型</span></span><br><span class="line">        depth=<span class="number">50</span>,                              <span class="comment"># 网络层数</span></span><br><span class="line">        num_stages=<span class="number">4</span>,                          <span class="comment"># resnet的stage数量</span></span><br><span class="line">        out_indices=(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>),              <span class="comment"># 输出的stage的序号</span></span><br><span class="line">        frozen_stages=<span class="number">1</span>,                       <span class="comment"># 冻结的stage数量，即该stage不更新参数，-1表示所有的stage都更新参数</span></span><br><span class="line">        style=<span class="string">'pytorch'</span>),                      <span class="comment"># 网络风格：如果设置pytorch，则stride为2的层是conv3x3的卷积层；如果设置caffe，则stride为2的层是第一个conv1x1的卷积层</span></span><br><span class="line">    neck=dict(</span><br><span class="line">        type=<span class="string">'FPN'</span>,                            <span class="comment"># neck类型</span></span><br><span class="line">        in_channels=[<span class="number">256</span>, <span class="number">512</span>, <span class="number">1024</span>, <span class="number">2048</span>],    <span class="comment"># 输入的各个stage的通道数</span></span><br><span class="line">        out_channels=<span class="number">256</span>,                      <span class="comment"># 输出的特征层的通道数</span></span><br><span class="line">        num_outs=<span class="number">5</span>),                           <span class="comment"># 输出的特征层的数量</span></span><br><span class="line">    rpn_head=dict(</span><br><span class="line">        type=<span class="string">'RPNHead'</span>,                        <span class="comment"># RPN网络类型</span></span><br><span class="line">        in_channels=<span class="number">256</span>,                       <span class="comment"># RPN网络的输入通道数</span></span><br><span class="line">        feat_channels=<span class="number">256</span>,                     <span class="comment"># 特征层的通道数</span></span><br><span class="line">        anchor_scales=[<span class="number">8</span>],                     <span class="comment"># 生成的anchor的baselen，baselen = sqrt(w*h)，w和h为anchor的宽和高</span></span><br><span class="line">        anchor_ratios=[<span class="number">0.5</span>, <span class="number">1.0</span>, <span class="number">2.0</span>],         <span class="comment"># anchor的宽高比</span></span><br><span class="line">        anchor_strides=[<span class="number">4</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">32</span>, <span class="number">64</span>],     <span class="comment"># 在每个特征层上的anchor的步长（对应于原图）</span></span><br><span class="line">        target_means=[<span class="number">.0</span>, <span class="number">.0</span>, <span class="number">.0</span>, <span class="number">.0</span>],         <span class="comment"># 均值</span></span><br><span class="line">        target_stds=[<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>],      <span class="comment"># 方差</span></span><br><span class="line">        use_sigmoid_cls=<span class="keyword">True</span>),                 <span class="comment"># 是否使用sigmoid来进行分类，如果False则使用softmax来分类</span></span><br><span class="line">    bbox_roi_extractor=dict(</span><br><span class="line">        type=<span class="string">'SingleRoIExtractor'</span>,                                   <span class="comment"># RoIExtractor类型</span></span><br><span class="line">        roi_layer=dict(type=<span class="string">'RoIAlign'</span>, out_size=<span class="number">7</span>, sample_num=<span class="number">2</span>),   <span class="comment"># ROI具体参数：ROI类型为ROIalign，输出尺寸为7，sample数为2</span></span><br><span class="line">        out_channels=<span class="number">256</span>,                                            <span class="comment"># 输出通道数</span></span><br><span class="line">        featmap_strides=[<span class="number">4</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">32</span>]),                             <span class="comment"># 特征图的步长</span></span><br><span class="line">    bbox_head=dict(</span><br><span class="line">        type=<span class="string">'SharedFCBBoxHead'</span>,                     <span class="comment"># 全连接层类型</span></span><br><span class="line">        num_fcs=<span class="number">2</span>,                                   <span class="comment"># 全连接层数量</span></span><br><span class="line">        in_channels=<span class="number">256</span>,                             <span class="comment"># 输入通道数</span></span><br><span class="line">        fc_out_channels=<span class="number">1024</span>,                        <span class="comment"># 输出通道数</span></span><br><span class="line">        roi_feat_size=<span class="number">7</span>,                             <span class="comment"># ROI特征层尺寸</span></span><br><span class="line">        num_classes=<span class="number">81</span>,                              <span class="comment"># 分类器的类别数量+1，+1是因为多了一个背景的类别</span></span><br><span class="line">        target_means=[<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],               <span class="comment"># 均值</span></span><br><span class="line">        target_stds=[<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.2</span>],            <span class="comment"># 方差</span></span><br><span class="line">        reg_class_agnostic=<span class="keyword">False</span>))                   <span class="comment"># 是否采用class_agnostic的方式来预测，class_agnostic表示输出bbox时只考虑其是否为前景，后续分类的时候再根据该bbox在网络中的类别得分来分类，也就是说一个框可以对应多个类别</span></span><br><span class="line"><span class="comment"># model training and testing settings</span></span><br><span class="line">train_cfg = dict(</span><br><span class="line">    rpn=dict(</span><br><span class="line">        assigner=dict(</span><br><span class="line">            type=<span class="string">'MaxIoUAssigner'</span>,            <span class="comment"># RPN网络的正负样本划分</span></span><br><span class="line">            pos_iou_thr=<span class="number">0.7</span>,                  <span class="comment"># 正样本的iou阈值</span></span><br><span class="line">            neg_iou_thr=<span class="number">0.3</span>,                  <span class="comment"># 负样本的iou阈值</span></span><br><span class="line">            min_pos_iou=<span class="number">0.3</span>,                  <span class="comment"># 正样本的iou最小值。如果assign给ground truth的anchors中最大的IOU低于0.3，则忽略所有的anchors，否则保留最大IOU的anchor</span></span><br><span class="line">            ignore_iof_thr=<span class="number">-1</span>),               <span class="comment"># 忽略bbox的阈值，当ground truth中包含需要忽略的bbox时使用，-1表示不忽略</span></span><br><span class="line">        sampler=dict(</span><br><span class="line">            type=<span class="string">'RandomSampler'</span>,             <span class="comment"># 正负样本提取器类型</span></span><br><span class="line">            num=<span class="number">256</span>,                          <span class="comment"># 需提取的正负样本数量</span></span><br><span class="line">            pos_fraction=<span class="number">0.5</span>,                 <span class="comment"># 正样本比例</span></span><br><span class="line">            neg_pos_ub=<span class="number">-1</span>,                    <span class="comment"># 最大负样本比例，大于该比例的负样本忽略，-1表示不忽略</span></span><br><span class="line">            add_gt_as_proposals=<span class="keyword">False</span>),       <span class="comment"># 把ground truth加入proposal作为正样本</span></span><br><span class="line">        allowed_border=<span class="number">0</span>,                     <span class="comment"># 允许在bbox周围外扩一定的像素</span></span><br><span class="line">        pos_weight=<span class="number">-1</span>,                        <span class="comment"># 正样本权重，-1表示不改变原始的权重</span></span><br><span class="line">        smoothl1_beta=<span class="number">1</span> / <span class="number">9.0</span>,                <span class="comment"># 平滑L1系数</span></span><br><span class="line">        debug=<span class="keyword">False</span>),                         <span class="comment"># debug模式</span></span><br><span class="line">    rcnn=dict(</span><br><span class="line">        assigner=dict(</span><br><span class="line">            type=<span class="string">'MaxIoUAssigner'</span>,            <span class="comment"># RCNN网络正负样本划分</span></span><br><span class="line">            pos_iou_thr=<span class="number">0.5</span>,                  <span class="comment"># 正样本的iou阈值</span></span><br><span class="line">            neg_iou_thr=<span class="number">0.5</span>,                  <span class="comment"># 负样本的iou阈值</span></span><br><span class="line">            min_pos_iou=<span class="number">0.5</span>,                  <span class="comment"># 正样本的iou最小值。如果assign给ground truth的anchors中最大的IOU低于0.3，则忽略所有的anchors，否则保留最大IOU的anchor</span></span><br><span class="line">            ignore_iof_thr=<span class="number">-1</span>),               <span class="comment"># 忽略bbox的阈值，当ground truth中包含需要忽略的bbox时使用，-1表示不忽略</span></span><br><span class="line">        sampler=dict(</span><br><span class="line">            type=<span class="string">'RandomSampler'</span>,             <span class="comment"># 正负样本提取器类型</span></span><br><span class="line">            num=<span class="number">512</span>,                          <span class="comment"># 需提取的正负样本数量</span></span><br><span class="line">            pos_fraction=<span class="number">0.25</span>,                <span class="comment"># 正样本比例</span></span><br><span class="line">            neg_pos_ub=<span class="number">-1</span>,                    <span class="comment"># 最大负样本比例，大于该比例的负样本忽略，-1表示不忽略</span></span><br><span class="line">            add_gt_as_proposals=<span class="keyword">True</span>),        <span class="comment"># 把ground truth加入proposal作为正样本</span></span><br><span class="line">        pos_weight=<span class="number">-1</span>,                        <span class="comment"># 正样本权重，-1表示不改变原始的权重</span></span><br><span class="line">        debug=<span class="keyword">False</span>))                         <span class="comment"># debug模式</span></span><br><span class="line">test_cfg = dict(</span><br><span class="line">    rpn=dict(                                 <span class="comment"># 推断时的RPN参数</span></span><br><span class="line">        nms_across_levels=<span class="keyword">False</span>,              <span class="comment"># 在所有的fpn层内做nms</span></span><br><span class="line">        nms_pre=<span class="number">2000</span>,                         <span class="comment"># 在nms之前保留的的得分最高的proposal数量</span></span><br><span class="line">        nms_post=<span class="number">2000</span>,                        <span class="comment"># 在nms之后保留的的得分最高的proposal数量</span></span><br><span class="line">        max_num=<span class="number">2000</span>,                         <span class="comment"># 在后处理完成之后保留的proposal数量</span></span><br><span class="line">        nms_thr=<span class="number">0.7</span>,                          <span class="comment"># nms阈值</span></span><br><span class="line">        min_bbox_size=<span class="number">0</span>),                     <span class="comment"># 最小bbox尺寸</span></span><br><span class="line">    rcnn=dict(</span><br><span class="line">        score_thr=<span class="number">0.05</span>, nms=dict(type=<span class="string">'nms'</span>, iou_thr=<span class="number">0.5</span>), max_per_img=<span class="number">100</span>)   <span class="comment"># max_per_img表示最终输出的det bbox数量</span></span><br><span class="line">    <span class="comment"># soft-nms is also supported for rcnn testing</span></span><br><span class="line">    <span class="comment"># e.g., nms=dict(type='soft_nms', iou_thr=0.5, min_score=0.05)            # soft_nms参数</span></span><br><span class="line">)</span><br><span class="line"><span class="comment"># dataset settings</span></span><br><span class="line">dataset_type = <span class="string">'CocoDataset'</span>                <span class="comment"># 数据集类型</span></span><br><span class="line">data_root = <span class="string">'data/coco/'</span>                    <span class="comment"># 数据集根目录</span></span><br><span class="line">img_norm_cfg = dict(</span><br><span class="line">    mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>], std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>], to_rgb=<span class="keyword">True</span>)   <span class="comment"># 输入图像初始化，减去均值mean并处以方差std，to_rgb表示将bgr转为rgb</span></span><br><span class="line">data = dict(</span><br><span class="line">    imgs_per_gpu=<span class="number">2</span>,                <span class="comment"># 每个gpu计算的图像数量</span></span><br><span class="line">    workers_per_gpu=<span class="number">2</span>,             <span class="comment"># 每个gpu分配的线程数</span></span><br><span class="line">    train=dict(</span><br><span class="line">        type=dataset_type,                                                 <span class="comment"># 数据集类型</span></span><br><span class="line">        ann_file=data_root + <span class="string">'annotations/instances_train2017.json'</span>,       <span class="comment"># 数据集annotation路径</span></span><br><span class="line">        img_prefix=data_root + <span class="string">'train2017/'</span>,                               <span class="comment"># 数据集的图片路径</span></span><br><span class="line">        img_scale=(<span class="number">1333</span>, <span class="number">800</span>),                                             <span class="comment"># 输入图像尺寸，最大边1333，最小边800</span></span><br><span class="line">        img_norm_cfg=img_norm_cfg,                                         <span class="comment"># 图像初始化参数</span></span><br><span class="line">        size_divisor=<span class="number">32</span>,                                                   <span class="comment"># 对图像进行resize时的最小单位，32表示所有的图像都会被resize成32的倍数</span></span><br><span class="line">        flip_ratio=<span class="number">0.5</span>,                                                    <span class="comment"># 图像的随机左右翻转的概率</span></span><br><span class="line">        with_mask=<span class="keyword">False</span>,                                                   <span class="comment"># 训练时附带mask</span></span><br><span class="line">        with_crowd=<span class="keyword">True</span>,                                                   <span class="comment"># 训练时附带difficult的样本</span></span><br><span class="line">        with_label=<span class="keyword">True</span>),                                                  <span class="comment"># 训练时附带label</span></span><br><span class="line">    val=dict(</span><br><span class="line">        type=dataset_type,                                                 <span class="comment"># 同上</span></span><br><span class="line">        ann_file=data_root + <span class="string">'annotations/instances_val2017.json'</span>,         <span class="comment"># 同上</span></span><br><span class="line">        img_prefix=data_root + <span class="string">'val2017/'</span>,                                 <span class="comment"># 同上</span></span><br><span class="line">        img_scale=(<span class="number">1333</span>, <span class="number">800</span>),                                             <span class="comment"># 同上</span></span><br><span class="line">        img_norm_cfg=img_norm_cfg,                                         <span class="comment"># 同上</span></span><br><span class="line">        size_divisor=<span class="number">32</span>,                                                   <span class="comment"># 同上</span></span><br><span class="line">        flip_ratio=<span class="number">0</span>,                                                      <span class="comment"># 同上</span></span><br><span class="line">        with_mask=<span class="keyword">False</span>,                                                   <span class="comment"># 同上</span></span><br><span class="line">        with_crowd=<span class="keyword">True</span>,                                                   <span class="comment"># 同上</span></span><br><span class="line">        with_label=<span class="keyword">True</span>),                                                  <span class="comment"># 同上</span></span><br><span class="line">    test=dict(</span><br><span class="line">        type=dataset_type,                                                 <span class="comment"># 同上</span></span><br><span class="line">        ann_file=data_root + <span class="string">'annotations/instances_val2017.json'</span>,         <span class="comment"># 同上</span></span><br><span class="line">        img_prefix=data_root + <span class="string">'val2017/'</span>,                                 <span class="comment"># 同上</span></span><br><span class="line">        img_scale=(<span class="number">1333</span>, <span class="number">800</span>),                                             <span class="comment"># 同上</span></span><br><span class="line">        img_norm_cfg=img_norm_cfg,                                         <span class="comment"># 同上</span></span><br><span class="line">        size_divisor=<span class="number">32</span>,                                                   <span class="comment"># 同上</span></span><br><span class="line">        flip_ratio=<span class="number">0</span>,                                                      <span class="comment"># 同上</span></span><br><span class="line">        with_mask=<span class="keyword">False</span>,                                                   <span class="comment"># 同上</span></span><br><span class="line">        with_label=<span class="keyword">False</span>,                                                  <span class="comment"># 同上</span></span><br><span class="line">        test_mode=<span class="keyword">True</span>))                                                   <span class="comment"># 同上</span></span><br><span class="line"><span class="comment"># optimizer</span></span><br><span class="line">optimizer = dict(type=<span class="string">'SGD'</span>, lr=<span class="number">0.02</span>, momentum=<span class="number">0.9</span>, weight_decay=<span class="number">0.0001</span>)   <span class="comment"># 优化参数，lr为学习率，momentum为动量因子，weight_decay为权重衰减因子</span></span><br><span class="line">optimizer_config = dict(grad_clip=dict(max_norm=<span class="number">35</span>, norm_type=<span class="number">2</span>))          <span class="comment"># 梯度均衡参数</span></span><br><span class="line"><span class="comment"># learning policy</span></span><br><span class="line">lr_config = dict(</span><br><span class="line">    policy=<span class="string">'step'</span>,                        <span class="comment"># 优化策略</span></span><br><span class="line">    warmup=<span class="string">'linear'</span>,                      <span class="comment"># 初始的学习率增加的策略，linear为线性增加</span></span><br><span class="line">    warmup_iters=<span class="number">500</span>,                     <span class="comment"># 在初始的500次迭代中学习率逐渐增加</span></span><br><span class="line">    warmup_ratio=<span class="number">1.0</span> / <span class="number">3</span>,                 <span class="comment"># 起始的学习率</span></span><br><span class="line">    step=[<span class="number">8</span>, <span class="number">11</span>])                         <span class="comment"># 在第8和11个epoch时降低学习率</span></span><br><span class="line">checkpoint_config = dict(interval=<span class="number">1</span>)      <span class="comment"># 每1个epoch存储一次模型</span></span><br><span class="line"><span class="comment"># yapf:disable</span></span><br><span class="line">log_config = dict(</span><br><span class="line">    interval=<span class="number">50</span>,                          <span class="comment"># 每50个batch输出一次信息</span></span><br><span class="line">    hooks=[</span><br><span class="line">        dict(type=<span class="string">'TextLoggerHook'</span>),      <span class="comment"># 控制台输出信息的风格</span></span><br><span class="line">        <span class="comment"># dict(type='TensorboardLoggerHook')</span></span><br><span class="line">    ])</span><br><span class="line"><span class="comment"># yapf:enable</span></span><br><span class="line"><span class="comment"># runtime settings</span></span><br><span class="line">total_epochs = <span class="number">12</span>                               <span class="comment"># 最大epoch数</span></span><br><span class="line">dist_params = dict(backend=<span class="string">'nccl'</span>)              <span class="comment"># 分布式参数</span></span><br><span class="line">log_level = <span class="string">'INFO'</span>                              <span class="comment"># 输出信息的完整度级别</span></span><br><span class="line">work_dir = <span class="string">'./work_dirs/faster_rcnn_r50_fpn_1x'</span> <span class="comment"># log文件和模型文件存储路径</span></span><br><span class="line">load_from = <span class="keyword">None</span>                                <span class="comment"># 加载模型的路径，None表示从预训练模型加载</span></span><br><span class="line">resume_from = <span class="keyword">None</span>                              <span class="comment"># 恢复训练模型的路径</span></span><br><span class="line">workflow = [(<span class="string">'train'</span>, <span class="number">1</span>)]                       <span class="comment"># 当前工作区名称</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/03/学习 FCOS- Fully Convolutional One-Stage Object Detection/" rel="next" title="FCOS- Fully Convolutional One-Stage Object Detection论文解读">
+                <i class="fa fa-chevron-left"></i> FCOS- Fully Convolutional One-Stage Object Detection论文解读
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/12/03/mmdetection(2)/"
+           data-title="mmDetection源码分析（2）：训练与配置文件" data-url="http://chr10003566.github.io./2019/12/03/mmdetection(2)/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#训练函数调用"><span class="nav-number">1.</span> <span class="nav-text">训练函数调用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#训练脚本"><span class="nav-number">1.1.</span> <span class="nav-text">训练脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#build-detector"><span class="nav-number">1.2.</span> <span class="nav-text">build_detector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#build-dataset"><span class="nav-number">1.3.</span> <span class="nav-text">build_dataset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#train-detector"><span class="nav-number">1.4.</span> <span class="nav-text">train_detector</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置文件详解"><span class="nav-number">2.</span> <span class="nav-text">配置文件详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#model"><span class="nav-number">2.1.</span> <span class="nav-text">model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#train-cfg"><span class="nav-number">2.2.</span> <span class="nav-text">train_cfg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#test-cfg"><span class="nav-number">2.3.</span> <span class="nav-text">test_cfg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#data"><span class="nav-number">2.4.</span> <span class="nav-text">data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#optimizer"><span class="nav-number">2.5.</span> <span class="nav-text">optimizer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lr-config"><span class="nav-number">2.6.</span> <span class="nav-text">lr_config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#checkpoint-config"><span class="nav-number">2.7.</span> <span class="nav-text">checkpoint_config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log-config"><span class="nav-number">2.8.</span> <span class="nav-text">log_config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">2.9.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
