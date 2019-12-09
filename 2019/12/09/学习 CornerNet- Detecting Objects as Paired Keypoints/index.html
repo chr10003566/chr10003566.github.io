@@ -1,0 +1,677 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="CornerNet- Detecting Objects as Paired Keypoints解读Motivation1. this creates a huge imbalance between positive and negative anchor boxes and slows down trainingThis is because the detector is trained t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CornerNet- Detecting Objects as Paired Keypoints论文解读">
+<meta property="og:url" content="http://chr10003566.github.io./2019/12/09/学习 CornerNet- Detecting Objects as Paired Keypoints/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="CornerNet- Detecting Objects as Paired Keypoints解读Motivation1. this creates a huge imbalance between positive and negative anchor boxes and slows down trainingThis is because the detector is trained t">
+<meta property="og:image" content="https://pic2.superbed.cn/item/5dee437d1f8f59f4d67d7a4c.png">
+<meta property="og:image" content="https://pic.superbed.cn/item/5dee44531f8f59f4d67e4d30.png">
+<meta property="og:image" content="https://pic2.superbed.cn/item/5dee45431f8f59f4d67ede01.png">
+<meta property="og:image" content="https://pic1.superbed.cn/item/5dee45601f8f59f4d67eef66.png">
+<meta property="og:image" content="https://pic2.superbed.cn/item/5dee45971f8f59f4d67f1d3f.png">
+<meta property="og:image" content="https://pic3.superbed.cn/item/5dee45f51f8f59f4d67f5463.png">
+<meta property="og:image" content="https://pic1.superbed.cn/item/5dee46841f8f59f4d67fbad9.png">
+<meta property="og:image" content="https://pic3.superbed.cn/item/5dee48ae1f8f59f4d681488b.png">
+<meta property="og:updated_time" content="2019-12-09T13:25:08.280Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CornerNet- Detecting Objects as Paired Keypoints论文解读">
+<meta name="twitter:description" content="CornerNet- Detecting Objects as Paired Keypoints解读Motivation1. this creates a huge imbalance between positive and negative anchor boxes and slows down trainingThis is because the detector is trained t">
+<meta name="twitter:image" content="https://pic2.superbed.cn/item/5dee437d1f8f59f4d67d7a4c.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> CornerNet- Detecting Objects as Paired Keypoints论文解读 | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CornerNet- Detecting Objects as Paired Keypoints论文解读
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-12-09T21:25:14+08:00" content="2019-12-09">
+              2019-12-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/论文阅读/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/12/09/学习 CornerNet- Detecting Objects as Paired Keypoints/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/12/09/学习 CornerNet- Detecting Objects as Paired Keypoints/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="CornerNet-Detecting-Objects-as-Paired-Keypoints解读"><a href="#CornerNet-Detecting-Objects-as-Paired-Keypoints解读" class="headerlink" title="CornerNet- Detecting Objects as Paired Keypoints解读"></a>CornerNet- Detecting Objects as Paired Keypoints解读</h1><h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><h3 id="1-this-creates-a-huge-imbalance-between-positive-and-negative-anchor-boxes-and-slows-down-training"><a href="#1-this-creates-a-huge-imbalance-between-positive-and-negative-anchor-boxes-and-slows-down-training" class="headerlink" title="1. this creates a huge imbalance between positive and negative anchor boxes and slows down training"></a>1. this creates a huge imbalance between positive and negative anchor boxes and slows down training</h3><p>This is because the detector is trained to classify whether each anchor box sufficiently overlaps with a ground truth box, and a large number of anchor boxes is needed to ensure sufficient overlap with most ground truth boxes.</p>
+<p>Anchor-Based方法为何需要那么多的anchor-box？</p>
+<p> 因为需要确保存在候选框与GT框有足够大的overlap，但最后保留下来的候选框却很少，这也就导致了严重正负样本不平衡的现象。</p>
+<h3 id="2-the-use-of-anchor-boxes-introduces-many-hyperparameters-and-design-choices"><a href="#2-the-use-of-anchor-boxes-introduces-many-hyperparameters-and-design-choices" class="headerlink" title="2. the use of anchor boxes introduces many hyperparameters and design choices."></a>2. the use of anchor boxes introduces many hyperparameters and design choices.</h3><p>Anchor-Based的方法带来了很多的超参数</p>
+<h3 id="3-DeNet-does-not-identify-if-two-corners-are-from-the-same-objects-and-relies-on-a-sub-detection-network-to-reject-poor-RoIs-In-contrast-our-approach-is-a-one-stage-approach-which-detects-and-groups-the-corners-using-a-single-ConvNet"><a href="#3-DeNet-does-not-identify-if-two-corners-are-from-the-same-objects-and-relies-on-a-sub-detection-network-to-reject-poor-RoIs-In-contrast-our-approach-is-a-one-stage-approach-which-detects-and-groups-the-corners-using-a-single-ConvNet" class="headerlink" title="3. DeNet does not identify if two corners are from the same objects and relies on a sub-detection network to reject poor RoIs. In contrast, our approach is a one-stage approach which detects and groups the corners using a single ConvNet."></a>3. DeNet does not identify if two corners are from the same objects and relies on a sub-detection network to reject poor RoIs. In contrast, our approach is a one-stage approach which detects and groups the corners using a single ConvNet.</h3><p>DeNet selects features at manually determined locations relative to a region for classification, while our approach does not require any feature selection step.DeNet</p>
+<p>没有判断两个角点是否来自同一个物体，以及需要一个子检测网络去映射感兴趣区域。另外DeNet有额外特征选择的过程，而CornerNet则没有。</p>
+<h3 id="4-CornerNet-groups-the-corners-by-predicting-embedding-vectors-while-PLN-groups-the-corner-and-center-by-predicting-pixel-loca-tions-Second-CornerNet-uses-corner-pooling-to-better-localize-the-corners"><a href="#4-CornerNet-groups-the-corners-by-predicting-embedding-vectors-while-PLN-groups-the-corner-and-center-by-predicting-pixel-loca-tions-Second-CornerNet-uses-corner-pooling-to-better-localize-the-corners" class="headerlink" title="4. CornerNet groups the corners by predicting embedding vectors, while PLN groups the corner and center by predicting pixel loca- tions. Second, CornerNet uses corner pooling to better localize the corners."></a>4. CornerNet groups the corners by predicting embedding vectors, while PLN groups the corner and center by predicting pixel loca- tions. Second, CornerNet uses corner pooling to better localize the corners.</h3><p>PLN与CornerNet的区别。</p>
+<h2 id="本文的主要工作"><a href="#本文的主要工作" class="headerlink" title="本文的主要工作"></a>本文的主要工作</h2><h3 id="1-We-use-a-single-convolutional-network-to-predict-a-heatmap-for-the-top-left-corners-of-all-instances-of-the-same-object-category-a-heatmap-for-all-bottom-right-corners-and-an-embedding-vector-for-each-detected-corner"><a href="#1-We-use-a-single-convolutional-network-to-predict-a-heatmap-for-the-top-left-corners-of-all-instances-of-the-same-object-category-a-heatmap-for-all-bottom-right-corners-and-an-embedding-vector-for-each-detected-corner" class="headerlink" title="1. We use a single convolutional network to predict a heatmap for the top-left corners of all instances of the same object category, a heatmap for all bottom-right corners, and an embedding vector for each detected corner."></a>1. We use a single convolutional network to predict a heatmap for the top-left corners of all instances of the same object category, a heatmap for all bottom-right corners, and an embedding vector for each detected corner.</h3><p><img src="https://pic2.superbed.cn/item/5dee437d1f8f59f4d67d7a4c.png" alt=""></p>
+<p>通过Fig1的结构图，我们可以看到，CornerNet通过单个卷积网络预测左上角点的heatmap和右下角点的heatmap以及每个检测出来的角都有一个向量，该向量的作用是将同一个物体左上角的点雨右下角的点组合起来。</p>
+<h3 id="2-Another-novel-component-of-CornerNet-is-corner-pooling-a-new-type-of-pooling-layer-that-helps-a-convolutional-network-better-localize-corners-of-bounding-boxes"><a href="#2-Another-novel-component-of-CornerNet-is-corner-pooling-a-new-type-of-pooling-layer-that-helps-a-convolutional-network-better-localize-corners-of-bounding-boxes" class="headerlink" title="2. Another novel component of CornerNet is corner pooling, a new type of pooling layer that helps a convolutional network better localize corners of bounding boxes."></a>2. Another novel component of CornerNet is corner pooling, a new type of pooling layer that helps a convolutional network better localize corners of bounding boxes.</h3><p>corner pooling：作用是使得卷积神经网络能给好的定位候选框的角点。</p>
+<h2 id="CornerNet的优势"><a href="#CornerNet的优势" class="headerlink" title="CornerNet的优势"></a>CornerNet的优势</h2><h3 id="he-center-of-a-box-can-be-harder-to-localize-because-it-depends-on-all-4-sides-of-the-object-whereas-locating-a-corner-depends-on-2-sides-and-is-thus-easier"><a href="#he-center-of-a-box-can-be-harder-to-localize-because-it-depends-on-all-4-sides-of-the-object-whereas-locating-a-corner-depends-on-2-sides-and-is-thus-easier" class="headerlink" title="he center of a box can be harder to localize because it depends on all 4 sides of the object, whereas locating a corner depends on 2 sides and is thus easier"></a>he center of a box can be harder to localize because it depends on all 4 sides of the object, whereas locating a corner depends on 2 sides and is thus easier</h3><p>定位候选框的中心点难度更高，而定位候选框的角点更简单。</p>
+<h3 id="we-just-need-O-w-h-corners-to-represent-O-w-2-h-2-possible-anchor-boxes"><a href="#we-just-need-O-w-h-corners-to-represent-O-w-2-h-2-possible-anchor-boxes" class="headerlink" title="we just need O(w  h) corners to represent O(w^2  h^2) possible anchor boxes."></a>we just need O(w <em> h) corners to represent O(w^2 </em> h^2) possible anchor boxes.</h3><h2 id="CornerNet模型"><a href="#CornerNet模型" class="headerlink" title="CornerNet模型"></a>CornerNet模型</h2><h3 id="1-A-convolutional-network-predicts-two-sets-of-heatmaps-to-represent-the-locations-of-corners-of-different-object-categories-one-set-for-the-top-left-corners-and-the-other-for-the-bottom-right-corners-The-network-also-predicts-an-embedding-vector-for-each-detected-corner-Newell-et-al-2017-such-that-the-distance-between-the-embeddings-of-two-corners-from-the-same-object-is-small-To-produce-tighter-bounding-boxes-the-net-work-also-predicts-offsets-to-slightly-adjust-the-locations-of-the-corners"><a href="#1-A-convolutional-network-predicts-two-sets-of-heatmaps-to-represent-the-locations-of-corners-of-different-object-categories-one-set-for-the-top-left-corners-and-the-other-for-the-bottom-right-corners-The-network-also-predicts-an-embedding-vector-for-each-detected-corner-Newell-et-al-2017-such-that-the-distance-between-the-embeddings-of-two-corners-from-the-same-object-is-small-To-produce-tighter-bounding-boxes-the-net-work-also-predicts-offsets-to-slightly-adjust-the-locations-of-the-corners" class="headerlink" title="1. A convolutional network predicts two sets of heatmaps to represent the locations of corners of different object categories, one set for the top-left corners and the other for the bottom-right corners. The network also predicts an embedding vector for each detected corner (Newell et al., 2017) such that the distance between the embeddings of two corners from the same object is small. To produce tighter bounding boxes, the net- work also predicts offsets to slightly adjust the locations of the corners."></a>1. A convolutional network predicts two sets of heatmaps to represent the locations of corners of different object categories, one set for the top-left corners and the other for the bottom-right corners. The network also predicts an embedding vector for each detected corner (Newell et al., 2017) such that the distance between the embeddings of two corners from the same object is small. To produce tighter bounding boxes, the net- work also predicts offsets to slightly adjust the locations of the corners.</h3><p>使用沙漏网络提取特征，沙漏网络后面接两个prediction module（分别对应左上角和右下角），每个prediction module都有各自的corner pooling layer，通过corner pooling layer得到（左上角/右下角 的热力图、嵌入向量和偏移，通过这三个变量得到候选框。 we do not use fea- tures from different scales to detect objects of different sizes. We only apply both modules to the output of the hourglass network.需要注意的是：CornerNet并未用到multi-layer预测，仅仅用到了沙漏网络的最后一层特征进行预测。</p>
+<p><img src="https://pic.superbed.cn/item/5dee44531f8f59f4d67e4d30.png" alt=""></p>
+<p>we do not use features from different scales to detect objects of different sizes. We only apply both modules to the output of the hourglass network.</p>
+<p>CornerNet并未使用到multi-layer预测，仅仅用到了沙漏网络的最后一层特征进行预测。</p>
+<h3 id="2-损失函数"><a href="#2-损失函数" class="headerlink" title="2. 损失函数"></a>2. 损失函数</h3><p><img src="https://pic2.superbed.cn/item/5dee45431f8f59f4d67ede01.png" alt=""></p>
+<p><img src="https://pic1.superbed.cn/item/5dee45601f8f59f4d67eef66.png" alt=""></p>
+<p>分类损失使用的是Focal loss的变体，而偏移损失使用的是smoothL1 loss</p>
+<h3 id="3-For-each-corner-there-is-one-ground-truth-positive-location-and-all-other-locations-are-negative-During-training-instead-of-equally-penalizing-negative-locations-we-reduce-the-penalty-given-to-negative-locations-within-a-radius-of-the-positive-location-This-is-because-a-pair-of-false-corner-detections-if-they-are-close-to-their-respective-ground-truth-locations-can-still-produce-a-box-that-sufficiently-overlaps-the-ground-truth-box-Fig-5"><a href="#3-For-each-corner-there-is-one-ground-truth-positive-location-and-all-other-locations-are-negative-During-training-instead-of-equally-penalizing-negative-locations-we-reduce-the-penalty-given-to-negative-locations-within-a-radius-of-the-positive-location-This-is-because-a-pair-of-false-corner-detections-if-they-are-close-to-their-respective-ground-truth-locations-can-still-produce-a-box-that-sufficiently-overlaps-the-ground-truth-box-Fig-5" class="headerlink" title="3. For each corner, there is one ground-truth positive location, and all other locations are negative. During training, instead of equally penalizing negative locations, we reduce the penalty given to negative locations within a radius of the positive location. This is because a pair of false corner detections, if they are close to their respective ground truth locations, can still produce a box that sufficiently overlaps the ground-truth box (Fig. 5)."></a>3. For each corner, there is one ground-truth positive location, and all other locations are negative. During training, instead of equally penalizing negative locations, we reduce the penalty given to negative locations within a radius of the positive location. This is because a pair of false corner detections, if they are close to their respective ground truth locations, can still produce a box that sufficiently overlaps the ground-truth box (Fig. 5).</h3><p><img src="https://pic2.superbed.cn/item/5dee45971f8f59f4d67f1d3f.png" alt=""></p>
+<p>对于每个顶点，都有一个ground-truth，其他位置都是负样本，在训练过程，降低了在正样本半径范围内的惩罚，在每个ground-truth顶点设定半径r区域内算是正样本，因为落在半径r区域内的顶点依然可以生成较好的边界候选框。</p>
+<h3 id="4-The-network-predicts-an-embedding-vector-for-each-detected-corner-such-that-if-a-top-left-corner-and-a-bottom-right-corner-belong-to-the-same-bounding-box-the-distance-between-their-embeddings-should-be-small"><a href="#4-The-network-predicts-an-embedding-vector-for-each-detected-corner-such-that-if-a-top-left-corner-and-a-bottom-right-corner-belong-to-the-same-bounding-box-the-distance-between-their-embeddings-should-be-small" class="headerlink" title="4. The network predicts an embedding vector for each detected corner such that if a top-left corner and a bottom-right corner belong to the same bounding box, the distance between their embeddings should be small"></a>4. The network predicts an embedding vector for each detected corner such that if a top-left corner and a bottom-right corner belong to the same bounding box, the distance between their embeddings should be small</h3><p>we only apply the losses at the ground-truth corner location.网络会给每个检测到的角点预测一个embedding vector，当左上角的角点与右下角的角点属于同一个候选框，那么它们vector之间的距离会较小。</p>
+<p><img src="https://pic3.superbed.cn/item/5dee45f51f8f59f4d67f5463.png" alt=""></p>
+<p>Similar to the offset loss, we only apply the losses at the ground-truth corner location.</p>
+<p>与偏移损失一样，我们仅仅对正样本计算角点距离损失。</p>
+<h3 id="5-如何判断其是否为左上角点和右下角点"><a href="#5-如何判断其是否为左上角点和右下角点" class="headerlink" title="5. 如何判断其是否为左上角点和右下角点"></a>5. 如何判断其是否为左上角点和右下角点</h3><p><img src="https://pic1.superbed.cn/item/5dee46841f8f59f4d67fbad9.png" alt=""></p>
+<p>在水平方向，从最右端开始往最左端遍历，每个位置的值都是从最右到当前位置为止出现的最大值。同理，在垂直方向上，每个位置的值都是从最下到当前位置为止出现的最大值。</p>
+<h3 id="6-An-hourglass-module-first-downsamples-the-input-features-by-a-series-of-convolution-and-max-pooling-layers-It-then-upsamples-the-features-back-to-the-original-resolution-by-a-series-of-up-sampling-and-convolution-layers-Since-details-are-lost-in-the-max-pooling-layers-skip-layers-are-added-to-bring-back-the-details-to-the-upsampled-features-The-hourglass-module-captures-both-global-and-local-features-in-a-single-unified-structure"><a href="#6-An-hourglass-module-first-downsamples-the-input-features-by-a-series-of-convolution-and-max-pooling-layers-It-then-upsamples-the-features-back-to-the-original-resolution-by-a-series-of-up-sampling-and-convolution-layers-Since-details-are-lost-in-the-max-pooling-layers-skip-layers-are-added-to-bring-back-the-details-to-the-upsampled-features-The-hourglass-module-captures-both-global-and-local-features-in-a-single-unified-structure" class="headerlink" title="6. An hourglass module first downsamples the input features by a series of convolution and max pooling layers. It then upsamples the features back to the original resolution by a series of up- sampling and convolution layers. Since details are lost in the max pooling layers, skip layers are added to bring back the details to the upsampled features. The hourglass module captures both global and local features in a single unified structure."></a>6. An hourglass module first downsamples the input features by a series of convolution and max pooling layers. It then upsamples the features back to the original resolution by a series of up- sampling and convolution layers. Since details are lost in the max pooling layers, skip layers are added to bring back the details to the upsampled features. The hourglass module captures both global and local features in a single unified structure.</h3><h2 id="未理解："><a href="#未理解：" class="headerlink" title="未理解："></a>未理解：</h2><ul>
+<li><p>判断其是否为角点，仍存在不理解的地方，从<a href="https://www.youtube.com/watch?v=aJnvTT1-spc" target="_blank" rel="external">oral</a>上来看，corner pooling的输入是两个feature map，从下图也可以看出：<br><img src="https://pic3.superbed.cn/item/5dee48ae1f8f59f4d681488b.png" alt=""><br>对于Feature map上每个像素点来说，都需要判断其是否是角点，如何判断？</p>
+</li>
+<li><p>Heatmap的大小是否是与原图大小相同？存不存在左角点数量不相同的情况？</p>
+</li>
+<li><p>若两个候选框，左角点重合了怎么办？在左角点和右角点组合的时候，如何组合？</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/03/mmdetection(2)/" rel="next" title="mmDetection源码分析（2）：训练与配置文件">
+                <i class="fa fa-chevron-left"></i> mmDetection源码分析（2）：训练与配置文件
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/12/09/学习 CornerNet- Detecting Objects as Paired Keypoints/"
+           data-title="CornerNet- Detecting Objects as Paired Keypoints论文解读" data-url="http://chr10003566.github.io./2019/12/09/学习 CornerNet- Detecting Objects as Paired Keypoints/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CornerNet-Detecting-Objects-as-Paired-Keypoints解读"><span class="nav-number">1.</span> <span class="nav-text">CornerNet- Detecting Objects as Paired Keypoints解读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation"><span class="nav-number">1.1.</span> <span class="nav-text">Motivation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-this-creates-a-huge-imbalance-between-positive-and-negative-anchor-boxes-and-slows-down-training"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. this creates a huge imbalance between positive and negative anchor boxes and slows down training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-the-use-of-anchor-boxes-introduces-many-hyperparameters-and-design-choices"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. the use of anchor boxes introduces many hyperparameters and design choices.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-DeNet-does-not-identify-if-two-corners-are-from-the-same-objects-and-relies-on-a-sub-detection-network-to-reject-poor-RoIs-In-contrast-our-approach-is-a-one-stage-approach-which-detects-and-groups-the-corners-using-a-single-ConvNet"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. DeNet does not identify if two corners are from the same objects and relies on a sub-detection network to reject poor RoIs. In contrast, our approach is a one-stage approach which detects and groups the corners using a single ConvNet.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-CornerNet-groups-the-corners-by-predicting-embedding-vectors-while-PLN-groups-the-corner-and-center-by-predicting-pixel-loca-tions-Second-CornerNet-uses-corner-pooling-to-better-localize-the-corners"><span class="nav-number">1.1.4.</span> <span class="nav-text">4. CornerNet groups the corners by predicting embedding vectors, while PLN groups the corner and center by predicting pixel loca- tions. Second, CornerNet uses corner pooling to better localize the corners.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的主要工作"><span class="nav-number">1.2.</span> <span class="nav-text">本文的主要工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-We-use-a-single-convolutional-network-to-predict-a-heatmap-for-the-top-left-corners-of-all-instances-of-the-same-object-category-a-heatmap-for-all-bottom-right-corners-and-an-embedding-vector-for-each-detected-corner"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. We use a single convolutional network to predict a heatmap for the top-left corners of all instances of the same object category, a heatmap for all bottom-right corners, and an embedding vector for each detected corner.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Another-novel-component-of-CornerNet-is-corner-pooling-a-new-type-of-pooling-layer-that-helps-a-convolutional-network-better-localize-corners-of-bounding-boxes"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. Another novel component of CornerNet is corner pooling, a new type of pooling layer that helps a convolutional network better localize corners of bounding boxes.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CornerNet的优势"><span class="nav-number">1.3.</span> <span class="nav-text">CornerNet的优势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#he-center-of-a-box-can-be-harder-to-localize-because-it-depends-on-all-4-sides-of-the-object-whereas-locating-a-corner-depends-on-2-sides-and-is-thus-easier"><span class="nav-number">1.3.1.</span> <span class="nav-text">he center of a box can be harder to localize because it depends on all 4 sides of the object, whereas locating a corner depends on 2 sides and is thus easier</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#we-just-need-O-w-h-corners-to-represent-O-w-2-h-2-possible-anchor-boxes"><span class="nav-number">1.3.2.</span> <span class="nav-text">we just need O(w  h) corners to represent O(w^2  h^2) possible anchor boxes.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CornerNet模型"><span class="nav-number">1.4.</span> <span class="nav-text">CornerNet模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-A-convolutional-network-predicts-two-sets-of-heatmaps-to-represent-the-locations-of-corners-of-different-object-categories-one-set-for-the-top-left-corners-and-the-other-for-the-bottom-right-corners-The-network-also-predicts-an-embedding-vector-for-each-detected-corner-Newell-et-al-2017-such-that-the-distance-between-the-embeddings-of-two-corners-from-the-same-object-is-small-To-produce-tighter-bounding-boxes-the-net-work-also-predicts-offsets-to-slightly-adjust-the-locations-of-the-corners"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. A convolutional network predicts two sets of heatmaps to represent the locations of corners of different object categories, one set for the top-left corners and the other for the bottom-right corners. The network also predicts an embedding vector for each detected corner (Newell et al., 2017) such that the distance between the embeddings of two corners from the same object is small. To produce tighter bounding boxes, the net- work also predicts offsets to slightly adjust the locations of the corners.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-损失函数"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-For-each-corner-there-is-one-ground-truth-positive-location-and-all-other-locations-are-negative-During-training-instead-of-equally-penalizing-negative-locations-we-reduce-the-penalty-given-to-negative-locations-within-a-radius-of-the-positive-location-This-is-because-a-pair-of-false-corner-detections-if-they-are-close-to-their-respective-ground-truth-locations-can-still-produce-a-box-that-sufficiently-overlaps-the-ground-truth-box-Fig-5"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. For each corner, there is one ground-truth positive location, and all other locations are negative. During training, instead of equally penalizing negative locations, we reduce the penalty given to negative locations within a radius of the positive location. This is because a pair of false corner detections, if they are close to their respective ground truth locations, can still produce a box that sufficiently overlaps the ground-truth box (Fig. 5).</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-The-network-predicts-an-embedding-vector-for-each-detected-corner-such-that-if-a-top-left-corner-and-a-bottom-right-corner-belong-to-the-same-bounding-box-the-distance-between-their-embeddings-should-be-small"><span class="nav-number">1.4.4.</span> <span class="nav-text">4. The network predicts an embedding vector for each detected corner such that if a top-left corner and a bottom-right corner belong to the same bounding box, the distance between their embeddings should be small</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-如何判断其是否为左上角点和右下角点"><span class="nav-number">1.4.5.</span> <span class="nav-text">5. 如何判断其是否为左上角点和右下角点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-An-hourglass-module-first-downsamples-the-input-features-by-a-series-of-convolution-and-max-pooling-layers-It-then-upsamples-the-features-back-to-the-original-resolution-by-a-series-of-up-sampling-and-convolution-layers-Since-details-are-lost-in-the-max-pooling-layers-skip-layers-are-added-to-bring-back-the-details-to-the-upsampled-features-The-hourglass-module-captures-both-global-and-local-features-in-a-single-unified-structure"><span class="nav-number">1.4.6.</span> <span class="nav-text">6. An hourglass module first downsamples the input features by a series of convolution and max pooling layers. It then upsamples the features back to the original resolution by a series of up- sampling and convolution layers. Since details are lost in the max pooling layers, skip layers are added to bring back the details to the upsampled features. The hourglass module captures both global and local features in a single unified structure.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未理解："><span class="nav-number">1.5.</span> <span class="nav-text">未理解：</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
