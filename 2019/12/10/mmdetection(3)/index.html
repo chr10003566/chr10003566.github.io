@@ -1,0 +1,655 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Faster R-CNN模块解读（一）— 检测器的构建根据之前的介绍，config文件中的 model 中的 type 指定了检测器是一个Faster R-CNN检测器。
+我们知道要调用一个检测模型要用到函数model = build_detector(cfg.model, train_cfg=cfg.train_cfg, test_cfg=cfg.test_cfg)。接下来，我们看看其是如何调用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mmDetection源码分析（三）：Faster R-CNN模块解读（一）">
+<meta property="og:url" content="http://chr10003566.github.io./2019/12/10/mmdetection(3)/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="Faster R-CNN模块解读（一）— 检测器的构建根据之前的介绍，config文件中的 model 中的 type 指定了检测器是一个Faster R-CNN检测器。
+我们知道要调用一个检测模型要用到函数model = build_detector(cfg.model, train_cfg=cfg.train_cfg, test_cfg=cfg.test_cfg)。接下来，我们看看其是如何调用">
+<meta property="og:updated_time" content="2019-12-10T13:42:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mmDetection源码分析（三）：Faster R-CNN模块解读（一）">
+<meta name="twitter:description" content="Faster R-CNN模块解读（一）— 检测器的构建根据之前的介绍，config文件中的 model 中的 type 指定了检测器是一个Faster R-CNN检测器。
+我们知道要调用一个检测模型要用到函数model = build_detector(cfg.model, train_cfg=cfg.train_cfg, test_cfg=cfg.test_cfg)。接下来，我们看看其是如何调用">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> mmDetection源码分析（三）：Faster R-CNN模块解读（一） | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                mmDetection源码分析（三）：Faster R-CNN模块解读（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-12-10T19:09:14+08:00" content="2019-12-10">
+              2019-12-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mmDetection源码分析/" itemprop="url" rel="index">
+                    <span itemprop="name">mmDetection源码分析</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/12/10/mmdetection(3)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/12/10/mmdetection(3)/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Faster-R-CNN模块解读（一）—-检测器的构建"><a href="#Faster-R-CNN模块解读（一）—-检测器的构建" class="headerlink" title="Faster R-CNN模块解读（一）— 检测器的构建"></a>Faster R-CNN模块解读（一）— 检测器的构建</h1><p>根据之前的介绍，config文件中的 <code>model</code> 中的 <code>type</code> 指定了检测器是一个Faster R-CNN检测器。</p>
+<p>我们知道要调用一个检测模型要用到函数<code>model = build_detector(cfg.model, train_cfg=cfg.train_cfg, test_cfg=cfg.test_cfg)</code>。接下来，我们看看其是如何调用到Faster R-CNN模块的。</p>
+<p><strong><em>mmdetection/configs/faster_rcnn_r50_fpn_1x.py</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">model = dict(</span><br><span class="line">    type=<span class="string">'FasterRCNN'</span>,</span><br><span class="line">    pretrained=<span class="string">'torchvision://resnet50'</span>,</span><br><span class="line">    backbone=dict(</span><br><span class="line">        type=<span class="string">'ResNet'</span>,</span><br><span class="line">        depth=<span class="number">50</span>,</span><br><span class="line">        num_stages=<span class="number">4</span>,</span><br><span class="line">        out_indices=(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>),</span><br><span class="line">        frozen_stages=<span class="number">1</span>,</span><br><span class="line">        style=<span class="string">'pytorch'</span>),</span><br><span class="line">    neck=dict(</span><br><span class="line">        type=<span class="string">'FPN'</span>,</span><br><span class="line">        in_channels=[<span class="number">256</span>, <span class="number">512</span>, <span class="number">1024</span>, <span class="number">2048</span>],</span><br><span class="line">        out_channels=<span class="number">256</span>,</span><br><span class="line">        num_outs=<span class="number">5</span>),</span><br><span class="line">    rpn_head=dict(</span><br><span class="line">        type=<span class="string">'RPNHead'</span>,</span><br><span class="line">        in_channels=<span class="number">256</span>,</span><br><span class="line">        feat_channels=<span class="number">256</span>,</span><br><span class="line">        anchor_scales=[<span class="number">8</span>],</span><br><span class="line">        anchor_ratios=[<span class="number">0.5</span>, <span class="number">1.0</span>, <span class="number">2.0</span>],</span><br><span class="line">        anchor_strides=[<span class="number">4</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">32</span>, <span class="number">64</span>],</span><br><span class="line">        target_means=[<span class="number">.0</span>, <span class="number">.0</span>, <span class="number">.0</span>, <span class="number">.0</span>],</span><br><span class="line">        target_stds=[<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>],</span><br><span class="line">        loss_cls=dict(</span><br><span class="line">            type=<span class="string">'CrossEntropyLoss'</span>, use_sigmoid=<span class="keyword">True</span>, loss_weight=<span class="number">1.0</span>),</span><br><span class="line">        loss_bbox=dict(type=<span class="string">'SmoothL1Loss'</span>, beta=<span class="number">1.0</span> / <span class="number">9.0</span>, loss_weight=<span class="number">1.0</span>)),</span><br><span class="line">    bbox_roi_extractor=dict(</span><br><span class="line">        type=<span class="string">'SingleRoIExtractor'</span>,</span><br><span class="line">        roi_layer=dict(type=<span class="string">'RoIAlign'</span>, out_size=<span class="number">7</span>, sample_num=<span class="number">2</span>),</span><br><span class="line">        out_channels=<span class="number">256</span>,</span><br><span class="line">        featmap_strides=[<span class="number">4</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">32</span>]),</span><br><span class="line">    bbox_head=dict(</span><br><span class="line">        type=<span class="string">'SharedFCBBoxHead'</span>,</span><br><span class="line">        num_fcs=<span class="number">2</span>,</span><br><span class="line">        in_channels=<span class="number">256</span>,</span><br><span class="line">        fc_out_channels=<span class="number">1024</span>,</span><br><span class="line">        roi_feat_size=<span class="number">7</span>,</span><br><span class="line">        num_classes=<span class="number">81</span>,</span><br><span class="line">        target_means=[<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">        target_stds=[<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.2</span>],</span><br><span class="line">        reg_class_agnostic=<span class="keyword">False</span>,</span><br><span class="line">        loss_cls=dict(</span><br><span class="line">            type=<span class="string">'CrossEntropyLoss'</span>, use_sigmoid=<span class="keyword">False</span>, loss_weight=<span class="number">1.0</span>),</span><br><span class="line">        loss_bbox=dict(type=<span class="string">'SmoothL1Loss'</span>, beta=<span class="number">1.0</span>, loss_weight=<span class="number">1.0</span>)))</span><br></pre></td></tr></table></figure>
+<p><strong><em>mmdetection/mmdet/models/registry.py</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BACKBONES = Registry(<span class="string">'backbone'</span>)</span><br><span class="line">NECKS = Registry(<span class="string">'neck'</span>)</span><br><span class="line">ROI_EXTRACTORS = Registry(<span class="string">'roi_extractor'</span>)</span><br><span class="line">SHARED_HEADS = Registry(<span class="string">'shared_head'</span>)</span><br><span class="line">HEADS = Registry(<span class="string">'head'</span>)</span><br><span class="line">LOSSES = Registry(<span class="string">'loss'</span>)</span><br><span class="line">DETECTORS = Registry(<span class="string">'detector'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong><em>mmdetection/mmdet/models/builder.py</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build</span><span class="params">(cfg, registry, default_args=None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(cfg, list):</span><br><span class="line">        modules = [</span><br><span class="line">            build_from_cfg(cfg_, registry, default_args) <span class="keyword">for</span> cfg_ <span class="keyword">in</span> cfg</span><br><span class="line">        ]</span><br><span class="line">        <span class="keyword">return</span> nn.Sequential(*modules)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> build_from_cfg(cfg, registry, default_args)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_detector</span><span class="params">(cfg, train_cfg=None, test_cfg=None)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> build(cfg, DETECTORS, dict(train_cfg=train_cfg, test_cfg=test_cfg))</span><br></pre></td></tr></table></figure>
+<p><strong><em>mmdetection/mmdet/utils/registry.py</em></strong> </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_from_cfg</span><span class="params">(cfg, registry, default_args=None)</span>:</span></span><br><span class="line">    <span class="string">"""Build a module from config dict.</span><br><span class="line"></span><br><span class="line">    Args:</span><br><span class="line">        cfg (dict): Config dict. It should at least contain the key "type".</span><br><span class="line">        registry (:obj:`Registry`): The registry to search the type from.</span><br><span class="line">        default_args (dict, optional): Default initialization arguments.</span><br><span class="line"></span><br><span class="line">    Returns:</span><br><span class="line">        obj: The constructed object.</span><br><span class="line">    """</span></span><br><span class="line">    <span class="keyword">assert</span> isinstance(cfg, dict) <span class="keyword">and</span> <span class="string">'type'</span> <span class="keyword">in</span> cfg</span><br><span class="line">    <span class="keyword">assert</span> isinstance(default_args, dict) <span class="keyword">or</span> default_args <span class="keyword">is</span> <span class="keyword">None</span></span><br><span class="line">    args = cfg.copy()</span><br><span class="line">    obj_type = args.pop(<span class="string">'type'</span>)</span><br><span class="line">    <span class="keyword">if</span> mmcv.is_str(obj_type):</span><br><span class="line">        obj_type = registry.get(obj_type)</span><br><span class="line">        <span class="keyword">if</span> obj_type <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">raise</span> KeyError(<span class="string">'&#123;&#125; is not in the &#123;&#125; registry'</span>.format(</span><br><span class="line">                obj_type, registry.name))</span><br><span class="line">    <span class="keyword">elif</span> <span class="keyword">not</span> inspect.isclass(obj_type):</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'type must be a str or valid type, but got &#123;&#125;'</span>.format(</span><br><span class="line">            type(obj_type)))</span><br><span class="line">    <span class="keyword">if</span> default_args <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">for</span> name, value <span class="keyword">in</span> default_args.items():</span><br><span class="line">            args.setdefault(name, value)</span><br><span class="line">    <span class="keyword">return</span> obj_type(**args)</span><br></pre></td></tr></table></figure>
+<p>通过<code>build_from_cfg</code>返回了<code>cfg.model.type</code>定义的类。registry指明了该类在<strong><em>mmdetection/mmdet/models/detectors</em></strong>中，查看文件<code>faster_rcnn.py</code>(此处有其框架设计的问题，比如注册器的使用，在本系列中暂时不分析)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@DETECTORS.register_module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FasterRCNN</span><span class="params">(TwoStageDetector)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,</span><br><span class="line">                 backbone,</span><br><span class="line">                 rpn_head,</span><br><span class="line">                 bbox_roi_extractor,</span><br><span class="line">                 bbox_head,</span><br><span class="line">                 train_cfg,</span><br><span class="line">                 test_cfg,</span><br><span class="line">                 neck=None,</span><br><span class="line">                 shared_head=None,</span><br><span class="line">                 pretrained=None)</span>:</span></span><br><span class="line">        super(FasterRCNN, self).__init__(</span><br><span class="line">            backbone=backbone,</span><br><span class="line">            neck=neck,</span><br><span class="line">            shared_head=shared_head,</span><br><span class="line">            rpn_head=rpn_head,</span><br><span class="line">            bbox_roi_extractor=bbox_roi_extractor,</span><br><span class="line">            bbox_head=bbox_head,</span><br><span class="line">            train_cfg=train_cfg,</span><br><span class="line">            test_cfg=test_cfg,</span><br><span class="line">            pretrained=pretrained)</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>FasterRCNN</code>继承于<code>TwoStageDetector</code>。</p>
+<p><strong><em>mmdetection/mmdet/models/detectors/two_stage.py</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@DETECTORS.register_module</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TwoStageDetector</span><span class="params">(BaseDetector, RPNTestMixin, BBoxTestMixin,</span><br><span class="line">                       MaskTestMixin)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,</span><br><span class="line">                 backbone,</span><br><span class="line">                 neck=None,</span><br><span class="line">                 shared_head=None,</span><br><span class="line">                 rpn_head=None,</span><br><span class="line">                 bbox_roi_extractor=None,</span><br><span class="line">                 bbox_head=None,</span><br><span class="line">                 mask_roi_extractor=None,</span><br><span class="line">                 mask_head=None,</span><br><span class="line">                 train_cfg=None,</span><br><span class="line">                 test_cfg=None,</span><br><span class="line">                 pretrained=None)</span>:</span></span><br><span class="line">        super(TwoStageDetector, self).__init__()</span><br><span class="line">        self.backbone = builder.build_backbone(backbone)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> neck <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            self.neck = builder.build_neck(neck)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> shared_head <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            self.shared_head = builder.build_shared_head(shared_head)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> rpn_head <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            self.rpn_head = builder.build_head(rpn_head)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> bbox_head <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            self.bbox_roi_extractor = builder.build_roi_extractor(</span><br><span class="line">                bbox_roi_extractor)</span><br><span class="line">            self.bbox_head = builder.build_head(bbox_head)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> mask_head <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">if</span> mask_roi_extractor <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">                self.mask_roi_extractor = builder.build_roi_extractor(</span><br><span class="line">                    mask_roi_extractor)</span><br><span class="line">                self.share_roi_extractor = <span class="keyword">False</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.share_roi_extractor = <span class="keyword">True</span></span><br><span class="line">                self.mask_roi_extractor = self.bbox_roi_extractor</span><br><span class="line">            self.mask_head = builder.build_head(mask_head)</span><br><span class="line"></span><br><span class="line">        self.train_cfg = train_cfg</span><br><span class="line">        self.test_cfg = test_cfg</span><br><span class="line"></span><br><span class="line">        self.init_weights(pretrained=pretrained)</span><br><span class="line">     </span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">init_weights</span><span class="params">(self, pretrained=None)</span>:</span></span><br><span class="line">        super(TwoStageDetector, self).init_weights(pretrained)</span><br><span class="line">        self.backbone.init_weights(pretrained=pretrained)</span><br><span class="line">        <span class="keyword">if</span> self.with_neck:</span><br><span class="line">            <span class="keyword">if</span> isinstance(self.neck, nn.Sequential):</span><br><span class="line">                <span class="keyword">for</span> m <span class="keyword">in</span> self.neck:</span><br><span class="line">                    m.init_weights()</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.neck.init_weights()</span><br><span class="line">        <span class="keyword">if</span> self.with_shared_head:</span><br><span class="line">            self.shared_head.init_weights(pretrained=pretrained)</span><br><span class="line">        <span class="keyword">if</span> self.with_rpn:</span><br><span class="line">            self.rpn_head.init_weights()</span><br><span class="line">        <span class="keyword">if</span> self.with_bbox:</span><br><span class="line">            self.bbox_roi_extractor.init_weights()</span><br><span class="line">            self.bbox_head.init_weights()</span><br><span class="line">        <span class="keyword">if</span> self.with_mask:</span><br><span class="line">            self.mask_head.init_weights()</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> self.share_roi_extractor:</span><br><span class="line">                self.mask_roi_extractor.init_weights()</span><br></pre></td></tr></table></figure>
+<p>可以看到通过<code>builder</code>将检测器的backbone，neck，shared_head，bbox_head，mask_head等全部创建了。并通过<code>init_weights</code>初始话权重，后续有：</p>
+<p><code>extract_feat()</code><br><code>forward_train()</code><br><code>simple_test &amp;&amp; aug_test</code></p>
+<p>下一篇blog将介绍Backbone的构建。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/09/学习 CornerNet- Detecting Objects as Paired Keypoints/" rel="next" title="CornerNet- Detecting Objects as Paired Keypoints论文解读">
+                <i class="fa fa-chevron-left"></i> CornerNet- Detecting Objects as Paired Keypoints论文解读
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/12/10/mmdetection(3)/"
+           data-title="mmDetection源码分析（三）：Faster R-CNN模块解读（一）" data-url="http://chr10003566.github.io./2019/12/10/mmdetection(3)/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Faster-R-CNN模块解读（一）—-检测器的构建"><span class="nav-number">1.</span> <span class="nav-text">Faster R-CNN模块解读（一）— 检测器的构建</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
