@@ -1,0 +1,679 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="论文：CenterNet: Keypoint Triplets for Object Detection论文链接：https://arxiv.org/abs/1904.08189代码链接：https://github.com/Duankaiwen/CenterNet
+今天介绍一篇很好的 one-stage 目标检测论文：CenterNet: Keypoint Triplets for Object">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CornerNet论文笔记.md">
+<meta property="og:url" content="http://chr10003566.github.io./2020/02/16/CenterNet论文笔记/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="论文：CenterNet: Keypoint Triplets for Object Detection论文链接：https://arxiv.org/abs/1904.08189代码链接：https://github.com/Duankaiwen/CenterNet
+今天介绍一篇很好的 one-stage 目标检测论文：CenterNet: Keypoint Triplets for Object">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-8a8af5135e730d0b77f9303fc9c25a98_hd.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-da0900ab5cda899f71efaf3ce605d6c0_hd.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-c6529f46061695068e4c05bcc7411de9_hd.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-e6a1b19435c160e48a298e6d9bd7bf63_hd.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-bbea0d67bb5dbcdf6fd16141ed229071_hd.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-13133a7cea3b9330f170d66bc1713a88_hd.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-a0418bc3fc012942b1b3bc533effba40_hd.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-70b5a7db0ad2cfd1b668c671c94c6d9c_hd.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-6cb703e827176d3aefbfff599b54e09a_hd.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-383c1b465125216eb6f6fe9fd6457d61_hd.jpg">
+<meta property="og:updated_time" content="2020-02-16T08:29:23.539Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CornerNet论文笔记.md">
+<meta name="twitter:description" content="论文：CenterNet: Keypoint Triplets for Object Detection论文链接：https://arxiv.org/abs/1904.08189代码链接：https://github.com/Duankaiwen/CenterNet
+今天介绍一篇很好的 one-stage 目标检测论文：CenterNet: Keypoint Triplets for Object">
+<meta name="twitter:image" content="https://pic1.zhimg.com/80/v2-8a8af5135e730d0b77f9303fc9c25a98_hd.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> CornerNet论文笔记.md | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CornerNet论文笔记.md
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-02-16T12:14:49+08:00" content="2020-02-16">
+              2020-02-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/论文阅读/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/02/16/CenterNet论文笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/16/CenterNet论文笔记/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>论文：CenterNet: Keypoint Triplets for Object Detection<br>论文链接：<a href="https://arxiv.org/abs/1904.08189" target="_blank" rel="external">https://arxiv.org/abs/1904.08189</a><br>代码链接：<a href="https://github.com/Duankaiwen/CenterNet" target="_blank" rel="external">https://github.com/Duankaiwen/CenterNet</a></p>
+<p>今天介绍一篇很好的 one-stage 目标检测论文：CenterNet: Keypoint Triplets for Object Detection，该论文是由 中科院，牛津大学以及华为诺亚方舟实验室联合提出。截至目前，据我们所知，CenterNet 应该是 one-stage 目标检测方法中性能最好的方法。</p>
+<p>《CenterNet: Keypoint Triplets for Object Detection》</p>
+<p>作者团队：中科院，牛津大学，华为诺亚方舟实验室</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>基于关键点的目标检测方法例如最具代表性的CornerNet，通过检测物体的左上角点和右下角点来确定目标，但在确定目标的过程中，无法有效利用物体的内部的特征，即无法感知物体内部的信息，从而导致该类方法产生了很多误检 (错误目标框)。本文利用关键点三元组即中心点、左上角点和右下角点三个关键点而不是两个点来确定一个目标，使网络花费了很小的代价便具备了感知物体内部信息的能力，从而能有效抑制误检。另外，为了更好的检测中心点和角点，我们分别提出了 center pooling 和 cascade corner pooling 来提取中心点和角点的特征。我们方法的名字叫 CenterNet，是一种 one-stage 的方法，在最具挑战性之一的数据集 MS COCO [2] 上，获得了47% AP，超过了所有已知的 one-stage 检测方 法，并大幅度领先，其领先幅度至少达 4.9%。</p>
+<h2 id="Basis"><a href="#Basis" class="headerlink" title="Basis"></a>Basis</h2><p>我们抑制误检的原理基于以下推论：如果目标框是准确的，那么在其中心区域能够检测到目标中心点的概率就会很高，反之亦然。因此，首先利用左上和右下两个角点生成初始目标框，对每个预测框定义一个中心区域，然后判断每个目标框的中心区域是否含有中心点，若有则保留该目标框，若无则删除该目标框，其原理如图1所。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-8a8af5135e730d0b77f9303fc9c25a98_hd.jpg" alt=""></p>
+<h2 id="Baseline-and-Motivation"><a href="#Baseline-and-Motivation" class="headerlink" title="Baseline and Motivation"></a>Baseline and Motivation</h2><p>其实不光是基于关键点的 one-stage 方法无法感知物体内部信息，几乎所有的 one-stage 方法都存在这一问题。本论文的 baseline 为 CornerNet，因此首先讨论 CornerNet 为什么容易产生很多的误检。首先，CornerNet 通过检测角点确定目标，而不是通过初始候选框 anchor 的回归确定目标，由于没有了 anchor 的限制，使得任意两个角点都可以组成一个目标框，这就对判断两个角点是否属于同一物体的算法要求很高，一但准确度差一点，就会产生很多错误目标框。其次，恰恰这个算法有缺陷。因为此算法在判断两个角点是否属于同一物体时，缺乏全局信息的辅助，因此很容易把原本不是同一物体的两个角点看成是一对角点，因此产生了很多错误目标框。最后，角点的特征对边缘比较敏感，这导致很多角点同样对背景的边缘很敏感，因此在背景处也检测到了错误的角点。综上原因，使得 CornerNet 产生了很多误检。如图2所示，我们用 CornerNet 对两张图片进行检测，根据每个预测目标框的 confidence 选出 top100 个预测框 (根据 MS COCO 标准)，左图只显示了中等尺度和大尺度的预测框，右图只显示了小尺度的预测框，可以发现产生了很多误检。其中蓝色框为 ground truth, 红色框为预测框。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-da0900ab5cda899f71efaf3ce605d6c0_hd.jpg" alt=""></p>
+<p>其实不光 CornerNet 有这个问题，实际上 anchor-based one-stage detector 也存在这个问题，因为此类方法直接对 anchor 进行回归和分类，这个过程并没有像 two-stage 方法一样利用到了物体内部特征，因此无法感知物体内部信息，就会和 CornerNet 一样产生很多误检。下面是我用 SSD512 检测了两张图片，显示了 top100 个检测框，出现了和 CornerNet 类似的问题。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-c6529f46061695068e4c05bcc7411de9_hd.jpg" alt=""></p>
+<p>为了能够量化的分析误检问题，我们提出了一种新的衡量指标，称为FD (false discovery) rate, 此指标能够很直观的反映出误检情况。FD rate 的计算方式为 FD = 1-AP， 其中 AP 为 IoU 阈值取[0.05 : 0.05 : 0.5]下的平均精度。我们统计了 CornerNet 的误检情况，如表1所示：<br><img src="https://pic4.zhimg.com/80/v2-e6a1b19435c160e48a298e6d9bd7bf63_hd.jpg" alt=""></p>
+<p>可以看到，FD = 37.8，而 [公式] 高达32.7，这意味着即使我们把条件限制的很严格：只有那些与 ground-truth 的 IoU&lt; 0.05 的才被认定为错误目标框，每100个预测框中仍然平均有32.7 个错误目标框！而小尺度的目标框其FD更是达到了60.3！</p>
+<p>我们分析出了 CornerNet 的问题后，接下来就是找出解决之道，关键问题在于让网络具备感知物体内部信息的能力。一个较容易想到的方法是把 CornerNet 变成一个 two-stage 的方法，即利用 RoI pooling 或 RoI align 提取预测框的内部信息，从而获得感知能力。但这样做开销很大，因此我们提出了用关键点三元组来检测目标，这样使得我们的方法在 one-stage 的前提下就能获得感知物体内部信息的能力。并且开销较小，因为我们只需关注物体的中心，从而避免了 RoI pooling 或 RoI align 关注物体内部的全部信息。</p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><ul>
+<li><strong>Structure </strong><br><img src="https://pic2.zhimg.com/80/v2-bbea0d67bb5dbcdf6fd16141ed229071_hd.jpg" alt=""></li>
+</ul>
+<p>上图为 CenterNet 的结构图。网络通过 center pooling 和 cascade corner pooling 分别得到 center heatmap 和 corner heatmaps，用来预测关键点的位置。得到角点的位置和类别后，通过 offsets 将角点的位置映射到输入图片的对应位置，然后通过 embedings 判断哪两个角点属于同一个物体，以便组成一个检测框。正如前文所说，组合过程中由于缺乏来自目标区域内部信息的辅助，从而导致大量的误检。为了解决这一问题，CenterNet 不仅预测角点，还预测中心点。我们对每个预测框定义一个中心区域，通过判断每个目标框的中心区域是否含有中心点，若有则保留，并且此时框的 confidence 为中心点，左上角点和右下角点的confidence的平均，若无则去除，使得网络具备感知目标区域内部信息的能力，能够有效除错误的目标框。</p>
+<p>我们发现中心区域的尺度会影响错误框去除效果。中心区域过小导致很多准确的小尺度的目标也会被去除，而中心区域过大导致很多大尺度的错误目标框无法被去除，因此我们提出了尺度可调节的中心区域定义法 (公式1)。该方法可以在预测框的尺度较大时定义一个相对较小的中心区域，在预测框的尺度较小时预测一个相对较大的中心区域。如 Fig3 所示。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-13133a7cea3b9330f170d66bc1713a88_hd.jpg" alt=""></p>
+<p><img src="https://pic1.zhimg.com/80/v2-a0418bc3fc012942b1b3bc533effba40_hd.jpg" alt=""></p>
+<ul>
+<li><strong>Center pooling</strong></li>
+</ul>
+<p>Center pooling：一个物体的中心并不一定含有很强的，易于区分于其他类别的语义信息。例如，一个人的头部含有很强的，易于区分于其他类别的语义信息，但是其中心往往位于人的中部。我们提出了center pooling 来丰富中心点特征。图5为该方法原理，center pooling提取中心点水平方向和垂直方向的最大值并相加，以此给中心点提供所处位置以外的信息。这一操作使中心点有机会获得更易于区分于其他类别的语义信息。Center pooling 可通过不同方向上的 corner pooling 的组合实现。一个水平方向上的取最大值操作可由 left pooling 和 right pooling通过串联实现，同理，一个垂直方向上的取最大值操作可由 top pooling 和 bottom pooling通过串联实现，如图6所示。<br><img src="https://pic1.zhimg.com/80/v2-70b5a7db0ad2cfd1b668c671c94c6d9c_hd.jpg" alt=""><br><img src="https://pic3.zhimg.com/80/v2-6cb703e827176d3aefbfff599b54e09a_hd.jpg" alt=""></p>
+<ul>
+<li>Cascade corner pooling:</li>
+</ul>
+<p>一般情况下角点位于物体外部，所处位置并不含有关联物体的语义信息，这为角点的检测带来了困难。图7(a) 为传统做法，称为 corner pooling。它提取物体边界最大值并相加，该方法只能提供关联物体边缘语义信息，对于更加丰富的物体内部语义信息则很难提取到。图7(b)为cascade corner pooling 原理，它首先提取物体边界最大值，然后在边界最大值处继续向内部(图中沿虚线方向)提取提最大值，并与边界最大值相加，以此给角点特征提供更加丰富的关联物体语义信息。Cascade corner pooling 也可通过不同方向上的 corner pooling 的组合实现，如图8 所示，图8展示了cascade left corner pooling 原理。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-383c1b465125216eb6f6fe9fd6457d61_hd.jpg" alt=""></p>
+<p>原文链接：<a href="https://zhuanlan.zhihu.com/p/62789701" target="_blank" rel="external">CenterNet</a></p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/11/mmdetection(5)/" rel="next" title="mmDetection源码分析（五）：Faster R-CNN模块解读（三）">
+                <i class="fa fa-chevron-left"></i> mmDetection源码分析（五）：Faster R-CNN模块解读（三）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/02/16/CenterNet论文笔记/"
+           data-title="CornerNet论文笔记.md" data-url="http://chr10003566.github.io./2020/02/16/CenterNet论文笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basis"><span class="nav-number">2.</span> <span class="nav-text">Basis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Baseline-and-Motivation"><span class="nav-number">3.</span> <span class="nav-text">Baseline and Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Method"><span class="nav-number">4.</span> <span class="nav-text">Method</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
