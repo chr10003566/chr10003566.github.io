@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chr10003566.github.io./"/>
-  <updated>2020-02-16T08:29:23.539Z</updated>
+  <updated>2020-02-16T08:31:01.824Z</updated>
   <id>http://chr10003566.github.io./</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>CornerNet论文笔记.md</title>
+    <title>CenterNet论文笔记.md</title>
     <link href="http://chr10003566.github.io./2020/02/16/CenterNet%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/"/>
     <id>http://chr10003566.github.io./2020/02/16/CenterNet论文笔记/</id>
     <published>2020-02-16T04:14:49.000Z</published>
-    <updated>2020-02-16T08:29:23.539Z</updated>
+    <updated>2020-02-16T08:31:01.824Z</updated>
     
     <content type="html">&lt;p&gt;论文：CenterNet: Keypoint Triplets for Object Detection&lt;br&gt;论文链接：&lt;a href=&quot;https://arxiv.org/abs/1904.08189&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://arxiv.org/abs/1904.08189&lt;/a&gt;&lt;br&gt;代码链接：&lt;a href=&quot;https://github.com/Duankaiwen/CenterNet&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/Duankaiwen/CenterNet&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;今天介绍一篇很好的 one-stage 目标检测论文：CenterNet: Keypoint Triplets for Object Detection，该论文是由 中科院，牛津大学以及华为诺亚方舟实验室联合提出。截至目前，据我们所知，CenterNet 应该是 one-stage 目标检测方法中性能最好的方法。&lt;/p&gt;
