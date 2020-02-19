@@ -82,21 +82,25 @@
 
 
 
-<meta name="description" content="RecyclerView总结学习（一）RecyclerView已经出现有一年多了，各种“该有的”东西也都有了。这里就来总结学习一发！
-照常先贴学习链接：http://blog.csdn.net/lmj623565791/article/details/45059587https://github.com/codepath/android_guides/wiki/Using-the-Recycler">
+<meta name="description" content="论文：Objects as points论文链接：https://arxiv.org/abs/1904.07850代码链接：https://github.com/xingyizhou/CenterNet
+Preface这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RecyclerView总结学习(一)">
-<meta property="og:url" content="http://chr10003566.github.io./2016/06/13/RecycleView1/index.html">
+<meta property="og:title" content="CenterNet论文笔记-Objects as points">
+<meta property="og:url" content="http://chr10003566.github.io./2020/02/19/CenterNet论文笔记-Objects-as-points/index.html">
 <meta property="og:site_name" content="Cui的个人博客">
-<meta property="og:description" content="RecyclerView总结学习（一）RecyclerView已经出现有一年多了，各种“该有的”东西也都有了。这里就来总结学习一发！
-照常先贴学习链接：http://blog.csdn.net/lmj623565791/article/details/45059587https://github.com/codepath/android_guides/wiki/Using-the-Recycler">
-<meta property="og:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/RecyclerView.png">
-<meta property="og:updated_time" content="2016-06-13T06:23:47.000Z">
+<meta property="og:description" content="论文：Objects as points论文链接：https://arxiv.org/abs/1904.07850代码链接：https://github.com/xingyizhou/CenterNet
+Preface这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基">
+<meta property="og:image" content="https://pic.downk.cc/item/5e4d131448b86553ee9df3e3.png">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-82171546bc2b8448d45dd6915c40d375_hd.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5e4d168148b86553ee9f10b0.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5e4d17ad48b86553ee9f79d4.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5e4d1b0148b86553eea08cb6.png">
+<meta property="og:updated_time" content="2020-02-19T11:28:20.198Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RecyclerView总结学习(一)">
-<meta name="twitter:description" content="RecyclerView总结学习（一）RecyclerView已经出现有一年多了，各种“该有的”东西也都有了。这里就来总结学习一发！
-照常先贴学习链接：http://blog.csdn.net/lmj623565791/article/details/45059587https://github.com/codepath/android_guides/wiki/Using-the-Recycler">
-<meta name="twitter:image" content="http://7xtcu9.com1.z0.glb.clouddn.com/RecyclerView.png">
+<meta name="twitter:title" content="CenterNet论文笔记-Objects as points">
+<meta name="twitter:description" content="论文：Objects as points论文链接：https://arxiv.org/abs/1904.07850代码链接：https://github.com/xingyizhou/CenterNet
+Preface这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基">
+<meta name="twitter:image" content="https://pic.downk.cc/item/5e4d131448b86553ee9df3e3.png">
 
 
 
@@ -114,7 +118,7 @@
   };
 </script>
 
-  <title> RecyclerView总结学习(一) | Cui的个人博客 </title>
+  <title> CenterNet论文笔记-Objects as points | Cui的个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -244,7 +248,7 @@
             
             
               
-                RecyclerView总结学习(一)
+                CenterNet论文笔记-Objects as points
               
             
           </h1>
@@ -256,8 +260,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-13T11:06:42+08:00" content="2016-06-13">
-              2016-06-13
+            <time itemprop="dateCreated" datetime="2020-02-19T15:21:19+08:00" content="2020-02-19">
+              2020-02-19
             </time>
           </span>
 
@@ -270,8 +274,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android开发/" itemprop="url" rel="index">
-                    <span itemprop="name">Android开发</span>
+                  <a href="/categories/论文阅读/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读</span>
                   </a>
                 </span>
 
@@ -286,8 +290,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/06/13/RecycleView1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/13/RecycleView1/" itemprop="commentsCount"></span>
+                <a href="/2020/02/19/CenterNet论文笔记-Objects-as-points/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/19/CenterNet论文笔记-Objects-as-points/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -310,33 +314,32 @@
       
 
       
-        <h1 id="RecyclerView总结学习（一）"><a href="#RecyclerView总结学习（一）" class="headerlink" title="RecyclerView总结学习（一）"></a>RecyclerView总结学习（一）</h1><p>RecyclerView已经出现有一年多了，各种“该有的”东西也都有了。这里就来总结学习一发！</p>
-<p>照常先贴学习链接：<br><a href="http://blog.csdn.net/lmj623565791/article/details/45059587" target="_blank" rel="external">http://blog.csdn.net/lmj623565791/article/details/45059587</a><br><a href="https://github.com/codepath/android_guides/wiki/Using-the-RecyclerView" target="_blank" rel="external">https://github.com/codepath/android_guides/wiki/Using-the-RecyclerView</a></p>
-<p>第一篇博客鸿洋大神已经写的非常非常完美了，第二篇算是google工程是提供的一些RecyclerView的使用。两篇相互学习相互补充吧！</p>
-<h2 id="RecyclerView综述"><a href="#RecyclerView综述" class="headerlink" title="RecyclerView综述"></a>RecyclerView综述</h2><p>如果你想使用RecyclerView的话，你将必须按照下面这么做：</p>
-<ul>
-<li><code>RecyclerView.Adapter</code> 将数据集与相应的视图绑定</li>
-<li><code>LayoutManager</code> 解决数据项的放置位置问题</li>
-<li><code>ItemAnimator</code> 与动画的常用操作，如添加或项目删除的动画效果<br><img src="http://7xtcu9.com1.z0.glb.clouddn.com/RecyclerView.png" alt="image description"></li>
-</ul>
-<h2 id="与ListView相比较（面试）"><a href="#与ListView相比较（面试）" class="headerlink" title="与ListView相比较（面试）"></a>与ListView相比较（面试）</h2><ul>
-<li>在Adapters中需要使用ViewHolder  -<code>ListView</code>的Adapter没有强制要求使用ViewHolder来提高性能，相比较使用<code>RecyclerView</code>的Adapter则需要使用ViewHolder。</li>
-<li>可定制的项目布局  -<code>ListView</code>仅仅能够垂直布局或者线性布局，它不能够被定制。相反，<code>RecyclerView</code>通过<code>RecyclerView.LayoutManager</code>可以设置任何数据项的布局，包括水平列表或交错网格。</li>
-<li>简单的数据操作动画 -数据项的添加和删除<code>ListView</code>都不提供任何的特殊方法。相反，<code>RecyclerView</code>则通过<code>RecyclerView.ItemAnimator</code>来处理操作数据项的动画。</li>
-<li>手动的数据来源 -<code>ListView</code>有<code>ArrayAdapter</code>和<code>CursorAdapter</code>分别来处理数组和数据库等一些数据。相反<code>RecyclerView.Adapter</code>需要我们自己定义实现数据提供给Adapter。</li>
-<li>手动的项目分割线 -<code>ListView</code>有<code>android:divider</code>属性来提供简单的列表中数据项之间的分割线，相反<code>RecyclerView</code>则需要使用<code>RecyclerView.ItemDecoration</code>来设置分割线</li>
-<li>手动的点击检测 -<code>ListView</code>有<code>AdapterView.OnItemClickListener</code>接口为列表的独立项绑定点击事件。而<code>RecyclerView</code>仅仅对<code>RecyclerView.onItemTouchListener</code>提供了支持，但没有内置的点击处理操作。</li>
-</ul>
-<p>关于<code>RecyclerView</code>使用，在鸿洋老师的博客中可以学习到，我这里就不累述了。讲讲现在很流行的<code>RecyclerView</code>与<code>CardView</code>的搭配使用吧。原文如下：<br><a href="http://www.androidhive.info/2016/05/android-working-with-card-view-and-recycler-view/" target="_blank" rel="external">http://www.androidhive.info/2016/05/android-working-with-card-view-and-recycler-view/</a></p>
-<p>这里面有很多的<code>Material Design</code>的知识，大家可以翻阅我之前写的Material Design专题的内容。</p>
-<p>总的来说还是按照<code>RecyclerView</code>的使用方法走的。具体使用步骤如下：</p>
-<ul>
-<li>准备好数据集</li>
-<li>设置<code>RecyclerView.LayoutManager</code></li>
-<li>写好<code>RecyclerView.Adpater</code>并设置适配</li>
-<li>设置<code>RecyclerView.ItemAnimator</code></li>
-<li>如果你不是使用<code>CardView</code>你可能还需要设置<code>RecyclerView.ItemDecoration</code></li>
-</ul>
+        <p>论文：Objects as points<br>论文链接：<a href="https://arxiv.org/abs/1904.07850" target="_blank" rel="external">https://arxiv.org/abs/1904.07850</a><br>代码链接：<a href="https://github.com/xingyizhou/CenterNet" target="_blank" rel="external">https://github.com/xingyizhou/CenterNet</a></p>
+<h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p>这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基于CornerNet的框架，对其做了一定程度的改进，但改进方向不相同，本篇CenterNet主要是借鉴了CornerNet从关键点检转到目标检测的方法，而华为诺亚实验室的CenterNet则主要是找到了CornerNet存在未利用到物体内部特征，无法感知内部信息的缺点，对该缺点做了改进。简单介绍了两篇CenterNet，现在着重介绍下本篇CenterNet吧。</p>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>在本文中，作者很专业地指出了one stage approach和two stage approach的区别</p>
+<blockquote>
+<p>One stage approach: 在图像上滑动复杂排列的可能bbox（即锚点）,然后直接对框进行分类，而不会利用到物体内部特征，无法感知内部信息。</p>
+<p>Two stage approach:对每个潜在框会重新计算图像特征，然后将那些特征进行分类。</p>
+</blockquote>
+<p>并且作者认为后处理，即 NMS（非极大值抑制），通过计算Bbox间的IOU来删除同个目标的重复检测框。这种后处理很难区分和训练，因此现有大多检测器都不是端到端可训练的。</p>
+<p>作者将自己的方法CenterNet与one stage approach做了详细的对比，认为主要存在以下三点区别</p>
+<blockquote>
+<p>由于本文的CenterNet没有设置Anchor，而是通过关键点，因此不用设置阈值来区分前后景</p>
+<p>同样也是由于Anchor Free的原因，不需要使用NMS。</p>
+<p>CenterNet与之前目标检测框架比起来，使用了更大的特征图，仅仅只缩放了4倍，而此前的目标检测框架往往缩放8，16，32倍等。</p>
+</blockquote>
+<p><img src="https://pic.downk.cc/item/5e4d131448b86553ee9df3e3.png" alt=""></p>
+<p>可以看到算法在效果和效率之间能取得很好的平衡！</p>
+<h1 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h1><p>这里主要和CornerNet做一个对比，来详细的了解一下CenterNet所做的创新（个人感觉相比于华为诺亚实验室提高5%的创新点，本文稍显简单）此处借鉴：<a href="本文链接：https://blog.csdn.net/u014380165/article/details/92801206">AI之路-CenterNet笔记</a></p>
+<ol>
+<li>CenterNet与CornerNet相同，都是采用<strong>Heatmap来进行预测</strong>，所不同的是CenterNet预测的是中心点，而CornerNet则预测的是左上角点和右下角点，CenterNet在关键点的处理上是借鉴CornerNet的，<strong>引入了预测点的高斯分布区域计算真实预测值</strong>，对该点不是很理解的同学，可以阅读<a href="https://zhuanlan.zhihu.com/p/66048276" target="_blank" rel="external">CenterNet——Objects as Points论文解读</a>，引用一张图来简单说明一下。<img src="https://pic2.zhimg.com/80/v2-82171546bc2b8448d45dd6915c40d375_hd.png" alt="高斯分布">即真实object中心点处Heatmap的值为1，而靠近中心点的值不完全设置为0，而是呈高斯分布逐渐减小。在损失函数的设计上，CenterNet同样借鉴了CornerNet，将Focal loss融合进自己中心点检测的损失函数，在上面的链接中非常详细的解释了该损失函数的原理。</li>
+<li>CenterNet和CornerNet同样使用了offset来对下采样导致的坐标误差进行微调，但是CornerNet使用的是在坐标误差中多次被应用的Smooth L1 loss，而CenterNet则使用的是L1 loss。其实这个offset是可选的，并非一定要使用，只是使用的话效果会有所下降（做比赛，刷榜的时候可以考虑的策略）</li>
+<li>CornerNet是通过组合左上角点和右上角点来组成候选框的，那么CenterNet如何通过中心点来获得候选框呢？CenterNet则是使用暴力法，直接通过回归得到候选框的宽和高，同样宽、高的损失函数同样是L1 loss，因此其整体的损失函数由3部分组成，第一部分是中心点分类的损失，第二部分是尺寸（宽、高）的损失，第三部分则是中心点偏移点的损失<br><img src="https://pic.downk.cc/item/5e4d168148b86553ee9f10b0.png" alt=""></li>
+</ol>
+<p>因此可以推测出（论文竟然没给框架图），CenterNet预测得到三种Heatmap，第一种中心点分类：[1,C（类别数）,128,128]、[1,2（宽、高）,128,128]、[1,2（偏移量）,128,128]。<br><img src="https://pic.downk.cc/item/5e4d17ad48b86553ee9f79d4.png" alt=""></p>
+<h1 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h1><p><img src="https://pic.downk.cc/item/5e4d1b0148b86553eea08cb6.png" alt=""></p>
+<p>可以看到与大部分检测相比，CenterNet的FPS几乎碾压，准确率也能保持在中上的水平。</p>
+<h1 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h1><p>本文CenterNet在检测的时间和效果上做到了比较好的权衡，虽然算法也相对简单，但能将同一个框架应用到不同的领域，是十分棒的一个模型！</p>
 
       
     </div>
@@ -360,17 +363,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/25/MaterialDesign4/" rel="next" title="Material Design(四)">
-                <i class="fa fa-chevron-left"></i> Material Design(四)
+              <a href="/2020/02/16/CenterNet论文笔记/" rel="next" title="CenterNet论文笔记.md">
+                <i class="fa fa-chevron-left"></i> CenterNet论文笔记.md
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/06/17/layout/" rel="prev" title="layout_*的一些注意事项">
-                layout_*的一些注意事项 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -396,8 +395,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/06/13/RecycleView1/"
-           data-title="RecyclerView总结学习(一)" data-url="http://chr10003566.github.io./2016/06/13/RecycleView1/">
+      <div class="ds-thread" data-thread-key="2020/02/19/CenterNet论文笔记-Objects-as-points/"
+           data-title="CenterNet论文笔记-Objects as points" data-url="http://chr10003566.github.io./2020/02/19/CenterNet论文笔记-Objects-as-points/">
       </div>
     
   </div>
@@ -519,7 +518,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RecyclerView总结学习（一）"><span class="nav-number">1.</span> <span class="nav-text">RecyclerView总结学习（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RecyclerView综述"><span class="nav-number">1.1.</span> <span class="nav-text">RecyclerView综述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与ListView相比较（面试）"><span class="nav-number">1.2.</span> <span class="nav-text">与ListView相比较（面试）</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Method"><span class="nav-number">3.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Experiment"><span class="nav-number">4.</span> <span class="nav-text">Experiment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Note"><span class="nav-number">5.</span> <span class="nav-text">Note</span></a></li></ol></div>
             
           </div>
         </section>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chr10003566.github.io./"/>
-  <updated>2020-02-16T08:31:01.824Z</updated>
+  <updated>2020-02-19T11:28:20.198Z</updated>
   <id>http://chr10003566.github.io./</id>
   
   <author>
@@ -14,6 +14,52 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CenterNet论文笔记-Objects as points</title>
+    <link href="http://chr10003566.github.io./2020/02/19/CenterNet%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0-Objects-as-points/"/>
+    <id>http://chr10003566.github.io./2020/02/19/CenterNet论文笔记-Objects-as-points/</id>
+    <published>2020-02-19T07:21:19.000Z</published>
+    <updated>2020-02-19T11:28:20.198Z</updated>
+    
+    <content type="html">&lt;p&gt;论文：Objects as points&lt;br&gt;论文链接：&lt;a href=&quot;https://arxiv.org/abs/1904.07850&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://arxiv.org/abs/1904.07850&lt;/a&gt;&lt;br&gt;代码链接：&lt;a href=&quot;https://github.com/xingyizhou/CenterNet&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/xingyizhou/CenterNet&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;Preface&quot;&gt;&lt;a href=&quot;#Preface&quot; class=&quot;headerlink&quot; title=&quot;Preface&quot;&gt;&lt;/a&gt;Preface&lt;/h1&gt;&lt;p&gt;这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基于CornerNet的框架，对其做了一定程度的改进，但改进方向不相同，本篇CenterNet主要是借鉴了CornerNet从关键点检转到目标检测的方法，而华为诺亚实验室的CenterNet则主要是找到了CornerNet存在未利用到物体内部特征，无法感知内部信息的缺点，对该缺点做了改进。简单介绍了两篇CenterNet，现在着重介绍下本篇CenterNet吧。&lt;/p&gt;
+&lt;h1 id=&quot;Introduction&quot;&gt;&lt;a href=&quot;#Introduction&quot; class=&quot;headerlink&quot; title=&quot;Introduction&quot;&gt;&lt;/a&gt;Introduction&lt;/h1&gt;&lt;p&gt;在本文中，作者很专业地指出了one stage approach和two stage approach的区别&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;One stage approach: 在图像上滑动复杂排列的可能bbox（即锚点）,然后直接对框进行分类，而不会利用到物体内部特征，无法感知内部信息。&lt;/p&gt;
+&lt;p&gt;Two stage approach:对每个潜在框会重新计算图像特征，然后将那些特征进行分类。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;并且作者认为后处理，即 NMS（非极大值抑制），通过计算Bbox间的IOU来删除同个目标的重复检测框。这种后处理很难区分和训练，因此现有大多检测器都不是端到端可训练的。&lt;/p&gt;
+&lt;p&gt;作者将自己的方法CenterNet与one stage approach做了详细的对比，认为主要存在以下三点区别&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;由于本文的CenterNet没有设置Anchor，而是通过关键点，因此不用设置阈值来区分前后景&lt;/p&gt;
+&lt;p&gt;同样也是由于Anchor Free的原因，不需要使用NMS。&lt;/p&gt;
+&lt;p&gt;CenterNet与之前目标检测框架比起来，使用了更大的特征图，仅仅只缩放了4倍，而此前的目标检测框架往往缩放8，16，32倍等。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;https://pic.downk.cc/item/5e4d131448b86553ee9df3e3.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;可以看到算法在效果和效率之间能取得很好的平衡！&lt;/p&gt;
+&lt;h1 id=&quot;Method&quot;&gt;&lt;a href=&quot;#Method&quot; class=&quot;headerlink&quot; title=&quot;Method&quot;&gt;&lt;/a&gt;Method&lt;/h1&gt;&lt;p&gt;这里主要和CornerNet做一个对比，来详细的了解一下CenterNet所做的创新（个人感觉相比于华为诺亚实验室提高5%的创新点，本文稍显简单）此处借鉴：&lt;a href=&quot;本文链接：https://blog.csdn.net/u014380165/article/details/92801206&quot;&gt;AI之路-CenterNet笔记&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;CenterNet与CornerNet相同，都是采用&lt;strong&gt;Heatmap来进行预测&lt;/strong&gt;，所不同的是CenterNet预测的是中心点，而CornerNet则预测的是左上角点和右下角点，CenterNet在关键点的处理上是借鉴CornerNet的，&lt;strong&gt;引入了预测点的高斯分布区域计算真实预测值&lt;/strong&gt;，对该点不是很理解的同学，可以阅读&lt;a href=&quot;https://zhuanlan.zhihu.com/p/66048276&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CenterNet——Objects as Points论文解读&lt;/a&gt;，引用一张图来简单说明一下。&lt;img src=&quot;https://pic2.zhimg.com/80/v2-82171546bc2b8448d45dd6915c40d375_hd.png&quot; alt=&quot;高斯分布&quot;&gt;即真实object中心点处Heatmap的值为1，而靠近中心点的值不完全设置为0，而是呈高斯分布逐渐减小。在损失函数的设计上，CenterNet同样借鉴了CornerNet，将Focal loss融合进自己中心点检测的损失函数，在上面的链接中非常详细的解释了该损失函数的原理。&lt;/li&gt;
+&lt;li&gt;CenterNet和CornerNet同样使用了offset来对下采样导致的坐标误差进行微调，但是CornerNet使用的是在坐标误差中多次被应用的Smooth L1 loss，而CenterNet则使用的是L1 loss。其实这个offset是可选的，并非一定要使用，只是使用的话效果会有所下降（做比赛，刷榜的时候可以考虑的策略）&lt;/li&gt;
+&lt;li&gt;CornerNet是通过组合左上角点和右上角点来组成候选框的，那么CenterNet如何通过中心点来获得候选框呢？CenterNet则是使用暴力法，直接通过回归得到候选框的宽和高，同样宽、高的损失函数同样是L1 loss，因此其整体的损失函数由3部分组成，第一部分是中心点分类的损失，第二部分是尺寸（宽、高）的损失，第三部分则是中心点偏移点的损失&lt;br&gt;&lt;img src=&quot;https://pic.downk.cc/item/5e4d168148b86553ee9f10b0.png&quot; alt=&quot;&quot;&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;因此可以推测出（论文竟然没给框架图），CenterNet预测得到三种Heatmap，第一种中心点分类：[1,C（类别数）,128,128]、[1,2（宽、高）,128,128]、[1,2（偏移量）,128,128]。&lt;br&gt;&lt;img src=&quot;https://pic.downk.cc/item/5e4d17ad48b86553ee9f79d4.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;Experiment&quot;&gt;&lt;a href=&quot;#Experiment&quot; class=&quot;headerlink&quot; title=&quot;Experiment&quot;&gt;&lt;/a&gt;Experiment&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;https://pic.downk.cc/item/5e4d1b0148b86553eea08cb6.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;可以看到与大部分检测相比，CenterNet的FPS几乎碾压，准确率也能保持在中上的水平。&lt;/p&gt;
+&lt;h1 id=&quot;Note&quot;&gt;&lt;a href=&quot;#Note&quot; class=&quot;headerlink&quot; title=&quot;Note&quot;&gt;&lt;/a&gt;Note&lt;/h1&gt;&lt;p&gt;本文CenterNet在检测的时间和效果上做到了比较好的权衡，虽然算法也相对简单，但能将同一个框架应用到不同的领域，是十分棒的一个模型！&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;论文：Objects as points&lt;br&gt;论文链接：&lt;a href=&quot;https://arxiv.org/abs/1904.07850&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://arxiv.org/abs/1904.07850&lt;/
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="http://chr10003566.github.io./categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>CenterNet论文笔记.md</title>
