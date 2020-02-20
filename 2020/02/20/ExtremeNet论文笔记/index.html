@@ -82,25 +82,25 @@
 
 
 
-<meta name="description" content="论文：Objects as points论文链接：https://arxiv.org/abs/1904.07850代码链接：https://github.com/xingyizhou/CenterNet
-Preface这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基">
+<meta name="description" content="论文：Bottom-up Object Detection by Grouping Extreme and Center Points论文链接：https://arxiv.org/abs/1901.08043代码链接：https://github.com/xingyizhou/ExtremeNet.
+Preface本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CenterNet论文笔记-Objects as points">
-<meta property="og:url" content="http://chr10003566.github.io./2020/02/19/CenterNet论文笔记-Objects-as-points/index.html">
+<meta property="og:title" content="ExtremeNet论文笔记">
+<meta property="og:url" content="http://chr10003566.github.io./2020/02/20/ExtremeNet论文笔记/index.html">
 <meta property="og:site_name" content="Cui的个人博客">
-<meta property="og:description" content="论文：Objects as points论文链接：https://arxiv.org/abs/1904.07850代码链接：https://github.com/xingyizhou/CenterNet
-Preface这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4d131448b86553ee9df3e3.png">
-<meta property="og:image" content="https://pic2.zhimg.com/80/v2-82171546bc2b8448d45dd6915c40d375_hd.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4d168148b86553ee9f10b0.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4d17ad48b86553ee9f79d4.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4d1b0148b86553eea08cb6.png">
-<meta property="og:updated_time" content="2020-02-19T11:28:20.198Z">
+<meta property="og:description" content="论文：Bottom-up Object Detection by Grouping Extreme and Center Points论文链接：https://arxiv.org/abs/1901.08043代码链接：https://github.com/xingyizhou/ExtremeNet.
+Preface本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者">
+<meta property="og:image" content="https://pic.downk.cc/item/5e4e297148b86553eed44aa6.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5e4e347e48b86553eed69439.png">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-6ba5861194a662374d321158df519ba1_hd.jpg">
+<meta property="og:image" content="https://pic.downk.cc/item/5e4e3e8e48b86553eed8b0e3.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5e4e3ed448b86553eed8bd67.png">
+<meta property="og:updated_time" content="2020-02-20T08:11:27.481Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CenterNet论文笔记-Objects as points">
-<meta name="twitter:description" content="论文：Objects as points论文链接：https://arxiv.org/abs/1904.07850代码链接：https://github.com/xingyizhou/CenterNet
-Preface这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基">
-<meta name="twitter:image" content="https://pic.downk.cc/item/5e4d131448b86553ee9df3e3.png">
+<meta name="twitter:title" content="ExtremeNet论文笔记">
+<meta name="twitter:description" content="论文：Bottom-up Object Detection by Grouping Extreme and Center Points论文链接：https://arxiv.org/abs/1901.08043代码链接：https://github.com/xingyizhou/ExtremeNet.
+Preface本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者">
+<meta name="twitter:image" content="https://pic.downk.cc/item/5e4e297148b86553eed44aa6.png">
 
 
 
@@ -118,7 +118,7 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
   };
 </script>
 
-  <title> CenterNet论文笔记-Objects as points | Cui的个人博客 </title>
+  <title> ExtremeNet论文笔记 | Cui的个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -248,7 +248,7 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
             
             
               
-                CenterNet论文笔记-Objects as points
+                ExtremeNet论文笔记
               
             
           </h1>
@@ -260,8 +260,8 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2020-02-19T15:21:19+08:00" content="2020-02-19">
-              2020-02-19
+            <time itemprop="dateCreated" datetime="2020-02-20T12:03:42+08:00" content="2020-02-20">
+              2020-02-20
             </time>
           </span>
 
@@ -290,8 +290,8 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2020/02/19/CenterNet论文笔记-Objects-as-points/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/19/CenterNet论文笔记-Objects-as-points/" itemprop="commentsCount"></span>
+                <a href="/2020/02/20/ExtremeNet论文笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/20/ExtremeNet论文笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -314,32 +314,23 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
       
 
       
-        <p>论文：Objects as points<br>论文链接：<a href="https://arxiv.org/abs/1904.07850" target="_blank" rel="external">https://arxiv.org/abs/1904.07850</a><br>代码链接：<a href="https://github.com/xingyizhou/CenterNet" target="_blank" rel="external">https://github.com/xingyizhou/CenterNet</a></p>
-<h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p>这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基于CornerNet的框架，对其做了一定程度的改进，但改进方向不相同，本篇CenterNet主要是借鉴了CornerNet从关键点检转到目标检测的方法，而华为诺亚实验室的CenterNet则主要是找到了CornerNet存在未利用到物体内部特征，无法感知内部信息的缺点，对该缺点做了改进。简单介绍了两篇CenterNet，现在着重介绍下本篇CenterNet吧。</p>
-<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>在本文中，作者很专业地指出了one stage approach和two stage approach的区别</p>
-<blockquote>
-<p>One stage approach: 在图像上滑动复杂排列的可能bbox（即锚点）,然后直接对框进行分类，而不会利用到物体内部特征，无法感知内部信息。</p>
-<p>Two stage approach:对每个潜在框会重新计算图像特征，然后将那些特征进行分类。</p>
-</blockquote>
-<p>并且作者认为后处理，即 NMS（非极大值抑制），通过计算Bbox间的IOU来删除同个目标的重复检测框。这种后处理很难区分和训练，因此现有大多检测器都不是端到端可训练的。</p>
-<p>作者将自己的方法CenterNet与one stage approach做了详细的对比，认为主要存在以下三点区别</p>
-<blockquote>
-<p>由于本文的CenterNet没有设置Anchor，而是通过关键点，因此不用设置阈值来区分前后景</p>
-<p>同样也是由于Anchor Free的原因，不需要使用NMS。</p>
-<p>CenterNet与之前目标检测框架比起来，使用了更大的特征图，仅仅只缩放了4倍，而此前的目标检测框架往往缩放8，16，32倍等。</p>
-</blockquote>
-<p><img src="https://pic.downk.cc/item/5e4d131448b86553ee9df3e3.png" alt=""></p>
-<p>可以看到算法在效果和效率之间能取得很好的平衡！</p>
-<h1 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h1><p>这里主要和CornerNet做一个对比，来详细的了解一下CenterNet所做的创新（个人感觉相比于华为诺亚实验室提高5%的创新点，本文稍显简单）此处借鉴：<a href="本文链接：https://blog.csdn.net/u014380165/article/details/92801206">AI之路-CenterNet笔记</a></p>
-<ol>
-<li>CenterNet与CornerNet相同，都是采用<strong>Heatmap来进行预测</strong>，所不同的是CenterNet预测的是中心点，而CornerNet则预测的是左上角点和右下角点，CenterNet在关键点的处理上是借鉴CornerNet的，<strong>引入了预测点的高斯分布区域计算真实预测值</strong>，对该点不是很理解的同学，可以阅读<a href="https://zhuanlan.zhihu.com/p/66048276" target="_blank" rel="external">CenterNet——Objects as Points论文解读</a>，引用一张图来简单说明一下。<img src="https://pic2.zhimg.com/80/v2-82171546bc2b8448d45dd6915c40d375_hd.png" alt="高斯分布">即真实object中心点处Heatmap的值为1，而靠近中心点的值不完全设置为0，而是呈高斯分布逐渐减小。在损失函数的设计上，CenterNet同样借鉴了CornerNet，将Focal loss融合进自己中心点检测的损失函数，在上面的链接中非常详细的解释了该损失函数的原理。</li>
-<li>CenterNet和CornerNet同样使用了offset来对下采样导致的坐标误差进行微调，但是CornerNet使用的是在坐标误差中多次被应用的Smooth L1 loss，而CenterNet则使用的是L1 loss。其实这个offset是可选的，并非一定要使用，只是使用的话效果会有所下降（做比赛，刷榜的时候可以考虑的策略）</li>
-<li>CornerNet是通过组合左上角点和右上角点来组成候选框的，那么CenterNet如何通过中心点来获得候选框呢？CenterNet则是使用暴力法，直接通过回归得到候选框的宽和高，同样宽、高的损失函数同样是L1 loss，因此其整体的损失函数由3部分组成，第一部分是中心点分类的损失，第二部分是尺寸（宽、高）的损失，第三部分则是中心点偏移点的损失<br><img src="https://pic.downk.cc/item/5e4d168148b86553ee9f10b0.png" alt=""></li>
-</ol>
-<p>因此可以推测出（论文竟然没给框架图），CenterNet预测得到三种Heatmap，第一种中心点分类：[1,C（类别数）,128,128]、[1,2（宽、高）,128,128]、[1,2（偏移量）,128,128]。<br><img src="https://pic.downk.cc/item/5e4d17ad48b86553ee9f79d4.png" alt=""></p>
-<h1 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h1><p><img src="https://pic.downk.cc/item/5e4d1b0148b86553eea08cb6.png" alt=""></p>
-<p>可以看到与大部分检测相比，CenterNet的FPS几乎碾压，准确率也能保持在中上的水平。</p>
-<h1 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h1><p>本文CenterNet在检测的时间和效果上做到了比较好的权衡，虽然算法也相对简单，但能将同一个框架应用到不同的领域，是十分棒的一个模型！</p>
+        <p>论文：Bottom-up Object Detection by Grouping Extreme and Center Points<br>论文链接：<a href="https://arxiv.org/abs/1901.08043" target="_blank" rel="external">https://arxiv.org/abs/1901.08043</a><br>代码链接：<a href="https://github.com/xingyizhou/ExtremeNet" target="_blank" rel="external">https://github.com/xingyizhou/ExtremeNet</a>.</p>
+<h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p>本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者的主页<a href="https://www.cs.utexas.edu/~zhouxy/" target="_blank" rel="external">Xingyi Zhou主页</a>，发现作者主要是做关键点检测，正巧将其使用在目标检测上。本篇文章被CVPR 2019收录了，同样是Anchor free系列中的文章，也同样是关键点检测转到目标检测当中！</p>
+<p>#Introduction<br>文章作者提到自上而下的检测器—基于Anchor based的检测器存在以下问题：</p>
+<ul>
+<li>矩形框不是自然对象的表示，大多数的物体不是轴对齐的框</li>
+<li>基于Anchor based的检测器需要枚举大量的矩形框，而这些候选框并不是真正理解了物体本身构成的视觉语法</li>
+</ul>
+<p>本文还与CornerNet做了比较，主要有两点不同：</p>
+<ul>
+<li>角点，往往在物体的外面，没有明显的外观特点。而极点，则位于物体上，有一致的局部外观特征。</li>
+<li>CornerNet是基于几何重组，即通过计算角点的嵌入向量的距离，来判断两个角点是否属于同一个矩形框，而ExtremeNet则是通过四个极点+一个中心点来构建矩形框的，四个极点和中心点都包含外观特征。</li>
+</ul>
+<h1 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h1><p><img src="https://pic.downk.cc/item/5e4e297148b86553eed44aa6.png" alt=""><br>上图是ExtremeNet的整体框架图，可以看到输入一张图像后，通过沙漏网络最后会得到4个C x H x W的Heatmap（极上点，极左点，极下点，极右点），以及1个C x h x w的Heatmap（中心点），还有4个极点的偏移值（2 x H x W）。如何通过4个极点确定一个候选框呢？作者借鉴了<a href="https://arxiv.org/abs/1708.02750" target="_blank" rel="external">Extreme clicking for efficient object annotation</a>，即若4个极点的坐标为(x(t), y(t)), (x(l), y(l)), (x(b), y(b)), (x(r), y(r))，则中心点的坐标为(x(l)+x(r)/2,y(t)+y(b)/2)，如何通过Heatmap确定极点的呢？作者通过一个3 x 3的滑动窗口，找到一个Peak，它的值比相邻的关键点都大，并且比设定的阈值也更大。因此确定了极点。4个极点的分类损失和偏移值的使用均和CornerNet相一致，中心点的Heatmap目的则是为了减少误检，用于四个极点固定好后，可以计算得到候选框的中心点坐标（下采样后的），如果计算得到的中心点在中心点的Heatmap的值大于设定的阈值，则保留该候选框。下图则展示了其具体的流程～<br><img src="https://pic.downk.cc/item/5e4e347e48b86553eed69439.png" alt=""></p>
+<p>作者针对一些特殊情况，做了一些改进，如当三个objects并排的时候，可能会出现最左边的极点和最右边的极点与最上、最下的极点同样构成一个候选框，也就是如下图的情况。<br><img src="https://pic2.zhimg.com/80/v2-6ba5861194a662374d321158df519ba1_hd.jpg" alt=""><br>蓝色代表真实目标，红色虚线代表被误检的框。如果出现这种情况，即一个框内所有框的置信度分数之和超过该框的3倍，则将该框的置信度除以2</p>
+<p>由于极点的定义不是固定的，如果目标物边界边缘构成极点，则该边的任意一个点都可以看作是极点。因此，本文对目标物的对齐边界产生一个较弱的相应，而不是强峰值响应。但这种弱相应存在两个问题：第一：较弱的相应其值可能会低于峰值阈值，因此该极点可能会被忽略。第二：即使检测到了一个极点，其分数仍可能会比具有强响应的旋转对象的分数低。本文采用edge aggregation解决上述问题。</p>
+<p>对于提取出局部最大点的极点，将其水平方向及垂直方向极点的分数进行聚合。将所有分数单调递减的极点进行聚合。当在聚合方向达到局部最小值的时候停止聚合。<br><img src="https://pic.downk.cc/item/5e4e3e8e48b86553eed8b0e3.png" alt=""></p>
+<h1 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h1><p><img src="https://pic.downk.cc/item/5e4e3ed448b86553eed8bd67.png" alt=""><br>并未给出速度上的实验，不过从实验效果看，可以看到Center heatmap和group确实可以在CornerNet上得到提升。</p>
 
       
     </div>
@@ -363,17 +354,13 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/16/CenterNet论文笔记/" rel="next" title="CenterNet论文笔记.md">
-                <i class="fa fa-chevron-left"></i> CenterNet论文笔记.md
+              <a href="/2020/02/19/CenterNet论文笔记-Objects-as-points/" rel="next" title="CenterNet论文笔记-Objects as points">
+                <i class="fa fa-chevron-left"></i> CenterNet论文笔记-Objects as points
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/02/20/ExtremeNet论文笔记/" rel="prev" title="ExtremeNet论文笔记">
-                ExtremeNet论文笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -399,8 +386,8 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2020/02/19/CenterNet论文笔记-Objects-as-points/"
-           data-title="CenterNet论文笔记-Objects as points" data-url="http://chr10003566.github.io./2020/02/19/CenterNet论文笔记-Objects-as-points/">
+      <div class="ds-thread" data-thread-key="2020/02/20/ExtremeNet论文笔记/"
+           data-title="ExtremeNet论文笔记" data-url="http://chr10003566.github.io./2020/02/20/ExtremeNet论文笔记/">
       </div>
     
   </div>
@@ -522,7 +509,7 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Method"><span class="nav-number">3.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Experiment"><span class="nav-number">4.</span> <span class="nav-text">Experiment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Note"><span class="nav-number">5.</span> <span class="nav-text">Note</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Method"><span class="nav-number">2.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Experiment"><span class="nav-number">3.</span> <span class="nav-text">Experiment</span></a></li></ol></div>
             
           </div>
         </section>
