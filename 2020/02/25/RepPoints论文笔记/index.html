@@ -82,25 +82,31 @@
 
 
 
-<meta name="description" content="论文：Bottom-up Object Detection by Grouping Extreme and Center Points论文链接：https://arxiv.org/abs/1901.08043代码链接：https://github.com/xingyizhou/ExtremeNet.
-Preface本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者">
+<meta name="description" content="论文：RepPoints: Point Set Representation for Object Detection论文链接：https://arxiv.org/pdf/1904.11490.pdf代码链接：https://github.com/microsoft/RepPoints
+Preface 该篇文章是由微软亚研院提出，可以看做是可形变卷积的第三版本，文章相比之前的文章更难理解一些，本人">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ExtremeNet论文笔记">
-<meta property="og:url" content="http://chr10003566.github.io./2020/02/20/ExtremeNet论文笔记/index.html">
+<meta property="og:title" content="RepPoints论文笔记">
+<meta property="og:url" content="http://chr10003566.github.io./2020/02/25/RepPoints论文笔记/index.html">
 <meta property="og:site_name" content="Cui的个人博客">
-<meta property="og:description" content="论文：Bottom-up Object Detection by Grouping Extreme and Center Points论文链接：https://arxiv.org/abs/1901.08043代码链接：https://github.com/xingyizhou/ExtremeNet.
-Preface本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4e297148b86553eed44aa6.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4e347e48b86553eed69439.png">
-<meta property="og:image" content="https://pic2.zhimg.com/80/v2-6ba5861194a662374d321158df519ba1_hd.jpg">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4e3e8e48b86553eed8b0e3.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4e3ed448b86553eed8bd67.png">
-<meta property="og:updated_time" content="2020-02-20T08:11:27.481Z">
+<meta property="og:description" content="论文：RepPoints: Point Set Representation for Object Detection论文链接：https://arxiv.org/pdf/1904.11490.pdf代码链接：https://github.com/microsoft/RepPoints
+Preface 该篇文章是由微软亚研院提出，可以看做是可形变卷积的第三版本，文章相比之前的文章更难理解一些，本人">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-1436b85dcf4ff78eb1afe60c27b8820c_1440w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-6eacb5f7ab764e0a13c26ebb2414eba1_1440w.jpg">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=y%28p%29%3D%5Csum_%7Bk%3D1%7D%5E%7BK%7D+w_%7Bk%7D+%5Ccdot+x%5Cleft%28p%2Bp_%7Bk%7D%2B%5CDelta+p_%7Bk%7D%5Cright%29%5C%5C">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-5763a8a1b84c0a9ea1251847eeaffd62_1440w.jpg">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=y%28p%29%3D%5Csum_%7Bk%3D1%7D%5E%7BK%7D+w_%7Bk%7D+%5Ccdot+x%5Cleft%28p%2Bp_%7Bk%7D%2B%5CDelta+p_%7Bk%7D%5Cright%29+%5Ccdot+%5CDelta+m_%7Bk%7D%5C%5C">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-a0f767e67fbabf461d2abd479ba90da8_1440w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-90b287d33671ba1544fa99950f6b9058_1440w.jpg">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathcal%7BB%7D%3D%28x%2C+y%2C+w%2C+h%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x%2C+y">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w%2C+h">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-e7d1addcb3d0c80813d18c0455972ad3_1440w.jpg">
+<meta property="og:updated_time" content="2020-02-28T12:09:59.010Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ExtremeNet论文笔记">
-<meta name="twitter:description" content="论文：Bottom-up Object Detection by Grouping Extreme and Center Points论文链接：https://arxiv.org/abs/1901.08043代码链接：https://github.com/xingyizhou/ExtremeNet.
-Preface本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者">
-<meta name="twitter:image" content="https://pic.downk.cc/item/5e4e297148b86553eed44aa6.png">
+<meta name="twitter:title" content="RepPoints论文笔记">
+<meta name="twitter:description" content="论文：RepPoints: Point Set Representation for Object Detection论文链接：https://arxiv.org/pdf/1904.11490.pdf代码链接：https://github.com/microsoft/RepPoints
+Preface 该篇文章是由微软亚研院提出，可以看做是可形变卷积的第三版本，文章相比之前的文章更难理解一些，本人">
+<meta name="twitter:image" content="https://pic1.zhimg.com/80/v2-1436b85dcf4ff78eb1afe60c27b8820c_1440w.jpg">
 
 
 
@@ -118,7 +124,7 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
   };
 </script>
 
-  <title> ExtremeNet论文笔记 | Cui的个人博客 </title>
+  <title> RepPoints论文笔记 | Cui的个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -248,7 +254,7 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
             
             
               
-                ExtremeNet论文笔记
+                RepPoints论文笔记
               
             
           </h1>
@@ -260,8 +266,8 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2020-02-20T12:03:42+08:00" content="2020-02-20">
-              2020-02-20
+            <time itemprop="dateCreated" datetime="2020-02-25T16:17:05+08:00" content="2020-02-25">
+              2020-02-25
             </time>
           </span>
 
@@ -290,8 +296,8 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2020/02/20/ExtremeNet论文笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/20/ExtremeNet论文笔记/" itemprop="commentsCount"></span>
+                <a href="/2020/02/25/RepPoints论文笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/25/RepPoints论文笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -314,23 +320,32 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
       
 
       
-        <p>论文：Bottom-up Object Detection by Grouping Extreme and Center Points<br>论文链接：<a href="https://arxiv.org/abs/1901.08043" target="_blank" rel="external">https://arxiv.org/abs/1901.08043</a><br>代码链接：<a href="https://github.com/xingyizhou/ExtremeNet" target="_blank" rel="external">https://github.com/xingyizhou/ExtremeNet</a>.</p>
-<h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p>本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者的主页<a href="https://www.cs.utexas.edu/~zhouxy/" target="_blank" rel="external">Xingyi Zhou主页</a>，发现作者主要是做关键点检测，正巧将其使用在目标检测上。本篇文章被CVPR 2019收录了，同样是Anchor free系列中的文章，也同样是关键点检测转到目标检测当中！</p>
-<p>#Introduction<br>文章作者提到自上而下的检测器—基于Anchor based的检测器存在以下问题：</p>
-<ul>
-<li>矩形框不是自然对象的表示，大多数的物体不是轴对齐的框</li>
-<li>基于Anchor based的检测器需要枚举大量的矩形框，而这些候选框并不是真正理解了物体本身构成的视觉语法</li>
-</ul>
-<p>本文还与CornerNet做了比较，主要有两点不同：</p>
-<ul>
-<li>角点，往往在物体的外面，没有明显的外观特点。而极点，则位于物体上，有一致的局部外观特征。</li>
-<li>CornerNet是基于几何重组，即通过计算角点的嵌入向量的距离，来判断两个角点是否属于同一个矩形框，而ExtremeNet则是通过四个极点+一个中心点来构建矩形框的，四个极点和中心点都包含外观特征。</li>
-</ul>
-<h1 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h1><p><img src="https://pic.downk.cc/item/5e4e297148b86553eed44aa6.png" alt=""><br>上图是ExtremeNet的整体框架图，可以看到输入一张图像后，通过沙漏网络最后会得到4个C x H x W的Heatmap（极上点，极左点，极下点，极右点），以及1个C x h x w的Heatmap（中心点），还有4个极点的偏移值（2 x H x W）。如何通过4个极点确定一个候选框呢？作者借鉴了<a href="https://arxiv.org/abs/1708.02750" target="_blank" rel="external">Extreme clicking for efficient object annotation</a>，即若4个极点的坐标为(x(t), y(t)), (x(l), y(l)), (x(b), y(b)), (x(r), y(r))，则中心点的坐标为(x(l)+x(r)/2,y(t)+y(b)/2)，如何通过Heatmap确定极点的呢？作者通过一个3 x 3的滑动窗口，找到一个Peak，它的值比相邻的关键点都大，并且比设定的阈值也更大。因此确定了极点。4个极点的分类损失和偏移值的使用均和CornerNet相一致，中心点的Heatmap目的则是为了减少误检，用于四个极点固定好后，可以计算得到候选框的中心点坐标（下采样后的），如果计算得到的中心点在中心点的Heatmap的值大于设定的阈值，则保留该候选框。下图则展示了其具体的流程～<br><img src="https://pic.downk.cc/item/5e4e347e48b86553eed69439.png" alt=""></p>
-<p>作者针对一些特殊情况，做了一些改进，如当三个objects并排的时候，可能会出现最左边的极点和最右边的极点与最上、最下的极点同样构成一个候选框，也就是如下图的情况。<br><img src="https://pic2.zhimg.com/80/v2-6ba5861194a662374d321158df519ba1_hd.jpg" alt=""><br>蓝色代表真实目标，红色虚线代表被误检的框。如果出现这种情况，即一个框内所有框的置信度分数之和超过该框的3倍，则将该框的置信度除以2</p>
-<p>由于极点的定义不是固定的，如果目标物边界边缘构成极点，则该边的任意一个点都可以看作是极点。因此，本文对目标物的对齐边界产生一个较弱的相应，而不是强峰值响应。但这种弱相应存在两个问题：第一：较弱的相应其值可能会低于峰值阈值，因此该极点可能会被忽略。第二：即使检测到了一个极点，其分数仍可能会比具有强响应的旋转对象的分数低。本文采用edge aggregation解决上述问题。</p>
-<p>对于提取出局部最大点的极点，将其水平方向及垂直方向极点的分数进行聚合。将所有分数单调递减的极点进行聚合。当在聚合方向达到局部最小值的时候停止聚合。<br><img src="https://pic.downk.cc/item/5e4e3e8e48b86553eed8b0e3.png" alt=""></p>
-<h1 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h1><p><img src="https://pic.downk.cc/item/5e4e3ed448b86553eed8bd67.png" alt=""><br>并未给出速度上的实验，不过从实验效果看，可以看到Center heatmap和group确实可以在CornerNet上得到提升。</p>
+        <p>论文：RepPoints: Point Set Representation for Object Detection<br>论文链接：<a href="https://arxiv.org/pdf/1904.11490.pdf" target="_blank" rel="external">https://arxiv.org/pdf/1904.11490.pdf</a><br>代码链接：<a href="https://github.com/microsoft/RepPoints" target="_blank" rel="external">https://github.com/microsoft/RepPoints</a></p>
+<h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p> 该篇文章是由微软亚研院提出，可以看做是可形变卷积的第三版本，文章相比之前的文章更难理解一些，本人理解可能也有偏差，大家可以多搜索些资料，积极思考下，本文仅给出个人阅读的见解。下面是一些阅读资料。</p>
+<p> <a href="https://www.zhihu.com/question/57493889" target="_blank" rel="external">如何评价Deformable Conv</a><br> <a href="https://www.zhihu.com/question/322372759/answer/798327725" target="_blank" rel="external">如何评价RepPoints</a><br> 以及本文主要借鉴的一篇博客：<br> <a href="https://zhuanlan.zhihu.com/p/64522910" target="_blank" rel="external">陀飞轮—RepPoints：可形变卷积的进阶</a></p>
+<h2 id="Review-of-DCNv1-and-DCNv2"><a href="#Review-of-DCNv1-and-DCNv2" class="headerlink" title="Review of DCNv1 and DCNv2"></a>Review of DCNv1 and DCNv2</h2><p>由尺度、姿态、视角和部分形变等因素引起的几何变化是目标识别和检测的主要挑战。在卷积/RoI池化模块中，DCN通过学习采样点的位置来得到几何形变建模的能力。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-1436b85dcf4ff78eb1afe60c27b8820c_1440w.jpg" alt=""></p>
+<h3 id="Deformable-Convolution"><a href="#Deformable-Convolution" class="headerlink" title="Deformable Convolution"></a>Deformable Convolution</h3><p><img src="https://pic2.zhimg.com/80/v2-6eacb5f7ab764e0a13c26ebb2414eba1_1440w.jpg" alt=""></p>
+<p>由输入特征学习得到的偏移量来改变标准卷积的采样位置。</p>
+<p>可形变卷积可以表示为：<br><img src="https://www.zhihu.com/equation?tex=y%28p%29%3D%5Csum_%7Bk%3D1%7D%5E%7BK%7D+w_%7Bk%7D+%5Ccdot+x%5Cleft%28p%2Bp_%7Bk%7D%2B%5CDelta+p_%7Bk%7D%5Cright%29%5C%5C" alt=""></p>
+<p>[具体的解释可见上述链接]</p>
+<p>PS：偏移量特征的分辨率与输入特征的分辨率相同，且通道数为采样点个数的两倍(即每个位置都有x和y两个方向的偏移量)。</p>
+<h3 id="Modulated-Deformable-Convolution"><a href="#Modulated-Deformable-Convolution" class="headerlink" title="Modulated Deformable Convolution"></a>Modulated Deformable Convolution</h3><p><img src="https://pic3.zhimg.com/80/v2-5763a8a1b84c0a9ea1251847eeaffd62_1440w.jpg" alt=""></p>
+<p>相比可形变卷积多了一个调制因子。</p>
+<p>调制可形变卷积可以表示为：</p>
+<p><img src="https://www.zhihu.com/equation?tex=y%28p%29%3D%5Csum_%7Bk%3D1%7D%5E%7BK%7D+w_%7Bk%7D+%5Ccdot+x%5Cleft%28p%2Bp_%7Bk%7D%2B%5CDelta+p_%7Bk%7D%5Cright%29+%5Ccdot+%5CDelta+m_%7Bk%7D%5C%5C" alt=""></p>
+<p>PS：调制因子特征的分辨率与输入特征的分辨率相同，且通道数为采样点的个数，加上偏移量特征后的通道数为采样点个数的三倍(即每个位置都有x和y两个方向的偏移量，还有一个调制因子)。</p>
+<h3 id="Deformable-RoI-Pooling"><a href="#Deformable-RoI-Pooling" class="headerlink" title="Deformable RoI Pooling"></a>Deformable RoI Pooling</h3><p><img src="https://pic1.zhimg.com/80/v2-a0f767e67fbabf461d2abd479ba90da8_1440w.jpg" alt=""></p>
+<h2 id="RepPoints"><a href="#RepPoints" class="headerlink" title="RepPoints"></a>RepPoints</h2><h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><p>在目标检测任务中，边界框描述了目标检测器各阶段的目标位置。</p>
+<p>虽然边界框便于计算，但它们仅提供目标的粗略定位，并不完全拟合目标的形状和姿态。因此，从边界框的规则单元格中提取的特征可能会受到背景内容或前景区域的无效信息的严重影响。这可能导致特征质量降低，从而降低了目标检测的分类性能。</p>
+<p>本文提出一种新的表示方法，称为 RepPoints，它提供了更细粒度的定位和更方便的分类。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-90b287d33671ba1544fa99950f6b9058_1440w.jpg" alt=""></p>
+<p>如图所示，RepPoints 是一组点，通过学习自适应地将自己置于目标之上，该方式限定了目标的空间范围，并且表示具有重要语义信息的局部区域。</p>
+<p>RepPoints 的训练由目标定位和识别共同驱动的，因此，RepPoints 与 ground-truth 的边界框紧密相关，并引导检测器正确地分类目标。</p>
+<h3 id="Bounding-Box-Representation"><a href="#Bounding-Box-Representation" class="headerlink" title="Bounding Box Representation"></a>Bounding Box Representation</h3><p>边界框是一个4维表示，编码目标的空间位置，即<img src="https://www.zhihu.com/equation?tex=%5Cmathcal%7BB%7D%3D%28x%2C+y%2C+w%2C+h%29" alt=""> ， <img src="https://www.zhihu.com/equation?tex=x%2C+y" alt="">表示中心点， <img src="https://www.zhihu.com/equation?tex=w%2C+h" alt="">表示宽度和高度。</p>
+<p>由于其使用简单方便，现代目标检测器严重依赖于边界框来表示检测 pipeline 中各个阶段的对象。</p>
+<p>性能最优的目标检测器通常遵循一个 multi-stage 的识别范式，其中目标定位是逐步细化的。其中，目标表示的角色如下：</p>
+<p><img src="https://pic4.zhimg.com/80/v2-e7d1addcb3d0c80813d18c0455972ad3_1440w.jpg" alt=""></p>
 
       
     </div>
@@ -354,16 +369,16 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/19/CenterNet论文笔记-Objects-as-points/" rel="next" title="CenterNet论文笔记-Objects as points">
-                <i class="fa fa-chevron-left"></i> CenterNet论文笔记-Objects as points
+              <a href="/2020/02/20/ExtremeNet论文笔记/" rel="next" title="ExtremeNet论文笔记">
+                <i class="fa fa-chevron-left"></i> ExtremeNet论文笔记
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/25/RepPoints论文笔记/" rel="prev" title="RepPoints论文笔记">
-                RepPoints论文笔记 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/26/FoveaBox论文笔记/" rel="prev" title="FoveaBox论文笔记">
+                FoveaBox论文笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -390,8 +405,8 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2020/02/20/ExtremeNet论文笔记/"
-           data-title="ExtremeNet论文笔记" data-url="http://chr10003566.github.io./2020/02/20/ExtremeNet论文笔记/">
+      <div class="ds-thread" data-thread-key="2020/02/25/RepPoints论文笔记/"
+           data-title="RepPoints论文笔记" data-url="http://chr10003566.github.io./2020/02/25/RepPoints论文笔记/">
       </div>
     
   </div>
@@ -513,7 +528,7 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Method"><span class="nav-number">2.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Experiment"><span class="nav-number">3.</span> <span class="nav-text">Experiment</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Review-of-DCNv1-and-DCNv2"><span class="nav-number">2.</span> <span class="nav-text">Review of DCNv1 and DCNv2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Deformable-Convolution"><span class="nav-number">2.1.</span> <span class="nav-text">Deformable Convolution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Modulated-Deformable-Convolution"><span class="nav-number">2.2.</span> <span class="nav-text">Modulated Deformable Convolution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deformable-RoI-Pooling"><span class="nav-number">2.3.</span> <span class="nav-text">Deformable RoI Pooling</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RepPoints"><span class="nav-number">3.</span> <span class="nav-text">RepPoints</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">3.1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bounding-Box-Representation"><span class="nav-number">3.2.</span> <span class="nav-text">Bounding Box Representation</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

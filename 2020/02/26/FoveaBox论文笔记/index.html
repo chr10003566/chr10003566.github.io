@@ -82,25 +82,27 @@
 
 
 
-<meta name="description" content="论文：Bottom-up Object Detection by Grouping Extreme and Center Points论文链接：https://arxiv.org/abs/1901.08043代码链接：https://github.com/xingyizhou/ExtremeNet.
-Preface本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者">
+<meta name="description" content="论文：FoveaBox: Beyond Anchor-based Object Detector论文链接：https://arxiv.org/abs/1904.03797代码链接：https://github.com/taokong/FoveaBox
+IntroductionFoveaBox同样是一篇Anchor Free的文章，与之前介绍的Anchor Free文章不同，FoveaBox并不是通">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ExtremeNet论文笔记">
-<meta property="og:url" content="http://chr10003566.github.io./2020/02/20/ExtremeNet论文笔记/index.html">
+<meta property="og:title" content="FoveaBox论文笔记">
+<meta property="og:url" content="http://chr10003566.github.io./2020/02/26/FoveaBox论文笔记/index.html">
 <meta property="og:site_name" content="Cui的个人博客">
-<meta property="og:description" content="论文：Bottom-up Object Detection by Grouping Extreme and Center Points论文链接：https://arxiv.org/abs/1901.08043代码链接：https://github.com/xingyizhou/ExtremeNet.
-Preface本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4e297148b86553eed44aa6.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4e347e48b86553eed69439.png">
-<meta property="og:image" content="https://pic2.zhimg.com/80/v2-6ba5861194a662374d321158df519ba1_hd.jpg">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4e3e8e48b86553eed8b0e3.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4e3ed448b86553eed8bd67.png">
-<meta property="og:updated_time" content="2020-02-20T08:11:27.481Z">
+<meta property="og:description" content="论文：FoveaBox: Beyond Anchor-based Object Detector论文链接：https://arxiv.org/abs/1904.03797代码链接：https://github.com/taokong/FoveaBox
+IntroductionFoveaBox同样是一篇Anchor Free的文章，与之前介绍的Anchor Free文章不同，FoveaBox并不是通">
+<meta property="og:image" content="https://pic.downk.cc/item/5e5652a56127cc0713d5d532.png">
+<meta property="og:image" content="https://pic.downk.cc/item/5e5652fa6127cc0713d5e265.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191007201656622.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191007201716471.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191007201745787.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019100720175945.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191007201848902.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzc1NjA5,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2020-02-26T13:04:01.610Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ExtremeNet论文笔记">
-<meta name="twitter:description" content="论文：Bottom-up Object Detection by Grouping Extreme and Center Points论文链接：https://arxiv.org/abs/1901.08043代码链接：https://github.com/xingyizhou/ExtremeNet.
-Preface本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者">
-<meta name="twitter:image" content="https://pic.downk.cc/item/5e4e297148b86553eed44aa6.png">
+<meta name="twitter:title" content="FoveaBox论文笔记">
+<meta name="twitter:description" content="论文：FoveaBox: Beyond Anchor-based Object Detector论文链接：https://arxiv.org/abs/1904.03797代码链接：https://github.com/taokong/FoveaBox
+IntroductionFoveaBox同样是一篇Anchor Free的文章，与之前介绍的Anchor Free文章不同，FoveaBox并不是通">
+<meta name="twitter:image" content="https://pic.downk.cc/item/5e5652a56127cc0713d5d532.png">
 
 
 
@@ -118,7 +120,7 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
   };
 </script>
 
-  <title> ExtremeNet论文笔记 | Cui的个人博客 </title>
+  <title> FoveaBox论文笔记 | Cui的个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -248,7 +250,7 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
             
             
               
-                ExtremeNet论文笔记
+                FoveaBox论文笔记
               
             
           </h1>
@@ -260,8 +262,8 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2020-02-20T12:03:42+08:00" content="2020-02-20">
-              2020-02-20
+            <time itemprop="dateCreated" datetime="2020-02-26T16:45:16+08:00" content="2020-02-26">
+              2020-02-26
             </time>
           </span>
 
@@ -290,8 +292,8 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2020/02/20/ExtremeNet论文笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/20/ExtremeNet论文笔记/" itemprop="commentsCount"></span>
+                <a href="/2020/02/26/FoveaBox论文笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/26/FoveaBox论文笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -314,23 +316,26 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
       
 
       
-        <p>论文：Bottom-up Object Detection by Grouping Extreme and Center Points<br>论文链接：<a href="https://arxiv.org/abs/1901.08043" target="_blank" rel="external">https://arxiv.org/abs/1901.08043</a><br>代码链接：<a href="https://github.com/xingyizhou/ExtremeNet" target="_blank" rel="external">https://github.com/xingyizhou/ExtremeNet</a>.</p>
-<h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p>本篇文章与上一篇文章Objects as points是同一个第一作者，查阅了下作者的主页<a href="https://www.cs.utexas.edu/~zhouxy/" target="_blank" rel="external">Xingyi Zhou主页</a>，发现作者主要是做关键点检测，正巧将其使用在目标检测上。本篇文章被CVPR 2019收录了，同样是Anchor free系列中的文章，也同样是关键点检测转到目标检测当中！</p>
-<p>#Introduction<br>文章作者提到自上而下的检测器—基于Anchor based的检测器存在以下问题：</p>
-<ul>
-<li>矩形框不是自然对象的表示，大多数的物体不是轴对齐的框</li>
-<li>基于Anchor based的检测器需要枚举大量的矩形框，而这些候选框并不是真正理解了物体本身构成的视觉语法</li>
-</ul>
-<p>本文还与CornerNet做了比较，主要有两点不同：</p>
-<ul>
-<li>角点，往往在物体的外面，没有明显的外观特点。而极点，则位于物体上，有一致的局部外观特征。</li>
-<li>CornerNet是基于几何重组，即通过计算角点的嵌入向量的距离，来判断两个角点是否属于同一个矩形框，而ExtremeNet则是通过四个极点+一个中心点来构建矩形框的，四个极点和中心点都包含外观特征。</li>
-</ul>
-<h1 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h1><p><img src="https://pic.downk.cc/item/5e4e297148b86553eed44aa6.png" alt=""><br>上图是ExtremeNet的整体框架图，可以看到输入一张图像后，通过沙漏网络最后会得到4个C x H x W的Heatmap（极上点，极左点，极下点，极右点），以及1个C x h x w的Heatmap（中心点），还有4个极点的偏移值（2 x H x W）。如何通过4个极点确定一个候选框呢？作者借鉴了<a href="https://arxiv.org/abs/1708.02750" target="_blank" rel="external">Extreme clicking for efficient object annotation</a>，即若4个极点的坐标为(x(t), y(t)), (x(l), y(l)), (x(b), y(b)), (x(r), y(r))，则中心点的坐标为(x(l)+x(r)/2,y(t)+y(b)/2)，如何通过Heatmap确定极点的呢？作者通过一个3 x 3的滑动窗口，找到一个Peak，它的值比相邻的关键点都大，并且比设定的阈值也更大。因此确定了极点。4个极点的分类损失和偏移值的使用均和CornerNet相一致，中心点的Heatmap目的则是为了减少误检，用于四个极点固定好后，可以计算得到候选框的中心点坐标（下采样后的），如果计算得到的中心点在中心点的Heatmap的值大于设定的阈值，则保留该候选框。下图则展示了其具体的流程～<br><img src="https://pic.downk.cc/item/5e4e347e48b86553eed69439.png" alt=""></p>
-<p>作者针对一些特殊情况，做了一些改进，如当三个objects并排的时候，可能会出现最左边的极点和最右边的极点与最上、最下的极点同样构成一个候选框，也就是如下图的情况。<br><img src="https://pic2.zhimg.com/80/v2-6ba5861194a662374d321158df519ba1_hd.jpg" alt=""><br>蓝色代表真实目标，红色虚线代表被误检的框。如果出现这种情况，即一个框内所有框的置信度分数之和超过该框的3倍，则将该框的置信度除以2</p>
-<p>由于极点的定义不是固定的，如果目标物边界边缘构成极点，则该边的任意一个点都可以看作是极点。因此，本文对目标物的对齐边界产生一个较弱的相应，而不是强峰值响应。但这种弱相应存在两个问题：第一：较弱的相应其值可能会低于峰值阈值，因此该极点可能会被忽略。第二：即使检测到了一个极点，其分数仍可能会比具有强响应的旋转对象的分数低。本文采用edge aggregation解决上述问题。</p>
-<p>对于提取出局部最大点的极点，将其水平方向及垂直方向极点的分数进行聚合。将所有分数单调递减的极点进行聚合。当在聚合方向达到局部最小值的时候停止聚合。<br><img src="https://pic.downk.cc/item/5e4e3e8e48b86553eed8b0e3.png" alt=""></p>
-<h1 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h1><p><img src="https://pic.downk.cc/item/5e4e3ed448b86553eed8bd67.png" alt=""><br>并未给出速度上的实验，不过从实验效果看，可以看到Center heatmap和group确实可以在CornerNet上得到提升。</p>
+        <p>论文：FoveaBox: Beyond Anchor-based Object Detector<br>论文链接：<a href="https://arxiv.org/abs/1904.03797" target="_blank" rel="external">https://arxiv.org/abs/1904.03797</a><br>代码链接：<a href="https://github.com/taokong/FoveaBox" target="_blank" rel="external">https://github.com/taokong/FoveaBox</a></p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>FoveaBox同样是一篇Anchor Free的文章，与之前介绍的Anchor Free文章不同，FoveaBox并不是通过关键点检测来实现，其思想有点类似DenseBox与YOLOv1，Anchor-based的思想是通过预定义一些Anchor（候选框）去与Groundtruth做比较，得到候选框相对GroundTruth的偏移量，而FoveaBox则将候选框移除了，得到的Feature map对每个pixel预测其分类与候选框的坐标，几乎就是暴力回归。与其他的Anchor free的文章一样，该文章指出Anchor based文章有以下三个问题：</p>
+<ol>
+<li>会带来不少的超参数（anchor的个数、比例等等）</li>
+<li>对于不同的数据集，需要设计不同的anchor的尺寸和比例，泛化能力较差（类似YOLOv3通过聚类得到anchor的大小）</li>
+<li>anchor机制会导致正负样本不平衡的问题</li>
+</ol>
+<p>上述的问题，也确实是Anchor机制导致的问题，相信大家也听过不少了，解决方法要么是提出能够自适应的Anchor，要么放弃Anchor，投入Anchor-free的怀抱。<br><img src="https://pic.downk.cc/item/5e5652a56127cc0713d5d532.png" alt=""></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><h3 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h3><p><img src="https://pic.downk.cc/item/5e5652fa6127cc0713d5e265.png" alt=""><br>首先我们来看看FoveaBox的整体框架是怎样的（见上图），是不是很熟悉，这不是和RetianNet一致的框架么。不同的地方就在与（原文作者也标红了），最后一层的feature map的通道数不相同，RetinaNet是W x H x KA和 W x H x 4A，而FoevaBox则是W x H x K和W x H x 4，其中K表示数据集中物体的类别数（COCO - 80， VOC - 20）而A表示 Anchor的数目，FoevaBox摒弃了Anchor，因此channel数自然少了A倍。</p>
+<h3 id="Scale-Assignment"><a href="#Scale-Assignment" class="headerlink" title="Scale Assignment"></a>Scale Assignment</h3><p>由于不同的物体，尺度变化较大，作者借鉴了FPN的思路，FoveaBox将连续尺度划分成多个区间，并将它们和特征金字塔中的不同层对应。因此，特征金字塔中每层只负责预测某个特定尺度范围的矩形框，其中Sl表示第l层特征的基础大小，而给定的区间范围由一个系数η控制，衡量方式如下二式所示：<br><img src="https://img-blog.csdnimg.cn/20191007201656622.png" alt=""><br><img src="https://img-blog.csdnimg.cn/20191007201716471.png" alt=""><br>其中值得注意的是某个尺寸的物体可能会被映射到金字塔不同层次，这与之前FPN的概念有差异（某尺寸只被映射到金字塔特定某层）。</p>
+<h3 id="Object-Fovea"><a href="#Object-Fovea" class="headerlink" title="Object Fovea"></a>Object Fovea</h3><p>Fovea其实就是依据ground truth 在输出的特征上制定的样本区域。给定一个ground truth的坐标（X1,Y1,X2,Y2）,首先将这个矩形框映射到其对应的金字塔层<br><img src="https://img-blog.csdnimg.cn/20191007201745787.png" alt=""></p>
+<p>可以看到就是将image上的矩形框的坐标点映射倒FPN输出的每个Feature map上。得到GT映射到Feature map的中心点坐标后，作者通过以下的变换确定中心区域。</p>
+<p><img src="https://img-blog.csdnimg.cn/2019100720175945.png" alt=""></p>
+<blockquote>
+<p>FoveaBox需要对特征图上每个点都预测一个分类结果以及并回归边框的偏移量，由于物体真实边框附近的点远离物体中心，或者与背景像素更为接近，如果将其作为正样本，对模型的训练造成困难。因此作者通过一个简单的变换，先通过groundtruh边框得到物体中心在特征图中对应的位置，然后通过一个参数σ1调节物体高和宽，将用来训练的真实边框位置向物体中心收缩一点，收缩后的边框内部的点作为正样本，然后使用参数σ2 再次调节边框高和宽，使其向外扩展一点，使用扩展边框外部的点作为负样本(原文是除了正区域外的，被assign的整个feature map区域，作为负样本)，这样将两个边框范围内的点忽略掉，增加正负样本之间的判别度。</p>
+</blockquote>
+<p>σ1 是缩放因子，处于正区域范围内的单元会在训练的时候被标上相应类别标签。而另外一个缩放因子 σ2会被用在制定负区域，同样的计算方式（实验中采用的是σ1=0.3,σ2=0.4）。与此同时，需要注意此时的正样本只占了一小部分，为了克服正负样本不均衡，在分类任务中采用了Focal loss。</p>
+<h3 id="Box-Prediction"><a href="#Box-Prediction" class="headerlink" title="Box Prediction"></a>Box Prediction</h3><p>关于Box 的回归，作者是通过下面那个分支，每个点会预测出(tx1,ty1,tx2,ty2)。其中(x1,y1,x2,y2)表示ground truth坐标，(x,y)表示一个cell单元的坐标，z为标准化因子使得输出空间映射到以1为中心的新空间</p>
+<p><img src="https://img-blog.csdnimg.cn/20191007201848902.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMzc1NjA5,size_16,color_FFFFFF,t_70" alt=""><br>在本篇文章中，采用的是Smooth L1 loss</p>
+<p>学习资料：<br><a href="https://blog.csdn.net/qq_41375609/article/details/102325395" target="_blank" rel="external">FoevaBox优质博客</a></p>
 
       
     </div>
@@ -354,17 +359,13 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/19/CenterNet论文笔记-Objects-as-points/" rel="next" title="CenterNet论文笔记-Objects as points">
-                <i class="fa fa-chevron-left"></i> CenterNet论文笔记-Objects as points
+              <a href="/2020/02/25/RepPoints论文笔记/" rel="next" title="RepPoints论文笔记">
+                <i class="fa fa-chevron-left"></i> RepPoints论文笔记
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/02/25/RepPoints论文笔记/" rel="prev" title="RepPoints论文笔记">
-                RepPoints论文笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -390,8 +391,8 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2020/02/20/ExtremeNet论文笔记/"
-           data-title="ExtremeNet论文笔记" data-url="http://chr10003566.github.io./2020/02/20/ExtremeNet论文笔记/">
+      <div class="ds-thread" data-thread-key="2020/02/26/FoveaBox论文笔记/"
+           data-title="FoveaBox论文笔记" data-url="http://chr10003566.github.io./2020/02/26/FoveaBox论文笔记/">
       </div>
     
   </div>
@@ -513,7 +514,7 @@ Preface本篇文章与上一篇文章Objects as points是同一个第一作者�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Method"><span class="nav-number">2.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Experiment"><span class="nav-number">3.</span> <span class="nav-text">Experiment</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Method"><span class="nav-number">2.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Architecture"><span class="nav-number">2.1.</span> <span class="nav-text">Architecture</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scale-Assignment"><span class="nav-number">2.2.</span> <span class="nav-text">Scale Assignment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-Fovea"><span class="nav-number">2.3.</span> <span class="nav-text">Object Fovea</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Box-Prediction"><span class="nav-number">2.4.</span> <span class="nav-text">Box Prediction</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
