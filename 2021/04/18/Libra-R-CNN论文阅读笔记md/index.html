@@ -82,25 +82,24 @@
 
 
 
-<meta name="description" content="论文：Objects as points论文链接：https://arxiv.org/abs/1904.07850代码链接：https://github.com/xingyizhou/CenterNet
-Preface这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基">
+<meta name="description" content="Libra R-CNN论文阅读笔记摘要1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–sample level，feature level，objective level。
+2、IoU balanced对应sample level的解决方案，balanced feature pyrmaid对应feature level的解决方案，balanced L1 lo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CenterNet论文笔记-Objects as points">
-<meta property="og:url" content="http://chr10003566.github.io./2020/02/19/CenterNet论文笔记-Objects-as-points/index.html">
+<meta property="og:title" content="Libra R-CNN论文阅读笔记.md">
+<meta property="og:url" content="http://chr10003566.github.io./2021/04/18/Libra-R-CNN论文阅读笔记md/index.html">
 <meta property="og:site_name" content="Cui的个人博客">
-<meta property="og:description" content="论文：Objects as points论文链接：https://arxiv.org/abs/1904.07850代码链接：https://github.com/xingyizhou/CenterNet
-Preface这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4d131448b86553ee9df3e3.png">
-<meta property="og:image" content="https://pic2.zhimg.com/80/v2-82171546bc2b8448d45dd6915c40d375_hd.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4d168148b86553ee9f10b0.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4d17ad48b86553ee9f79d4.png">
-<meta property="og:image" content="https://pic.downk.cc/item/5e4d1b0148b86553eea08cb6.png">
-<meta property="og:updated_time" content="2020-02-19T11:28:20.198Z">
+<meta property="og:description" content="Libra R-CNN论文阅读笔记摘要1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–sample level，feature level，objective level。
+2、IoU balanced对应sample level的解决方案，balanced feature pyrmaid对应feature level的解决方案，balanced L1 lo">
+<meta property="og:image" content="https://img.imgdb.cn/item/607c3aa88322e6675c89d274.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/607c45898322e6675ca3b265.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/607c481e8322e6675ca965f2.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/607c4be98322e6675cb22e74.png">
+<meta property="og:updated_time" content="2021-04-18T15:30:11.596Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CenterNet论文笔记-Objects as points">
-<meta name="twitter:description" content="论文：Objects as points论文链接：https://arxiv.org/abs/1904.07850代码链接：https://github.com/xingyizhou/CenterNet
-Preface这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基">
-<meta name="twitter:image" content="https://pic.downk.cc/item/5e4d131448b86553ee9df3e3.png">
+<meta name="twitter:title" content="Libra R-CNN论文阅读笔记.md">
+<meta name="twitter:description" content="Libra R-CNN论文阅读笔记摘要1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–sample level，feature level，objective level。
+2、IoU balanced对应sample level的解决方案，balanced feature pyrmaid对应feature level的解决方案，balanced L1 lo">
+<meta name="twitter:image" content="https://img.imgdb.cn/item/607c3aa88322e6675c89d274.png">
 
 
 
@@ -118,7 +117,7 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
   };
 </script>
 
-  <title> CenterNet论文笔记-Objects as points | Cui的个人博客 </title>
+  <title> Libra R-CNN论文阅读笔记.md | Cui的个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -248,7 +247,7 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
             
             
               
-                CenterNet论文笔记-Objects as points
+                Libra R-CNN论文阅读笔记.md
               
             
           </h1>
@@ -260,8 +259,8 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2020-02-19T15:21:19+08:00" content="2020-02-19">
-              2020-02-19
+            <time itemprop="dateCreated" datetime="2021-04-18T23:28:48+08:00" content="2021-04-18">
+              2021-04-18
             </time>
           </span>
 
@@ -290,8 +289,8 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2020/02/19/CenterNet论文笔记-Objects-as-points/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/19/CenterNet论文笔记-Objects-as-points/" itemprop="commentsCount"></span>
+                <a href="/2021/04/18/Libra-R-CNN论文阅读笔记md/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/18/Libra-R-CNN论文阅读笔记md/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -314,32 +313,36 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
       
 
       
-        <p>论文：Objects as points<br>论文链接：<a href="https://arxiv.org/abs/1904.07850" target="_blank" rel="external">https://arxiv.org/abs/1904.07850</a><br>代码链接：<a href="https://github.com/xingyizhou/CenterNet" target="_blank" rel="external">https://github.com/xingyizhou/CenterNet</a></p>
-<h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p>这篇文章（Objects as points）同样构建的模型同样也叫CenterNet，一个研究团队是来自德克萨斯州大学的学生，另一篇则是来自国科大和华为诺亚实验室。两篇共同点都是基于CornerNet的框架，对其做了一定程度的改进，但改进方向不相同，本篇CenterNet主要是借鉴了CornerNet从关键点检转到目标检测的方法，而华为诺亚实验室的CenterNet则主要是找到了CornerNet存在未利用到物体内部特征，无法感知内部信息的缺点，对该缺点做了改进。简单介绍了两篇CenterNet，现在着重介绍下本篇CenterNet吧。</p>
-<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>在本文中，作者很专业地指出了one stage approach和two stage approach的区别</p>
-<blockquote>
-<p>One stage approach: 在图像上滑动复杂排列的可能bbox（即锚点）,然后直接对框进行分类，而不会利用到物体内部特征，无法感知内部信息。</p>
-<p>Two stage approach:对每个潜在框会重新计算图像特征，然后将那些特征进行分类。</p>
-</blockquote>
-<p>并且作者认为后处理，即 NMS（非极大值抑制），通过计算Bbox间的IOU来删除同个目标的重复检测框。这种后处理很难区分和训练，因此现有大多检测器都不是端到端可训练的。</p>
-<p>作者将自己的方法CenterNet与one stage approach做了详细的对比，认为主要存在以下三点区别</p>
-<blockquote>
-<p>由于本文的CenterNet没有设置Anchor，而是通过关键点，因此不用设置阈值来区分前后景</p>
-<p>同样也是由于Anchor Free的原因，不需要使用NMS。</p>
-<p>CenterNet与之前目标检测框架比起来，使用了更大的特征图，仅仅只缩放了4倍，而此前的目标检测框架往往缩放8，16，32倍等。</p>
-</blockquote>
-<p><img src="https://pic.downk.cc/item/5e4d131448b86553ee9df3e3.png" alt=""></p>
-<p>可以看到算法在效果和效率之间能取得很好的平衡！</p>
-<h1 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h1><p>这里主要和CornerNet做一个对比，来详细的了解一下CenterNet所做的创新（个人感觉相比于华为诺亚实验室提高5%的创新点，本文稍显简单）此处借鉴：<a href="本文链接：https://blog.csdn.net/u014380165/article/details/92801206">AI之路-CenterNet笔记</a></p>
-<ol>
-<li>CenterNet与CornerNet相同，都是采用<strong>Heatmap来进行预测</strong>，所不同的是CenterNet预测的是中心点，而CornerNet则预测的是左上角点和右下角点，CenterNet在关键点的处理上是借鉴CornerNet的，<strong>引入了预测点的高斯分布区域计算真实预测值</strong>，对该点不是很理解的同学，可以阅读<a href="https://zhuanlan.zhihu.com/p/66048276" target="_blank" rel="external">CenterNet——Objects as Points论文解读</a>，引用一张图来简单说明一下。<img src="https://pic2.zhimg.com/80/v2-82171546bc2b8448d45dd6915c40d375_hd.png" alt="高斯分布">即真实object中心点处Heatmap的值为1，而靠近中心点的值不完全设置为0，而是呈高斯分布逐渐减小。在损失函数的设计上，CenterNet同样借鉴了CornerNet，将Focal loss融合进自己中心点检测的损失函数，在上面的链接中非常详细的解释了该损失函数的原理。</li>
-<li>CenterNet和CornerNet同样使用了offset来对下采样导致的坐标误差进行微调，但是CornerNet使用的是在坐标误差中多次被应用的Smooth L1 loss，而CenterNet则使用的是L1 loss。其实这个offset是可选的，并非一定要使用，只是使用的话效果会有所下降（做比赛，刷榜的时候可以考虑的策略）</li>
-<li>CornerNet是通过组合左上角点和右上角点来组成候选框的，那么CenterNet如何通过中心点来获得候选框呢？CenterNet则是使用暴力法，直接通过回归得到候选框的宽和高，同样宽、高的损失函数同样是L1 loss，因此其整体的损失函数由3部分组成，第一部分是中心点分类的损失，第二部分是尺寸（宽、高）的损失，第三部分则是中心点偏移点的损失<br><img src="https://pic.downk.cc/item/5e4d168148b86553ee9f10b0.png" alt=""></li>
-</ol>
-<p>因此可以推测出（论文竟然没给框架图），CenterNet预测得到三种Heatmap，第一种中心点分类：[1,C（类别数）,128,128]、[1,2（宽、高）,128,128]、[1,2（偏移量）,128,128]。<br><img src="https://pic.downk.cc/item/5e4d17ad48b86553ee9f79d4.png" alt=""></p>
-<h1 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h1><p><img src="https://pic.downk.cc/item/5e4d1b0148b86553eea08cb6.png" alt=""></p>
-<p>可以看到与大部分检测相比，CenterNet的FPS几乎碾压，准确率也能保持在中上的水平。</p>
-<h1 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h1><p>本文CenterNet在检测的时间和效果上做到了比较好的权衡，虽然算法也相对简单，但能将同一个框架应用到不同的领域，是十分棒的一个模型！</p>
+        <h1 id="Libra-R-CNN论文阅读笔记"><a href="#Libra-R-CNN论文阅读笔记" class="headerlink" title="Libra R-CNN论文阅读笔记"></a>Libra R-CNN论文阅读笔记</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–<strong>sample level，feature level，objective level。</strong></p>
+<p>2、<strong>IoU balanced</strong>对应sample level的解决方案，<strong>balanced feature pyrmaid</strong>对应feature level的解决方案，balanced L1 loss对应Objective level的解决方案。</p>
+<p>ps：这种结构的文章看起来还是舒服的，写起来应该也很舒服吧，哈哈哈。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>无论是单阶段还是两阶段的目标检测算法，其训练的整体流程大致相同：sampling regions -&gt;extracting feature-&gt;recoginizing the categories and refining the location.</p>
+<p><img src="https://img.imgdb.cn/item/607c3aa88322e6675c89d274.png" alt=""></p>
+<p> 那么在这个流程下，就有三个决定性的因素：</p>
+<ul>
+<li>选取的候选区域是否具有代表性？往往采用Random Sampling的方式来挖掘训练样本，而这样通常会导致Easy example的比例远大于Hard example，导致了不平衡（上图a）</li>
+<li>提取的特征是否足够鲁棒，包含了所有信息？往往High level feature缺少边缘等图像层级的特征，而Low level feature缺少语义层级的特征。（上图b）</li>
+<li>设计的目标函数是否最优？目标检测的损失函数往往由分类损失与定位损失共同组成，设计的损失函数可能会更偏向某一部分，而导致了不平衡。（上图c）</li>
+</ul>
+<p>首先让我们来看下针对上述问题，过去有哪些解决方案。</p>
+<p><strong>1、针对Sample level imbalance</strong>：OHEM它能够让模型更专注Hard example，但是它对噪声标签很敏感，并且有相当大的内存和计算成本。而大名鼎鼎的Focal loss，在两阶段的目标检测算法上表现并不理想（RoI的存在）。</p>
+<p><strong>2、针对Feature level imbalance：</strong>FPN这种方式的特征串联，仅仅使集成后的特征更加关注相邻分辨率的特征，而却很少关注其他分辨率的特征。</p>
+<p><strong>3、针对Objective level imbalance：</strong>目标检测需要很好地权衡好分类损失和定位损失，如果没有很好的平衡好，有可能导致Easy example的小梯度被Hard example的大梯度给淹没了，导致模型学“歪”了。</p>
+<p>本文的分别提出了三个方案来解决上述的三个<strong>Imbalance</strong>问题。</p>
+<p>1、 IoU-balanced Sampling -&gt;Sample level imbalance</p>
+<p>2、Balanced Feature Pyramid-&gt;Feature level imbalance</p>
+<p>3、Balanced L1 Loss-&gt;Objective level imbalance</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h4 id="IoU-balanced-Sampling"><a href="#IoU-balanced-Sampling" class="headerlink" title="IoU-balanced Sampling"></a>IoU-balanced Sampling</h4><p>作者发现超过60%的Hard example与真值框有超过0.05的IoU，而Random sample仅仅提供了30%的IoU大于0.05的样本。极度的样本分布不平衡导致了众多的Hard example被淹没在了Easy example中。因此作者提出了以下的方案：</p>
+<p>假设我们要从M个相关候选样本中选出N个负样本，则<strong>根据IoU的值，将采样区间换分成K个bin，然后N要求负样本在每个格子中使均匀分布，然后对其进行均匀采样</strong>。</p>
+<h4 id="Balanced-Feature-Pyramid"><a href="#Balanced-Feature-Pyramid" class="headerlink" title="Balanced Feature Pyramid"></a>Balanced Feature Pyramid</h4><p>不同于FPN，作者通过将不同深度的特征融合来增强融合特征后各个层级特征的信息。主要包含以下四个步骤：</p>
+<p><strong>rescaling，integrating，refining和strengthening</strong>。</p>
+<p><img src="https://img.imgdb.cn/item/607c45898322e6675ca3b265.png" alt=""></p>
+<p>作者同样使用到了FPN，将FPN的各层特征选择层级处于中间尺寸的（如上图C4），通过插值或者最大池化操作，将其他层级的特征<strong>resacle</strong>到该层级的尺寸，然后将rescale后的各层级特征<strong>integrate</strong>起来（直接通过取均值的方式）。之后在通过卷积层或者non-local module对特征进行<strong>refine</strong>，最后像FPN一样输出多个层级的特征。（Question：1）strengthen步骤在哪里啊，和refine一起的吗？ 2）为何要像FPN一样多层级输出呢，直接用refine后特征效果如何呢？）</p>
+<h4 id="Balanced-L1-Loss"><a href="#Balanced-L1-Loss" class="headerlink" title="Balanced L1 Loss"></a>Balanced L1 Loss</h4><p><img src="https://img.imgdb.cn/item/607c481e8322e6675ca965f2.png" alt=""></p>
+<p>Smooth L1 Loss我们都知道是大部分两阶段目标检测算法的定位损失，可以看到上图（a)，在regression error较小时，Smooth L1 loss的梯度是比较小的，regression error较小也就对应了那些定位相对比较准确的Easy example，其梯度也比较小。这样就有可能导致Easy example的小梯度被Hard example的大梯度给淹没了（ps：Focal loss不是说Easy example梯度虽然小，但是其量级大呀。）作者为了能够<strong>解决小梯度的Easy example梯度被淹没的情况，提出了Balanced L1 loss</strong>。</p>
+<p><img src="https://img.imgdb.cn/item/607c4be98322e6675cb22e74.png" alt=""></p>
+<p>作者通过两个参数，$\alpha$ 和 $\gamma$两个参数来权衡。 当$\alpha$取越小的值时，它对Easy Example梯度回传的力度更大，但对Hard Example的梯度回传不会有影响。</p>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>这篇文章看下来，提供了很多训练目标检测算法的trick，文章展现的效果是挺好的，但还是要结合实际的项目去实践。</p>
 
       
     </div>
@@ -363,17 +366,13 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/16/CenterNet论文笔记/" rel="next" title="CenterNet论文笔记.md">
-                <i class="fa fa-chevron-left"></i> CenterNet论文笔记.md
+              <a href="/2020/03/04/FSAF论文笔记/" rel="next" title="FSAF论文笔记">
+                <i class="fa fa-chevron-left"></i> FSAF论文笔记
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/02/20/ExtremeNet论文笔记/" rel="prev" title="ExtremeNet论文笔记">
-                ExtremeNet论文笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -399,8 +398,8 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2020/02/19/CenterNet论文笔记-Objects-as-points/"
-           data-title="CenterNet论文笔记-Objects as points" data-url="http://chr10003566.github.io./2020/02/19/CenterNet论文笔记-Objects-as-points/">
+      <div class="ds-thread" data-thread-key="2021/04/18/Libra-R-CNN论文阅读笔记md/"
+           data-title="Libra R-CNN论文阅读笔记.md" data-url="http://chr10003566.github.io./2021/04/18/Libra-R-CNN论文阅读笔记md/">
       </div>
     
   </div>
@@ -522,7 +521,7 @@ Preface这篇文章（Objects as points）同样构建的模型同样也叫Cente
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Method"><span class="nav-number">3.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Experiment"><span class="nav-number">4.</span> <span class="nav-text">Experiment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Note"><span class="nav-number">5.</span> <span class="nav-text">Note</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Libra-R-CNN论文阅读笔记"><span class="nav-number">1.</span> <span class="nav-text">Libra R-CNN论文阅读笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">1.3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IoU-balanced-Sampling"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">IoU-balanced Sampling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Balanced-Feature-Pyramid"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">Balanced Feature Pyramid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Balanced-L1-Loss"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">Balanced L1 Loss</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感想"><span class="nav-number">1.4.</span> <span class="nav-text">感想</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

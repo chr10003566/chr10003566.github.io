@@ -98,7 +98,7 @@ Introduction首先作者按照“惯例”说明了基于Anchor based检测器�
 <meta property="og:image" content="https://pic.downk.cc/item/5e5dcc4998271cb2b80db27b.png">
 <meta property="og:image" content="https://pic.downk.cc/item/5e5df02898271cb2b8170a2e.png">
 <meta property="og:image" content="https://pic.downk.cc/item/5e5df2c498271cb2b817c3d5.png">
-<meta property="og:updated_time" content="2020-03-03T06:44:26.201Z">
+<meta property="og:updated_time" content="2020-03-03T06:48:38.022Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FCOS论文笔记">
 <meta name="twitter:description" content="论文：FCOS: Fully Convolutional One-Stage Object Detection论文链接：https://arxiv.org/abs/1904.01355论文代码：https://github.com/tianzhi0549/FCOS
@@ -340,7 +340,7 @@ Introduction首先作者按照“惯例”说明了基于Anchor based检测器�
 <li>若不使用multi level，对于高度重叠的矩形框不太好处理。</li>
 </ul>
 <p>这里作者提出了一个观点，大部分重叠的框，都不在同一个尺寸的。只有较少部分是同样尺寸的候选框相互重叠。针对不同尺寸的重叠候选框，利用multi level可以比较好的解决该情况。即不同尺寸的通过不同层级的feature map来回归获得，而针对相同尺寸的候选框重叠，则选择那个面积更小的作为回归。</p>
-<p>那作者是如何判断哪个尺寸的候选框由哪个层级的feature map来预测呢，此处作者并未像FoveaBox和FPN一样，而是直接利用回归的结果来判断，即\(m<em>{i-1}&lt;<br>\max \left(l^{<em>}, t^{</em>}, r^{<em>}, b^{</em>}\right)&lt;m</em>{i}\)。<br>在文章中\(m<em>{2}\),\(m</em>{3}\),\(m<em>{4}\),\(m</em>{5}\),\(m<em>{6}\),\(m</em>{7}\)are set as 0, 64, 128, 256, 512 and ∞.</p>
+<p>那作者是如何判断哪个尺寸的候选框由哪个层级的feature map来预测呢，此处作者并未像FoveaBox和FPN一样，而是直接利用回归的结果来判断，即\(m<em>{i-1}&lt;<br>\max \left(l^{<em>}, t^{</em>}, r^{<em>}, b^{</em>}\right)&lt;m</em>{i}\)。<br>在文章中\(m<em>{2}\),\(m</em>{3}\),\(m<em>{4}\),\(m</em>{5}\),\(m<em>{6}\),\(m</em>{7}\)被设置成 0, 64, 128, 256, 512 and ∞.</p>
 <h3 id="Center-ness-for-FCOS"><a href="#Center-ness-for-FCOS" class="headerlink" title="Center-ness for FCOS"></a>Center-ness for FCOS</h3><p>在使用了上述技巧后，作者发现实验得到的结果仍然未达到RetinaNet的实验效果，在分析了实验结果后，作者发现部分误检框离真实框的中心点距离较大，也就是说这部分其实是错得比较离谱的误检，因此作者用一种比较简单的方式减少这种误检，这个方法的核心就是将分类支路的输出乘以一个权重图得到最终的分类置信度。<br><img src="https://pic.downk.cc/item/5e5df02898271cb2b8170a2e.png" alt="图三"><br>从图三可以看到，光凭classification得到的score（即前面的\(p_{xy}\))会出现很多的误检框，这些误检框大部分是离中心点距离较大，因此加入了一个分类置信度，输入则是回归支路的得到的结果\(\boldsymbol{t}^{<em>}=\left(l^{</em>}, t^{<em>}, r^{</em>}, b^{<em>}\right)\)，通过以下公式得到。<br>$$<br>centerness  ^{</em>}=\sqrt{\frac{\min \left(l^{<em>}, r^{</em>}\right)}{\max \left(l^{<em>}, r^{</em>}\right)} \times \frac{\min \left(t^{<em>}, b^{</em>}\right)}{\max \left(t^{<em>}, b^{</em>}\right)}}<br>$$<br>通过公式，可以比较清楚的了解到，当偏离中心点较大时，centerness的值则较小，因此最后分类得到的置信度也会变小。从而减少了误检框的个数。</p>
 <h3 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h3><p><img src="https://pic.downk.cc/item/5e5df2c498271cb2b817c3d5.png" alt=""></p>
 <h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>在近期阅读了一些Anchor free的方法后，做一些总结；</p>
@@ -390,6 +390,10 @@ Introduction首先作者按照“惯例”说明了基于Anchor based检测器�
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/04/FSAF论文笔记/" rel="prev" title="FSAF论文笔记">
+                FSAF论文笔记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -461,7 +465,7 @@ Introduction首先作者按照“惯例”说明了基于Anchor based检测器�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -557,7 +561,7 @@ Introduction首先作者按照“惯例”说明了基于Anchor based检测器�
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
