@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chr10003566.github.io./"/>
-  <updated>2021-04-18T15:30:11.596Z</updated>
+  <updated>2021-04-22T16:31:20.643Z</updated>
   <id>http://chr10003566.github.io./</id>
   
   <author>
@@ -16,11 +16,47 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Libra R-CNN论文阅读笔记.md</title>
-    <link href="http://chr10003566.github.io./2021/04/18/Libra-R-CNN%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0md/"/>
-    <id>http://chr10003566.github.io./2021/04/18/Libra-R-CNN论文阅读笔记md/</id>
+    <title>YOLOF论文阅读笔记</title>
+    <link href="http://chr10003566.github.io./2021/04/22/YOLOF%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    <id>http://chr10003566.github.io./2021/04/22/YOLOF论文阅读笔记/</id>
+    <published>2021-04-22T15:05:36.000Z</published>
+    <updated>2021-04-22T16:31:20.643Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;YOLOF论文阅读&quot;&gt;&lt;a href=&quot;#YOLOF论文阅读&quot; class=&quot;headerlink&quot; title=&quot;YOLOF论文阅读&quot;&gt;&lt;/a&gt;YOLOF论文阅读&lt;/h1&gt;&lt;p&gt;论文名称：&lt;strong&gt;You Only Look One-level Feature&lt;/strong&gt;&lt;br&gt;论文链接：&lt;a href=&quot;https://arxiv.org/pdf/2103.09460.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://arxiv.org/pdf/2103.09460.pdf&lt;/a&gt;&lt;br&gt;代码链接：&lt;a href=&quot;https://github.com/megvii-model/YOLOF&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/megvii-model/YOLOF&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;摘要&quot;&gt;&lt;a href=&quot;#摘要&quot; class=&quot;headerlink&quot; title=&quot;摘要&quot;&gt;&lt;/a&gt;摘要&lt;/h2&gt;&lt;p&gt;1、 作者探究了FPN之所以能提升检测效果的原因：主要是因为分治的思想而非多尺度特征融合；&lt;br&gt;2、 作者提出一种替换FPN复杂的特征金字塔的方案，仅使用一个层级的特征进行检测，提出了YOLOF，其中两个重要组件&lt;strong&gt;Dilated Encoder&lt;/strong&gt;和&lt;strong&gt;Uniform Matching&lt;/strong&gt;；&lt;br&gt;3、 YOLOF取得了不错的效果，速度和精度权衡的效果比YOLOv4还要好。&lt;/p&gt;
+&lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;p&gt;FPN已经成为现在主流检测框架必备的组件了，FPN之所以有效源自于以下两个优点：1）多尺度特征融合，融合了高层的语义特征与低分辨率的图像特征，是特征更具有代表性。 2）分而治之的思想，将检测问题按尺度进行拆分，不同尺度的图像由不同的特征去预测。作者设计实验发现，&lt;strong&gt;主要是因为分而治之的思想，使得FPN如此高效&lt;/strong&gt;。作者设计了以下实验：（PS：可以借鉴下作者设计实验的思路以及写法）&lt;br&gt;&lt;img src=&quot;https://img.imgdb.cn/item/60819949d1a9ae528f8f9762.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;作者设计了四组实验，通过对比发现MiMO仅仅比SiMO提升不到1%，也就说明特征融合带来的效果也就仅仅只有1%，而MiSO与MiMO却有12%的差异。通过这组对比试验就发现FPN能如此高效的主要原因是因为分而治之的思想。&lt;/p&gt;
+&lt;p&gt;但是呢，&lt;strong&gt;分而治之的思想除了带来了检测效果的提升，同时也带来了内存的负担，以及使得检测的结构变得复杂&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;作者同样设计了实验发现，仅仅使用单层级特征（即上图SiSO）其速度、模型容量等都远小于MiMO。因此作者希望能设计算法缩小SiSo与MiMo的检测效果的差异。&lt;br&gt;&lt;img src=&quot;https://img.imgdb.cn/item/60819aeed1a9ae528fac147f.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;作者分析后，1）需要弥补SiSo的单层级特征相比于MiMo的多层级特征在特征尺度层级上的差别； 2）需要弥补因为单层级特征导致的，候选框不平衡的问题。&lt;/p&gt;
+&lt;p&gt;因此作者提出了&lt;strong&gt;Dilated Encoder&lt;/strong&gt;解决单层级特征缺少多层级语义信息的问题，&lt;strong&gt;Uniform Matching&lt;/strong&gt;解决候选框不平衡的问题。&lt;/p&gt;
+&lt;h2 id=&quot;方法&quot;&gt;&lt;a href=&quot;#方法&quot; class=&quot;headerlink&quot; title=&quot;方法&quot;&gt;&lt;/a&gt;方法&lt;/h2&gt;&lt;h3 id=&quot;Dilated-Encoder&quot;&gt;&lt;a href=&quot;#Dilated-Encoder&quot; class=&quot;headerlink&quot; title=&quot;Dilated Encoder&quot;&gt;&lt;/a&gt;Dilated Encoder&lt;/h3&gt;&lt;p&gt;作者利用C5（下采样32倍）作为单层级的特征，发现C5特征的感受野仅仅只能覆盖一部分的尺度范围的物体（如下图（a）），这就导致了糟糕的检测效果。而要使得其特征能识别更多的物体，就要使其特征的感受野能匹配更多物体的尺寸，因此作者需要想办法扩充输出特征的感受野范围。&lt;br&gt;&lt;img src=&quot;https://img.imgdb.cn/item/60819da5d1a9ae528fd88e4f.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;那就是利用空洞卷积，在TridentNet等文献中已经证明了空洞卷积在检测上的有效性。因此作者设计了以下的结构，使输出的特征包含更多的感受野范围。&lt;br&gt;&lt;img src=&quot;https://img.imgdb.cn/item/60819e0cd1a9ae528fded085.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Uniform-Matching&quot;&gt;&lt;a href=&quot;#Uniform-Matching&quot; class=&quot;headerlink&quot; title=&quot;Uniform Matching&quot;&gt;&lt;/a&gt;Uniform Matching&lt;/h3&gt;&lt;p&gt;在目标检测中，如何定义positive anchor是十分重要的，通常使用max-IoU matching，即anchor与Ground truth的IoU大于0.5，就认为这个anchor是positive anchor。&lt;/p&gt;
+&lt;p&gt;上面说过了，作者使用了C5的单层级特征来进行检测，使用高层级特征必然就会更倾向于预测大物体（感受野比较大，则会更倾向于预测大物体），因此也就会导致如果使用Max-IoU match的话，positive anchor肯定大部分都是大物体，小物体的positive anchor会很少，因此存在严重的不平衡问题。（就是小物体的检出率会严重下降）。为了保持大物体与小物体anchor数目的差距，作者使用了k-nearest算法，把每个Groundtruth附近的k个anchor作为正样本，这样不管物体尺寸是多少，其positive anchor的数量是一致的。并且作者做了一些调整，对于选出来的anchor， 如果IoU &amp;gt; 0.7 那么不能算作 negative anchors 如果IoU  &amp;lt; 0.15，不能作为positive anchor。&lt;/p&gt;
+&lt;p&gt;最后实验结果如下：&lt;br&gt;&lt;img src=&quot;https://img.imgdb.cn/item/6081a141d1a9ae528f0a78d5.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;##感想&lt;br&gt;本文的行文方式，着实让我有些摸不着头脑，前面探究FPN表现如此出色的原因是因为分治的思想，后续并没有按照分治的思想来做。&lt;/p&gt;
+&lt;p&gt;再有就是大家都在讨论的，C5层的特征感受野已经足够大了，文章还在继续增大其输出特征的感受野，这明显会牺牲小物体的检出，虽然文章在最后的实验部分提到，在大物体检测上提升了3.3%，小物体上下降了3.1%。但小物体的检测不应该才是重点嘛。&lt;/p&gt;
+&lt;p&gt;文章的两个创新点，1）利用空洞卷积提升输出的单层级特征感受野的范围 而在TridentNet里利用分治的思想，不同特征不同感受野来预测效果明显要更佳。 2）利用k-近邻来筛选anchor。这些都不能算上出色的创新点。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;YOLOF论文阅读&quot;&gt;&lt;a href=&quot;#YOLOF论文阅读&quot; class=&quot;headerlink&quot; title=&quot;YOLOF论文阅读&quot;&gt;&lt;/a&gt;YOLOF论文阅读&lt;/h1&gt;&lt;p&gt;论文名称：&lt;strong&gt;You Only Look One-level Featu
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="http://chr10003566.github.io./categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Libra R-CNN论文阅读笔记</title>
+    <link href="http://chr10003566.github.io./2021/04/18/Libra-R-CNN%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    <id>http://chr10003566.github.io./2021/04/18/Libra-R-CNN论文阅读笔记/</id>
     <published>2021-04-18T15:28:48.000Z</published>
-    <updated>2021-04-18T15:30:11.596Z</updated>
+    <updated>2021-04-18T15:50:35.708Z</updated>
     
     <content type="html">&lt;h1 id=&quot;Libra-R-CNN论文阅读笔记&quot;&gt;&lt;a href=&quot;#Libra-R-CNN论文阅读笔记&quot; class=&quot;headerlink&quot; title=&quot;Libra R-CNN论文阅读笔记&quot;&gt;&lt;/a&gt;Libra R-CNN论文阅读笔记&lt;/h1&gt;&lt;h2 id=&quot;摘要&quot;&gt;&lt;a href=&quot;#摘要&quot; class=&quot;headerlink&quot; title=&quot;摘要&quot;&gt;&lt;/a&gt;摘要&lt;/h2&gt;&lt;p&gt;1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–&lt;strong&gt;sample level，feature level，objective level。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;2、&lt;strong&gt;IoU balanced&lt;/strong&gt;对应sample level的解决方案，&lt;strong&gt;balanced feature pyrmaid&lt;/strong&gt;对应feature level的解决方案，balanced L1 loss对应Objective level的解决方案。&lt;/p&gt;
@@ -972,57 +1008,6 @@
     </summary>
     
       <category term="Android开发" scheme="http://chr10003566.github.io./categories/Android%E5%BC%80%E5%8F%91/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>layout_*的一些注意事项</title>
-    <link href="http://chr10003566.github.io./2016/06/17/layout/"/>
-    <id>http://chr10003566.github.io./2016/06/17/layout/</id>
-    <published>2016-06-17T04:47:35.000Z</published>
-    <updated>2016-06-17T04:51:34.000Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;layout-的一些注意事项&quot;&gt;&lt;a href=&quot;#layout-的一些注意事项&quot; class=&quot;headerlink&quot; title=&quot;layout_*的一些注意事项&quot;&gt;&lt;/a&gt;layout_*的一些注意事项&lt;/h1&gt;&lt;p&gt;在Android UI的开发中layout_*应该是用的很多的，但其中有很多的坑想必大家也碰到过，今天就来写写自己碰到的！之后如果还有碰到就在添加。&lt;/p&gt;
-&lt;h2 id=&quot;layout-width-layout-height&quot;&gt;&lt;a href=&quot;#layout-width-layout-height&quot; class=&quot;headerlink&quot; title=&quot;layout_width   |   layout_height&quot;&gt;&lt;/a&gt;&lt;code&gt;layout_width&lt;/code&gt;   |   &lt;code&gt;layout_height&lt;/code&gt;&lt;/h2&gt;&lt;h3 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h3&gt;&lt;p&gt;先来说说起因，做一个自定义的Dialog。这本来是很简单的事情，以前也做过很多次包括&lt;code&gt;PopupWindow&lt;/code&gt;。可能是之前到处借鉴别人的代码，没怎么注意，今天自己动手写。出现了个之前出现却没仔细解决的问题！然后就花了一下午甚至还去stackoverflow上提了一发问，不得不说国外的环境就是比国内的好。国内的论坛”杂鱼”太多。真正好好回答你问题的没几个！但也不乏有细心的大神指导~&lt;br&gt;问题描述见stackoverflow:&lt;br&gt;&lt;a href=&quot;http://stackoverflow.com/questions/37854419/why-can-android-alertdialogs-width-and-height-1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://stackoverflow.com/questions/37854419/why-can-android-alertdialogs-width-and-height-1&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h3&gt;&lt;p&gt;看了stackoverflow的人应该知道我出现了什么样的问题，问题总的来说是4个：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;问题1：我在&lt;code&gt;AlertDialog&lt;/code&gt;实例化的时候，直接获取其高度和宽度，结果得到-1 ，出现-1的原因&lt;/li&gt;
-&lt;li&gt;问题2：&lt;code&gt;setLayout&lt;/code&gt;必须在&lt;code&gt;dialog.show()&lt;/code&gt;之后执行，理由是？&lt;/li&gt;
-&lt;li&gt;问题3：&lt;code&gt;getWindow.setLayout(int width, int height)&lt;/code&gt;这里&lt;code&gt;width&lt;/code&gt; 和&lt;code&gt;height&lt;/code&gt;的单位是什么？&lt;/li&gt;
-&lt;li&gt;问题4：为何xml文件中的&lt;code&gt;LinearLayout&lt;/code&gt;中的&lt;code&gt;layout_width&lt;/code&gt;和&lt;code&gt;layout_height&lt;/code&gt;没有起到作用！&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;问题解决&quot;&gt;&lt;a href=&quot;#问题解决&quot; class=&quot;headerlink&quot; title=&quot;问题解决&quot;&gt;&lt;/a&gt;问题解决&lt;/h3&gt;&lt;h4 id=&quot;问题1：&quot;&gt;&lt;a href=&quot;#问题1：&quot; class=&quot;headerlink&quot; title=&quot;问题1：&quot;&gt;&lt;/a&gt;问题1：&lt;/h4&gt;&lt;p&gt;&lt;code&gt;AlertDialog&lt;/code&gt;实例化&lt;code&gt;AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).setView(view).create();&lt;/code&gt;后，&lt;code&gt;AlertDialog&lt;/code&gt;并没有真正被创建。只有当&lt;code&gt;dialog.create()&lt;/code&gt;[API 21才允许使用]和&lt;code&gt;dialog.show()&lt;/code&gt;之后才真正被创建。所以当我这个时候去获取它的高度和宽度的时候会得到”-1”，这个“-1”是有深意的&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@Deprecated&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; FILL_PARENT = -&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/**&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * Special value for the height or width requested by a View.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * MATCH_PARENT means that the view wants to be as big as its parent,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * minus the parent&#39;s padding, if any. Introduced in API Level 8.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; MATCH_PARENT = -&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/**&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * Special value for the height or width requested by a View.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * WRAP_CONTENT means that the view wants to be just large enough to fit&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; * its own internal content, taking its own padding into account.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; WRAP_CONTENT = -&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;“-1”即全屏。默认是全屏的。如果我们把&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; Log.d(&lt;span class=&quot;string&quot;&gt;&quot;TAG&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;First lp width and height&quot;&lt;/span&gt; + lp.width + &lt;span class=&quot;string&quot;&gt;&quot;  &quot;&lt;/span&gt; + lp.height);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;我门得到的结果为“-2“。至于为何我也不知所以！&lt;/p&gt;
-&lt;h4 id=&quot;问题2&quot;&gt;&lt;a href=&quot;#问题2&quot; class=&quot;headerlink&quot; title=&quot;问题2&quot;&gt;&lt;/a&gt;问题2&lt;/h4&gt;&lt;p&gt;问题2和问题1是一样的问题，同样是由于Dialog还未生成，所以在&lt;code&gt;.show()&lt;/code&gt;之后，&lt;code&gt;setLayout()&lt;/code&gt;是可以起到作用的！&lt;/p&gt;
-&lt;h4 id=&quot;问题3&quot;&gt;&lt;a href=&quot;#问题3&quot; class=&quot;headerlink&quot; title=&quot;问题3&quot;&gt;&lt;/a&gt;问题3&lt;/h4&gt;&lt;p&gt;这里的&lt;code&gt;int width&lt;/code&gt;和&lt;code&gt;int height&lt;/code&gt;都是px单位的。可以看到我设置了TextView的高度和宽度分别是&lt;code&gt;200dp&lt;/code&gt;设置了Dialog的高度和宽度分贝是&lt;code&gt;500px&lt;/code&gt;则会出现下面的效果：&lt;br&gt;&lt;img src=&quot;http://7xtcu9.com1.z0.glb.clouddn.com/QQ%E5%9B%BE%E7%89%8720160617112302.png&quot; alt=&quot;image description&quot;&gt;&lt;/p&gt;
-&lt;p&gt;发现&lt;code&gt;200dp&lt;/code&gt;和&lt;code&gt;500px&lt;/code&gt;差的不多。&lt;/p&gt;
-&lt;h4 id=&quot;问题4&quot;&gt;&lt;a href=&quot;#问题4&quot; class=&quot;headerlink&quot; title=&quot;问题4&quot;&gt;&lt;/a&gt;问题4&lt;/h4&gt;&lt;p&gt;这个问题就很高深了，具体为啥是由国外友人告诉我的。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;layout_ prefixed attributes are set on a LayoutParams object provided by parent view. Since there’s no parent, there are no LayoutParams you can work with. Try setting android:minHeight and android:minWidth instead.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;国外友人说的很详细，&lt;code&gt;layout_*&lt;/code&gt;这个属性要能使用必须有父视图（父布局）。如果你不是很懂（其实我也不是很懂），看看郭神的这篇博客可能会有点体会：&lt;br&gt;&lt;a href=&quot;http://blog.csdn.net/guolin_blog/article/details/12921889&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/guolin_blog/article/details/12921889&lt;/a&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;平时我们经常使用layout_width和layout_height来设置View的大小，并且一直都能正常工作，就好像这两个属性确实是用于设置View的大小的。而实际上则不然，它们其实是用于设置View在布局中的大小的，也就是说，首先View必须存在于一个布局中&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;这也就是为啥有时候在xml那边设置了宽、高，但是却没能在界面中体现出来的某一个原因。&lt;/p&gt;
-&lt;h2 id=&quot;layout-weight&quot;&gt;&lt;a href=&quot;#layout-weight&quot; class=&quot;headerlink&quot; title=&quot;layout_weight&quot;&gt;&lt;/a&gt;&lt;code&gt;layout_weight&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;链接在这里：&lt;a href=&quot;http://blog.csdn.net/cuihaoren01/article/details/51373887&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/cuihaoren01/article/details/51373887&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;layout-gravity-gravity&quot;&gt;&lt;a href=&quot;#layout-gravity-gravity&quot; class=&quot;headerlink&quot; title=&quot;layout_gravity   |    gravity&quot;&gt;&lt;/a&gt;&lt;code&gt;layout_gravity&lt;/code&gt;   |    &lt;code&gt;gravity&lt;/code&gt;&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;android:gravity&lt;/code&gt; 是用于设置View组建对齐方式。是针对控件里面的元素来说的，用来控制元素在该空间里的显示位置。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;android:layout_gravity&lt;/code&gt; 用于设置Container组建的对齐方式。是针对控件本身而言，用来控制该控件在包涵该控件的父控件的位置。&lt;/li&gt;
-&lt;li&gt;特殊情况：当我们采用&lt;code&gt;LinearLayout&lt;/code&gt;布局时：&lt;br&gt;1）当&lt;code&gt;android:orientation = veritical&lt;/code&gt;时，&lt;code&gt;android:layout_gravity&lt;/code&gt;只有水平方向的设置才起作用，垂直方向的设置是不起作用的&lt;br&gt;2）当&lt;code&gt;android:orientation = horizontal&lt;/code&gt;时，&lt;code&gt;android:layout_gravity&lt;/code&gt;只有垂直方向的设置才起作用，水平方向的设置不起作用。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;之后如果还出现什么问题或者Bug的话在补充也希望有人能给我补充！&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;layout-的一些注意事项&quot;&gt;&lt;a href=&quot;#layout-的一些注意事项&quot; class=&quot;headerlink&quot; title=&quot;layout_*的一些注意事项&quot;&gt;&lt;/a&gt;layout_*的一些注意事项&lt;/h1&gt;&lt;p&gt;在Android UI的开发中layou
-    
-    </summary>
-    
-      <category term="Android开发查缺补漏" scheme="http://chr10003566.github.io./categories/Android%E5%BC%80%E5%8F%91%E6%9F%A5%E7%BC%BA%E8%A1%A5%E6%BC%8F/"/>
     
     
   </entry>

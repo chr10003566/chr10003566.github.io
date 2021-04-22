@@ -82,24 +82,25 @@
 
 
 
-<meta name="description" content="Libra R-CNN论文阅读笔记摘要1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–sample level，feature level，objective level。
-2、IoU balanced对应sample level的解决方案，balanced feature pyrmaid对应feature level的解决方案，balanced L1 lo">
+<meta name="description" content="YOLOF论文阅读论文名称：You Only Look One-level Feature论文链接：https://arxiv.org/pdf/2103.09460.pdf代码链接：https://github.com/megvii-model/YOLOF
+摘要1、 作者探究了FPN之所以能提升检测效果的原因：主要是因为分治的思想而非多尺度特征融合；2、 作者提出一种替换FPN复杂的特征金字塔的方">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Libra R-CNN论文阅读笔记.md">
-<meta property="og:url" content="http://chr10003566.github.io./2021/04/18/Libra-R-CNN论文阅读笔记md/index.html">
+<meta property="og:title" content="YOLOF论文阅读笔记">
+<meta property="og:url" content="http://chr10003566.github.io./2021/04/22/YOLOF论文阅读笔记/index.html">
 <meta property="og:site_name" content="Cui的个人博客">
-<meta property="og:description" content="Libra R-CNN论文阅读笔记摘要1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–sample level，feature level，objective level。
-2、IoU balanced对应sample level的解决方案，balanced feature pyrmaid对应feature level的解决方案，balanced L1 lo">
-<meta property="og:image" content="https://img.imgdb.cn/item/607c3aa88322e6675c89d274.png">
-<meta property="og:image" content="https://img.imgdb.cn/item/607c45898322e6675ca3b265.png">
-<meta property="og:image" content="https://img.imgdb.cn/item/607c481e8322e6675ca965f2.png">
-<meta property="og:image" content="https://img.imgdb.cn/item/607c4be98322e6675cb22e74.png">
-<meta property="og:updated_time" content="2021-04-18T15:30:11.596Z">
+<meta property="og:description" content="YOLOF论文阅读论文名称：You Only Look One-level Feature论文链接：https://arxiv.org/pdf/2103.09460.pdf代码链接：https://github.com/megvii-model/YOLOF
+摘要1、 作者探究了FPN之所以能提升检测效果的原因：主要是因为分治的思想而非多尺度特征融合；2、 作者提出一种替换FPN复杂的特征金字塔的方">
+<meta property="og:image" content="https://img.imgdb.cn/item/60819949d1a9ae528f8f9762.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/60819aeed1a9ae528fac147f.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/60819da5d1a9ae528fd88e4f.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/60819e0cd1a9ae528fded085.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/6081a141d1a9ae528f0a78d5.png">
+<meta property="og:updated_time" content="2021-04-22T16:31:20.643Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Libra R-CNN论文阅读笔记.md">
-<meta name="twitter:description" content="Libra R-CNN论文阅读笔记摘要1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–sample level，feature level，objective level。
-2、IoU balanced对应sample level的解决方案，balanced feature pyrmaid对应feature level的解决方案，balanced L1 lo">
-<meta name="twitter:image" content="https://img.imgdb.cn/item/607c3aa88322e6675c89d274.png">
+<meta name="twitter:title" content="YOLOF论文阅读笔记">
+<meta name="twitter:description" content="YOLOF论文阅读论文名称：You Only Look One-level Feature论文链接：https://arxiv.org/pdf/2103.09460.pdf代码链接：https://github.com/megvii-model/YOLOF
+摘要1、 作者探究了FPN之所以能提升检测效果的原因：主要是因为分治的思想而非多尺度特征融合；2、 作者提出一种替换FPN复杂的特征金字塔的方">
+<meta name="twitter:image" content="https://img.imgdb.cn/item/60819949d1a9ae528f8f9762.png">
 
 
 
@@ -117,7 +118,7 @@
   };
 </script>
 
-  <title> Libra R-CNN论文阅读笔记.md | Cui的个人博客 </title>
+  <title> YOLOF论文阅读笔记 | Cui的个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -247,7 +248,7 @@
             
             
               
-                Libra R-CNN论文阅读笔记.md
+                YOLOF论文阅读笔记
               
             
           </h1>
@@ -259,8 +260,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2021-04-18T23:28:48+08:00" content="2021-04-18">
-              2021-04-18
+            <time itemprop="dateCreated" datetime="2021-04-22T23:05:36+08:00" content="2021-04-22">
+              2021-04-22
             </time>
           </span>
 
@@ -289,8 +290,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2021/04/18/Libra-R-CNN论文阅读笔记md/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/18/Libra-R-CNN论文阅读笔记md/" itemprop="commentsCount"></span>
+                <a href="/2021/04/22/YOLOF论文阅读笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/22/YOLOF论文阅读笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -313,36 +314,22 @@
       
 
       
-        <h1 id="Libra-R-CNN论文阅读笔记"><a href="#Libra-R-CNN论文阅读笔记" class="headerlink" title="Libra R-CNN论文阅读笔记"></a>Libra R-CNN论文阅读笔记</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–<strong>sample level，feature level，objective level。</strong></p>
-<p>2、<strong>IoU balanced</strong>对应sample level的解决方案，<strong>balanced feature pyrmaid</strong>对应feature level的解决方案，balanced L1 loss对应Objective level的解决方案。</p>
-<p>ps：这种结构的文章看起来还是舒服的，写起来应该也很舒服吧，哈哈哈。</p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>无论是单阶段还是两阶段的目标检测算法，其训练的整体流程大致相同：sampling regions -&gt;extracting feature-&gt;recoginizing the categories and refining the location.</p>
-<p><img src="https://img.imgdb.cn/item/607c3aa88322e6675c89d274.png" alt=""></p>
-<p> 那么在这个流程下，就有三个决定性的因素：</p>
-<ul>
-<li>选取的候选区域是否具有代表性？往往采用Random Sampling的方式来挖掘训练样本，而这样通常会导致Easy example的比例远大于Hard example，导致了不平衡（上图a）</li>
-<li>提取的特征是否足够鲁棒，包含了所有信息？往往High level feature缺少边缘等图像层级的特征，而Low level feature缺少语义层级的特征。（上图b）</li>
-<li>设计的目标函数是否最优？目标检测的损失函数往往由分类损失与定位损失共同组成，设计的损失函数可能会更偏向某一部分，而导致了不平衡。（上图c）</li>
-</ul>
-<p>首先让我们来看下针对上述问题，过去有哪些解决方案。</p>
-<p><strong>1、针对Sample level imbalance</strong>：OHEM它能够让模型更专注Hard example，但是它对噪声标签很敏感，并且有相当大的内存和计算成本。而大名鼎鼎的Focal loss，在两阶段的目标检测算法上表现并不理想（RoI的存在）。</p>
-<p><strong>2、针对Feature level imbalance：</strong>FPN这种方式的特征串联，仅仅使集成后的特征更加关注相邻分辨率的特征，而却很少关注其他分辨率的特征。</p>
-<p><strong>3、针对Objective level imbalance：</strong>目标检测需要很好地权衡好分类损失和定位损失，如果没有很好的平衡好，有可能导致Easy example的小梯度被Hard example的大梯度给淹没了，导致模型学“歪”了。</p>
-<p>本文的分别提出了三个方案来解决上述的三个<strong>Imbalance</strong>问题。</p>
-<p>1、 IoU-balanced Sampling -&gt;Sample level imbalance</p>
-<p>2、Balanced Feature Pyramid-&gt;Feature level imbalance</p>
-<p>3、Balanced L1 Loss-&gt;Objective level imbalance</p>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h4 id="IoU-balanced-Sampling"><a href="#IoU-balanced-Sampling" class="headerlink" title="IoU-balanced Sampling"></a>IoU-balanced Sampling</h4><p>作者发现超过60%的Hard example与真值框有超过0.05的IoU，而Random sample仅仅提供了30%的IoU大于0.05的样本。极度的样本分布不平衡导致了众多的Hard example被淹没在了Easy example中。因此作者提出了以下的方案：</p>
-<p>假设我们要从M个相关候选样本中选出N个负样本，则<strong>根据IoU的值，将采样区间换分成K个bin，然后N要求负样本在每个格子中使均匀分布，然后对其进行均匀采样</strong>。</p>
-<h4 id="Balanced-Feature-Pyramid"><a href="#Balanced-Feature-Pyramid" class="headerlink" title="Balanced Feature Pyramid"></a>Balanced Feature Pyramid</h4><p>不同于FPN，作者通过将不同深度的特征融合来增强融合特征后各个层级特征的信息。主要包含以下四个步骤：</p>
-<p><strong>rescaling，integrating，refining和strengthening</strong>。</p>
-<p><img src="https://img.imgdb.cn/item/607c45898322e6675ca3b265.png" alt=""></p>
-<p>作者同样使用到了FPN，将FPN的各层特征选择层级处于中间尺寸的（如上图C4），通过插值或者最大池化操作，将其他层级的特征<strong>resacle</strong>到该层级的尺寸，然后将rescale后的各层级特征<strong>integrate</strong>起来（直接通过取均值的方式）。之后在通过卷积层或者non-local module对特征进行<strong>refine</strong>，最后像FPN一样输出多个层级的特征。（Question：1）strengthen步骤在哪里啊，和refine一起的吗？ 2）为何要像FPN一样多层级输出呢，直接用refine后特征效果如何呢？）</p>
-<h4 id="Balanced-L1-Loss"><a href="#Balanced-L1-Loss" class="headerlink" title="Balanced L1 Loss"></a>Balanced L1 Loss</h4><p><img src="https://img.imgdb.cn/item/607c481e8322e6675ca965f2.png" alt=""></p>
-<p>Smooth L1 Loss我们都知道是大部分两阶段目标检测算法的定位损失，可以看到上图（a)，在regression error较小时，Smooth L1 loss的梯度是比较小的，regression error较小也就对应了那些定位相对比较准确的Easy example，其梯度也比较小。这样就有可能导致Easy example的小梯度被Hard example的大梯度给淹没了（ps：Focal loss不是说Easy example梯度虽然小，但是其量级大呀。）作者为了能够<strong>解决小梯度的Easy example梯度被淹没的情况，提出了Balanced L1 loss</strong>。</p>
-<p><img src="https://img.imgdb.cn/item/607c4be98322e6675cb22e74.png" alt=""></p>
-<p>作者通过两个参数，$\alpha$ 和 $\gamma$两个参数来权衡。 当$\alpha$取越小的值时，它对Easy Example梯度回传的力度更大，但对Hard Example的梯度回传不会有影响。</p>
-<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>这篇文章看下来，提供了很多训练目标检测算法的trick，文章展现的效果是挺好的，但还是要结合实际的项目去实践。</p>
+        <h1 id="YOLOF论文阅读"><a href="#YOLOF论文阅读" class="headerlink" title="YOLOF论文阅读"></a>YOLOF论文阅读</h1><p>论文名称：<strong>You Only Look One-level Feature</strong><br>论文链接：<a href="https://arxiv.org/pdf/2103.09460.pdf" target="_blank" rel="external">https://arxiv.org/pdf/2103.09460.pdf</a><br>代码链接：<a href="https://github.com/megvii-model/YOLOF" target="_blank" rel="external">https://github.com/megvii-model/YOLOF</a></p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>1、 作者探究了FPN之所以能提升检测效果的原因：主要是因为分治的思想而非多尺度特征融合；<br>2、 作者提出一种替换FPN复杂的特征金字塔的方案，仅使用一个层级的特征进行检测，提出了YOLOF，其中两个重要组件<strong>Dilated Encoder</strong>和<strong>Uniform Matching</strong>；<br>3、 YOLOF取得了不错的效果，速度和精度权衡的效果比YOLOv4还要好。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>FPN已经成为现在主流检测框架必备的组件了，FPN之所以有效源自于以下两个优点：1）多尺度特征融合，融合了高层的语义特征与低分辨率的图像特征，是特征更具有代表性。 2）分而治之的思想，将检测问题按尺度进行拆分，不同尺度的图像由不同的特征去预测。作者设计实验发现，<strong>主要是因为分而治之的思想，使得FPN如此高效</strong>。作者设计了以下实验：（PS：可以借鉴下作者设计实验的思路以及写法）<br><img src="https://img.imgdb.cn/item/60819949d1a9ae528f8f9762.png" alt=""></p>
+<p>作者设计了四组实验，通过对比发现MiMO仅仅比SiMO提升不到1%，也就说明特征融合带来的效果也就仅仅只有1%，而MiSO与MiMO却有12%的差异。通过这组对比试验就发现FPN能如此高效的主要原因是因为分而治之的思想。</p>
+<p>但是呢，<strong>分而治之的思想除了带来了检测效果的提升，同时也带来了内存的负担，以及使得检测的结构变得复杂</strong>。</p>
+<p>作者同样设计了实验发现，仅仅使用单层级特征（即上图SiSO）其速度、模型容量等都远小于MiMO。因此作者希望能设计算法缩小SiSo与MiMo的检测效果的差异。<br><img src="https://img.imgdb.cn/item/60819aeed1a9ae528fac147f.png" alt=""></p>
+<p>作者分析后，1）需要弥补SiSo的单层级特征相比于MiMo的多层级特征在特征尺度层级上的差别； 2）需要弥补因为单层级特征导致的，候选框不平衡的问题。</p>
+<p>因此作者提出了<strong>Dilated Encoder</strong>解决单层级特征缺少多层级语义信息的问题，<strong>Uniform Matching</strong>解决候选框不平衡的问题。</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="Dilated-Encoder"><a href="#Dilated-Encoder" class="headerlink" title="Dilated Encoder"></a>Dilated Encoder</h3><p>作者利用C5（下采样32倍）作为单层级的特征，发现C5特征的感受野仅仅只能覆盖一部分的尺度范围的物体（如下图（a）），这就导致了糟糕的检测效果。而要使得其特征能识别更多的物体，就要使其特征的感受野能匹配更多物体的尺寸，因此作者需要想办法扩充输出特征的感受野范围。<br><img src="https://img.imgdb.cn/item/60819da5d1a9ae528fd88e4f.png" alt=""></p>
+<p>那就是利用空洞卷积，在TridentNet等文献中已经证明了空洞卷积在检测上的有效性。因此作者设计了以下的结构，使输出的特征包含更多的感受野范围。<br><img src="https://img.imgdb.cn/item/60819e0cd1a9ae528fded085.png" alt=""></p>
+<h3 id="Uniform-Matching"><a href="#Uniform-Matching" class="headerlink" title="Uniform Matching"></a>Uniform Matching</h3><p>在目标检测中，如何定义positive anchor是十分重要的，通常使用max-IoU matching，即anchor与Ground truth的IoU大于0.5，就认为这个anchor是positive anchor。</p>
+<p>上面说过了，作者使用了C5的单层级特征来进行检测，使用高层级特征必然就会更倾向于预测大物体（感受野比较大，则会更倾向于预测大物体），因此也就会导致如果使用Max-IoU match的话，positive anchor肯定大部分都是大物体，小物体的positive anchor会很少，因此存在严重的不平衡问题。（就是小物体的检出率会严重下降）。为了保持大物体与小物体anchor数目的差距，作者使用了k-nearest算法，把每个Groundtruth附近的k个anchor作为正样本，这样不管物体尺寸是多少，其positive anchor的数量是一致的。并且作者做了一些调整，对于选出来的anchor， 如果IoU &gt; 0.7 那么不能算作 negative anchors 如果IoU  &lt; 0.15，不能作为positive anchor。</p>
+<p>最后实验结果如下：<br><img src="https://img.imgdb.cn/item/6081a141d1a9ae528f0a78d5.png" alt=""></p>
+<p>##感想<br>本文的行文方式，着实让我有些摸不着头脑，前面探究FPN表现如此出色的原因是因为分治的思想，后续并没有按照分治的思想来做。</p>
+<p>再有就是大家都在讨论的，C5层的特征感受野已经足够大了，文章还在继续增大其输出特征的感受野，这明显会牺牲小物体的检出，虽然文章在最后的实验部分提到，在大物体检测上提升了3.3%，小物体上下降了3.1%。但小物体的检测不应该才是重点嘛。</p>
+<p>文章的两个创新点，1）利用空洞卷积提升输出的单层级特征感受野的范围 而在TridentNet里利用分治的思想，不同特征不同感受野来预测效果明显要更佳。 2）利用k-近邻来筛选anchor。这些都不能算上出色的创新点。</p>
 
       
     </div>
@@ -366,8 +353,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/04/FSAF论文笔记/" rel="next" title="FSAF论文笔记">
-                <i class="fa fa-chevron-left"></i> FSAF论文笔记
+              <a href="/2021/04/18/Libra-R-CNN论文阅读笔记/" rel="next" title="Libra R-CNN论文阅读笔记">
+                <i class="fa fa-chevron-left"></i> Libra R-CNN论文阅读笔记
               </a>
             
           </div>
@@ -398,8 +385,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2021/04/18/Libra-R-CNN论文阅读笔记md/"
-           data-title="Libra R-CNN论文阅读笔记.md" data-url="http://chr10003566.github.io./2021/04/18/Libra-R-CNN论文阅读笔记md/">
+      <div class="ds-thread" data-thread-key="2021/04/22/YOLOF论文阅读笔记/"
+           data-title="YOLOF论文阅读笔记" data-url="http://chr10003566.github.io./2021/04/22/YOLOF论文阅读笔记/">
       </div>
     
   </div>
@@ -444,7 +431,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -521,7 +508,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Libra-R-CNN论文阅读笔记"><span class="nav-number">1.</span> <span class="nav-text">Libra R-CNN论文阅读笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">1.3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IoU-balanced-Sampling"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">IoU-balanced Sampling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Balanced-Feature-Pyramid"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">Balanced Feature Pyramid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Balanced-L1-Loss"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">Balanced L1 Loss</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感想"><span class="nav-number">1.4.</span> <span class="nav-text">感想</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#YOLOF论文阅读"><span class="nav-number">1.</span> <span class="nav-text">YOLOF论文阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">1.3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dilated-Encoder"><span class="nav-number">1.3.1.</span> <span class="nav-text">Dilated Encoder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Uniform-Matching"><span class="nav-number">1.3.2.</span> <span class="nav-text">Uniform Matching</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>

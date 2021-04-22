@@ -82,16 +82,24 @@
 
 
 
-<meta name="description" content="Cui的个人博客">
+<meta name="description" content="Libra R-CNN论文阅读笔记摘要1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–sample level，feature level，objective level。
+2、IoU balanced对应sample level的解决方案，balanced feature pyrmaid对应feature level的解决方案，balanced L1 lo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mmDetection源码分析（五）：Faster R-CNN模块解读（三）">
-<meta property="og:url" content="http://chr10003566.github.io./2019/12/11/mmdetection(5)/index.html">
+<meta property="og:title" content="Libra R-CNN论文阅读笔记">
+<meta property="og:url" content="http://chr10003566.github.io./2021/04/18/Libra-R-CNN论文阅读笔记/index.html">
 <meta property="og:site_name" content="Cui的个人博客">
-<meta property="og:description" content="Cui的个人博客">
-<meta property="og:updated_time" content="2019-12-11T11:06:02.489Z">
+<meta property="og:description" content="Libra R-CNN论文阅读笔记摘要1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–sample level，feature level，objective level。
+2、IoU balanced对应sample level的解决方案，balanced feature pyrmaid对应feature level的解决方案，balanced L1 lo">
+<meta property="og:image" content="https://img.imgdb.cn/item/607c3aa88322e6675c89d274.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/607c45898322e6675ca3b265.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/607c481e8322e6675ca965f2.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/607c4be98322e6675cb22e74.png">
+<meta property="og:updated_time" content="2021-04-18T15:50:35.708Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mmDetection源码分析（五）：Faster R-CNN模块解读（三）">
-<meta name="twitter:description" content="Cui的个人博客">
+<meta name="twitter:title" content="Libra R-CNN论文阅读笔记">
+<meta name="twitter:description" content="Libra R-CNN论文阅读笔记摘要1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–sample level，feature level，objective level。
+2、IoU balanced对应sample level的解决方案，balanced feature pyrmaid对应feature level的解决方案，balanced L1 lo">
+<meta name="twitter:image" content="https://img.imgdb.cn/item/607c3aa88322e6675c89d274.png">
 
 
 
@@ -109,7 +117,7 @@
   };
 </script>
 
-  <title> mmDetection源码分析（五）：Faster R-CNN模块解读（三） | Cui的个人博客 </title>
+  <title> Libra R-CNN论文阅读笔记 | Cui的个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -239,7 +247,7 @@
             
             
               
-                mmDetection源码分析（五）：Faster R-CNN模块解读（三）
+                Libra R-CNN论文阅读笔记
               
             
           </h1>
@@ -251,8 +259,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2019-12-11T19:04:53+08:00" content="2019-12-11">
-              2019-12-11
+            <time itemprop="dateCreated" datetime="2021-04-18T23:28:48+08:00" content="2021-04-18">
+              2021-04-18
             </time>
           </span>
 
@@ -265,8 +273,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mmDetection源码分析/" itemprop="url" rel="index">
-                    <span itemprop="name">mmDetection源码分析</span>
+                  <a href="/categories/论文阅读/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读</span>
                   </a>
                 </span>
 
@@ -281,8 +289,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2019/12/11/mmdetection(5)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/12/11/mmdetection(5)/" itemprop="commentsCount"></span>
+                <a href="/2021/04/18/Libra-R-CNN论文阅读笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/18/Libra-R-CNN论文阅读笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -305,7 +313,37 @@
       
 
       
-        
+        <h1 id="Libra-R-CNN论文阅读笔记"><a href="#Libra-R-CNN论文阅读笔记" class="headerlink" title="Libra R-CNN论文阅读笔记"></a>Libra R-CNN论文阅读笔记</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>1、检测器的性能所限于训练过程的不平衡问题，作者主要从三个层面解决训练过程的不平衡问题–<strong>sample level，feature level，objective level。</strong></p>
+<p>2、<strong>IoU balanced</strong>对应sample level的解决方案，<strong>balanced feature pyrmaid</strong>对应feature level的解决方案，balanced L1 loss对应Objective level的解决方案。</p>
+<p>ps：这种结构的文章看起来还是舒服的，写起来应该也很舒服吧，哈哈哈。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>无论是单阶段还是两阶段的目标检测算法，其训练的整体流程大致相同：sampling regions -&gt;extracting feature-&gt;recoginizing the categories and refining the location.</p>
+<p><img src="https://img.imgdb.cn/item/607c3aa88322e6675c89d274.png" alt=""></p>
+<p> 那么在这个流程下，就有三个决定性的因素：</p>
+<ul>
+<li>选取的候选区域是否具有代表性？往往采用Random Sampling的方式来挖掘训练样本，而这样通常会导致Easy example的比例远大于Hard example，导致了不平衡（上图a）</li>
+<li>提取的特征是否足够鲁棒，包含了所有信息？往往High level feature缺少边缘等图像层级的特征，而Low level feature缺少语义层级的特征。（上图b）</li>
+<li>设计的目标函数是否最优？目标检测的损失函数往往由分类损失与定位损失共同组成，设计的损失函数可能会更偏向某一部分，而导致了不平衡。（上图c）</li>
+</ul>
+<p>首先让我们来看下针对上述问题，过去有哪些解决方案。</p>
+<p><strong>1、针对Sample level imbalance</strong>：OHEM它能够让模型更专注Hard example，但是它对噪声标签很敏感，并且有相当大的内存和计算成本。而大名鼎鼎的Focal loss，在两阶段的目标检测算法上表现并不理想（RoI的存在）。</p>
+<p><strong>2、针对Feature level imbalance：</strong>FPN这种方式的特征串联，仅仅使集成后的特征更加关注相邻分辨率的特征，而却很少关注其他分辨率的特征。</p>
+<p><strong>3、针对Objective level imbalance：</strong>目标检测需要很好地权衡好分类损失和定位损失，如果没有很好的平衡好，有可能导致Easy example的小梯度被Hard example的大梯度给淹没了，导致模型学“歪”了。</p>
+<p>本文的分别提出了三个方案来解决上述的三个<strong>Imbalance</strong>问题。</p>
+<p>1、 IoU-balanced Sampling -&gt;Sample level imbalance</p>
+<p>2、Balanced Feature Pyramid-&gt;Feature level imbalance</p>
+<p>3、Balanced L1 Loss-&gt;Objective level imbalance</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h4 id="IoU-balanced-Sampling"><a href="#IoU-balanced-Sampling" class="headerlink" title="IoU-balanced Sampling"></a>IoU-balanced Sampling</h4><p>作者发现超过60%的Hard example与真值框有超过0.05的IoU，而Random sample仅仅提供了30%的IoU大于0.05的样本。极度的样本分布不平衡导致了众多的Hard example被淹没在了Easy example中。因此作者提出了以下的方案：</p>
+<p>假设我们要从M个相关候选样本中选出N个负样本，则<strong>根据IoU的值，将采样区间换分成K个bin，然后N要求负样本在每个格子中使均匀分布，然后对其进行均匀采样</strong>。</p>
+<h4 id="Balanced-Feature-Pyramid"><a href="#Balanced-Feature-Pyramid" class="headerlink" title="Balanced Feature Pyramid"></a>Balanced Feature Pyramid</h4><p>不同于FPN，作者通过将不同深度的特征融合来增强融合特征后各个层级特征的信息。主要包含以下四个步骤：</p>
+<p><strong>rescaling，integrating，refining和strengthening</strong>。</p>
+<p><img src="https://img.imgdb.cn/item/607c45898322e6675ca3b265.png" alt=""></p>
+<p>作者同样使用到了FPN，将FPN的各层特征选择层级处于中间尺寸的（如上图C4），通过插值或者最大池化操作，将其他层级的特征<strong>resacle</strong>到该层级的尺寸，然后将rescale后的各层级特征<strong>integrate</strong>起来（直接通过取均值的方式）。之后在通过卷积层或者non-local module对特征进行<strong>refine</strong>，最后像FPN一样输出多个层级的特征。（Question：1）strengthen步骤在哪里啊，和refine一起的吗？ 2）为何要像FPN一样多层级输出呢，直接用refine后特征效果如何呢？）</p>
+<h4 id="Balanced-L1-Loss"><a href="#Balanced-L1-Loss" class="headerlink" title="Balanced L1 Loss"></a>Balanced L1 Loss</h4><p><img src="https://img.imgdb.cn/item/607c481e8322e6675ca965f2.png" alt=""></p>
+<p>Smooth L1 Loss我们都知道是大部分两阶段目标检测算法的定位损失，可以看到上图（a)，在regression error较小时，Smooth L1 loss的梯度是比较小的，regression error较小也就对应了那些定位相对比较准确的Easy example，其梯度也比较小。这样就有可能导致Easy example的小梯度被Hard example的大梯度给淹没了（ps：Focal loss不是说Easy example梯度虽然小，但是其量级大呀。）作者为了能够<strong>解决小梯度的Easy example梯度被淹没的情况，提出了Balanced L1 loss</strong>。</p>
+<p><img src="https://img.imgdb.cn/item/607c4be98322e6675cb22e74.png" alt=""></p>
+<p>作者通过两个参数，$\alpha$ 和 $\gamma$两个参数来权衡。 当$\alpha$取越小的值时，它对Easy Example梯度回传的力度更大，但对Hard Example的梯度回传不会有影响。</p>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>这篇文章看下来，提供了很多训练目标检测算法的trick，文章展现的效果是挺好的，但还是要结合实际的项目去实践。</p>
+
       
     </div>
     
@@ -328,16 +366,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/10/mmdetection(4)/" rel="next" title="mmDetection源码分析（四）：Faster R-CNN模块解读（二）">
-                <i class="fa fa-chevron-left"></i> mmDetection源码分析（四）：Faster R-CNN模块解读（二）
+              <a href="/2020/03/04/FSAF论文笔记/" rel="next" title="FSAF论文笔记">
+                <i class="fa fa-chevron-left"></i> FSAF论文笔记
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/16/CenterNet论文笔记/" rel="prev" title="CenterNet论文笔记.md">
-                CenterNet论文笔记.md <i class="fa fa-chevron-right"></i>
+              <a href="/2021/04/22/YOLOF论文阅读笔记/" rel="prev" title="YOLOF论文阅读笔记">
+                YOLOF论文阅读笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -364,8 +402,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2019/12/11/mmdetection(5)/"
-           data-title="mmDetection源码分析（五）：Faster R-CNN模块解读（三）" data-url="http://chr10003566.github.io./2019/12/11/mmdetection(5)/">
+      <div class="ds-thread" data-thread-key="2021/04/18/Libra-R-CNN论文阅读笔记/"
+           data-title="Libra R-CNN论文阅读笔记" data-url="http://chr10003566.github.io./2021/04/18/Libra-R-CNN论文阅读笔记/">
       </div>
     
   </div>
@@ -487,7 +525,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Libra-R-CNN论文阅读笔记"><span class="nav-number">1.</span> <span class="nav-text">Libra R-CNN论文阅读笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">1.3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IoU-balanced-Sampling"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">IoU-balanced Sampling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Balanced-Feature-Pyramid"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">Balanced Feature Pyramid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Balanced-L1-Loss"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">Balanced L1 Loss</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感想"><span class="nav-number">1.4.</span> <span class="nav-text">感想</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
