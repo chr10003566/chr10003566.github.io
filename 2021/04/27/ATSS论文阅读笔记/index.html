@@ -1,0 +1,702 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="ATSS论文阅读笔记论文名称：Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection
+论文链接：https://arxiv.org/abs/1912.02424
+代码地址：https://github.com/sfzhang15/ATSS.
+摘要1、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ATSS论文阅读笔记">
+<meta property="og:url" content="http://chr10003566.github.io./2021/04/27/ATSS论文阅读笔记/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="ATSS论文阅读笔记论文名称：Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection
+论文链接：https://arxiv.org/abs/1912.02424
+代码地址：https://github.com/sfzhang15/ATSS.
+摘要1、">
+<meta property="og:image" content="https://img.imgdb.cn/item/60881bd7d1a9ae528f8f7667.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/60881c0fd1a9ae528f923997.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/60881c2ed1a9ae528f93c081.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/60881c54d1a9ae528f95a153.png">
+<meta property="og:image" content="https://img.imgdb.cn/item/60881c9ad1a9ae528f992eab.png">
+<meta property="og:updated_time" content="2021-04-27T14:39:56.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ATSS论文阅读笔记">
+<meta name="twitter:description" content="ATSS论文阅读笔记论文名称：Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection
+论文链接：https://arxiv.org/abs/1912.02424
+代码地址：https://github.com/sfzhang15/ATSS.
+摘要1、">
+<meta name="twitter:image" content="https://img.imgdb.cn/item/60881bd7d1a9ae528f8f7667.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ATSS论文阅读笔记 | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ATSS论文阅读笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2021-04-27T22:17:58+08:00" content="2021-04-27">
+              2021-04-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/论文阅读/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2021/04/27/ATSS论文阅读笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/04/27/ATSS论文阅读笔记/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ATSS论文阅读笔记"><a href="#ATSS论文阅读笔记" class="headerlink" title="ATSS论文阅读笔记"></a>ATSS论文阅读笔记</h1><p>论文名称：<strong>Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection</strong></p>
+<p>论文链接：<strong><a href="https://arxiv.org/abs/1912.02424" target="_blank" rel="external">https://arxiv.org/abs/1912.02424</a></strong></p>
+<p>代码地址：<strong><a href="https://github.com/sfzhang15/ATSS" target="_blank" rel="external">https://github.com/sfzhang15/ATSS</a></strong>.</p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>1、Anchor-based方法和Anchor-free的方法最重要的差异就是在<strong>如何定义正负训练样本</strong>;</p>
+<p>2、ATSS（<em>Adaptive Training Sample Selection</em>）根据目标的统计分布自动调休安正负样本，可以明显地缩短anchor-free与anchor-based之间的差距。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>近些年，<strong>Anchor-free的方法之所以被关注到是因为FPN与Focal Loss这两种方法的出现</strong>，这里简单说明下我个人的看法，FPN能够输出多个层级的特征，允许不同尺度的物体在不同层级的特征预测得到，如果没有FPN，想像一下如何使用Anchor free的方法，我能想到的就是YOLOv1，如果object的中心落在特征图网格内，则由该网格负责预测GT框，YOLOv1的缺点大家也很清楚，不同物体落入同一个网格的话，那么只能预测其中一个，另一个则无法预测。且每幅图片只能预测98个候选框，则显然是不够的。但有了FPN，上面两个缺点则可以较好地解决，不同尺度的物体落入的特征层级不同，则可以在不同层级检测出两个可能落入同一个网格的物体。另外多层级特征也就可以预测更多的候选框。也就可以提升模型的召回率。再来就是Focal loss，Focal loss告知在Dense prediction中正负样本的选取有多么重要，而Anchor free则是标准的不能再标准的Dense prediction了。因此说FPN与Focal loss的出现才让Anchor free算法重新受到了广泛的关注。</p>
+<p>目前主流的Anchor-free的方法可以分成两种，1）通过定位几个预定的关键点，来确定物体的空间位置，这类方法算作keypoint-based methods，代表算法CornerNet和ExtremeNet。2）通过物体中心点以及中心点距离四条边界的距离，这类方法算作center-based methods，代表算法CenterNet，Foveabox，这些Anchor-free的检测器抛弃了与anchors相关的超参数，并且取得了与anchor-based方法想接近的效果。作者这里拿FCOS与RetinaNet作比较，探究造成anchor free的方法与anchor based的方法差异原因。</p>
+<p>FCOS与RetinaNet的主要差异：</p>
+<ol>
+<li>RetinaNet在特征图上每个点会叠加多个不同长宽比的anchor，而FCOS则是在每个位置叠加一个anchor的中心点；</li>
+<li>RetinaNet是通过IoU来定义正负样本的，而FCOS则是通过anchor的中心点与GroundTruth的中心点的距离与尺度定义正负样本的。</li>
+<li>RetinaNet的回归策略是预测预设定的anchor box与物体GroundTruth的偏移量，而FCOS则是预测anchor中心点与GroundTruth中心的偏移量，以及点与各个边界的距离。</li>
+</ol>
+<p>作者通过实验，证实<strong>差异（2）</strong>是导致两个检测器效果差异的主要原因。并证实了在同一个位置堆叠多个不同的anchor是不必要的操作，因此作者提出了ATSS，根据物体的统计分布来自动地挑选正负样本。最终在COCO上取得了SOTA的结果。</p>
+<h2 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h2><p>本文的相关工作总结的比较到位，故在此整理下：</p>
+<h3 id="Two-stage-method："><a href="#Two-stage-method：" class="headerlink" title="Two stage method："></a>Two stage method：</h3><p>最具代表的：Faster R-CNN</p>
+<p>结构重新设计：R-FCN，TridentNet，Cascade R-CNN，ME R-CNN，MS-R-CNN</p>
+<p>引入上下文信息和注意力机制（基本没看过）：Inside-outside net[2]，Thundernet 等等</p>
+<p>多尺度训练：SNIP和AutoFocus</p>
+<p>特征融合：FPN、c</p>
+<p>更好地候选框与解决不平衡问题：Libra R-CNN</p>
+<h3 id="One-stage-method"><a href="#One-stage-method" class="headerlink" title="One stage method"></a>One stage method</h3><p>最具代表性的：SSD</p>
+<p>融合不同层上下文信息：RON，DSSD，STDN</p>
+<p>从头训练：DSOD，ScratchDet</p>
+<p>新的loss：Focal loss，ap-loss</p>
+<p>anchor提炼：RefineDet， Freeanchor</p>
+<p>结构重新设计：PFPNet</p>
+<p>特征增强与对齐（基本没看过）：</p>
+<h3 id="keypoint-based-method"><a href="#keypoint-based-method" class="headerlink" title="keypoint-based method"></a>keypoint-based method</h3><p>CornerNet、Grid R-CNN、ExtremeNet、RepPoints</p>
+<h3 id="Center-based-method"><a href="#Center-based-method" class="headerlink" title="Center-based method"></a>Center-based method</h3><p>YOLO、DenseBox、GA-RPN、FSAF、FCOS、CSP、FoveaBox</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>作者通过设计对比实验，深究FCOS与RetinaNet两者的差异。首先控制差异（1），将RetinaNet每一层特征只分配一个anchor，anchor的大小为8<em>S</em>，<em>S</em>表示当前特征层下采样的倍数。此外作者还把FCOS一些提点方法补充到了RetinaNet上了，实验结果如下：</p>
+<p><img src="https://img.imgdb.cn/item/60881bd7d1a9ae528f8f7667.png" alt=""></p>
+<p>发现仍然有0.8%个点的差异，那这个部分差异从哪里来呢？只能来自剩下的两个差异了，差异（2）说白了就是分类子任务，差异（3）则是回归子任务。</p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>RetinaNet是通过IoU阈值来挑选正样本的，GT框与候选框的$IoU&gt;\Theta<em>{p}$则认为该候选框为正样本而则$IoU&lt;\Theta</em>{n}$则认为该候选框为负样本，其他样本则忽略。</p>
+<p>而FCOS通过空间和尺度的约束来划分正负样本，如果anchor points在GT框内，则该point为候选点；然后通过point与各边界距离的最大值是否在该层级特征预设定的范围内，最终决定该point是否为正样本还是负样本。</p>
+<p><img src="https://img.imgdb.cn/item/60881c0fd1a9ae528f923997.png" alt=""></p>
+<p>作者通过以下的实验，两种挑选正负样本的方式，确实是导致FCOS与RetinaNet的差异的原因之一，FCOS使用IoU策略，效果下降。与RetinaNet基本一致，而RetinaNet使用空间和尺度的约束来挑选正负样本，效果提升至37.8%，与FCOS一致了。</p>
+<p><img src="https://img.imgdb.cn/item/60881c2ed1a9ae528f93c081.png" alt=""></p>
+<p><strong>PS：</strong>这里的实验没有太理解，FCOS如何接入IoU策略的，在没有anchor box的情况下，哪里来的IoU？</p>
+<h3 id="回归"><a href="#回归" class="headerlink" title="回归"></a>回归</h3><p>RetinaNet是通过计算四个偏移量，anchor中心点与GT框中心点的偏移量与高宽的偏移量，而FCOS回归的则是中心点与四条边界的距离；在下图展示的十分明显。</p>
+<p><img src="https://img.imgdb.cn/item/60881c54d1a9ae528f95a153.png" alt=""></p>
+<p>通过实验发现，无论是回归点还是回归候选框，两者的差异都不是很大，</p>
+<p>说明差异（3）不是造成anchor-based与anchor-free方法效果差异的主要原因。进一步证实了差异（2）正负样本的挑选才是anchor-based与anchor-free方法效果差异的主要原因！</p>
+<h2 id="Adaptive-Training-Sample-Selection"><a href="#Adaptive-Training-Sample-Selection" class="headerlink" title="Adaptive Training Sample Selection"></a>Adaptive Training Sample Selection</h2><p>ATSS其实并没有很复杂，也是大家日常在挑选训练集的时候，可能都会用到的方法，只是这里用到了挑选正负样本上。ATSS算法步骤如下：</p>
+<ul>
+<li>首先为每一个GT box挑选 中心点与其最近的K个anchor box（熟不熟悉，YOLOF的k-近邻算法 :cry: ）作为候选框.</li>
+<li>计算候选框与GT box的IoU，计算出其均值$m<em>{g}$和方差$v</em>{g}$，再计算IoU的阈值$t<em>{g} = m</em>{g} + v_{g}$</li>
+<li>最后挑选候选框与GT box的IoU大于阈值$t_{g}$的作为最后的正样本，当然对正样本有些约束，要求正样本中心点必须在GT box内</li>
+<li>如果一个anchor box被分配到多个GT box，选择最大IoU的那个 作为他的真值。</li>
+</ul>
+<p><img src="https://img.imgdb.cn/item/60881c9ad1a9ae528f992eab.png" alt=""></p>
+<p>最后，在看下该策略的效果，普遍能涨2~3%个点。还是有些用的。</p>
+<h3 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h3><p>本篇文章，最值得借鉴的是FCOS与RetinaNet差异性对比的实验设计，控制变量，逐步分析。确实考虑的足够细致，值的学习！而后续的ATSS不是很复杂，但作为涨点的技巧也是可以学习的。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/22/YOLOF论文阅读笔记/" rel="next" title="YOLOF论文阅读笔记">
+                <i class="fa fa-chevron-left"></i> YOLOF论文阅读笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/04/27/ATSS论文阅读笔记/"
+           data-title="ATSS论文阅读笔记" data-url="http://chr10003566.github.io./2021/04/27/ATSS论文阅读笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ATSS论文阅读笔记"><span class="nav-number">1.</span> <span class="nav-text">ATSS论文阅读笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关工作"><span class="nav-number">1.3.</span> <span class="nav-text">相关工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-stage-method："><span class="nav-number">1.3.1.</span> <span class="nav-text">Two stage method：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#One-stage-method"><span class="nav-number">1.3.2.</span> <span class="nav-text">One stage method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#keypoint-based-method"><span class="nav-number">1.3.3.</span> <span class="nav-text">keypoint-based method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Center-based-method"><span class="nav-number">1.3.4.</span> <span class="nav-text">Center-based method</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">1.4.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">1.4.1.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回归"><span class="nav-number">1.4.2.</span> <span class="nav-text">回归</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adaptive-Training-Sample-Selection"><span class="nav-number">1.5.</span> <span class="nav-text">Adaptive Training Sample Selection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#感想"><span class="nav-number">1.5.1.</span> <span class="nav-text">感想</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
