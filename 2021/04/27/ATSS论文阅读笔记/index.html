@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://img.imgdb.cn/item/60881c2ed1a9ae528f93c081.png">
 <meta property="og:image" content="https://img.imgdb.cn/item/60881c54d1a9ae528f95a153.png">
 <meta property="og:image" content="https://img.imgdb.cn/item/60881c9ad1a9ae528f992eab.png">
-<meta property="og:updated_time" content="2021-04-27T14:39:56.563Z">
+<meta property="og:updated_time" content="2021-04-27T14:47:24.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ATSS论文阅读笔记">
 <meta name="twitter:description" content="ATSS论文阅读笔记论文名称：Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection
@@ -324,7 +324,7 @@
 <p>论文链接：<strong><a href="https://arxiv.org/abs/1912.02424" target="_blank" rel="external">https://arxiv.org/abs/1912.02424</a></strong></p>
 <p>代码地址：<strong><a href="https://github.com/sfzhang15/ATSS" target="_blank" rel="external">https://github.com/sfzhang15/ATSS</a></strong>.</p>
 <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>1、Anchor-based方法和Anchor-free的方法最重要的差异就是在<strong>如何定义正负训练样本</strong>;</p>
-<p>2、ATSS（<em>Adaptive Training Sample Selection</em>）根据目标的统计分布自动调休安正负样本，可以明显地缩短anchor-free与anchor-based之间的差距。</p>
+<p>2、ATSS（<em>Adaptive Training Sample Selection</em>）根据目标的统计分布自动选择正负样本，可以明显地缩短anchor-free与anchor-based之间的差距。</p>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>近些年，<strong>Anchor-free的方法之所以被关注到是因为FPN与Focal Loss这两种方法的出现</strong>，这里简单说明下我个人的看法，FPN能够输出多个层级的特征，允许不同尺度的物体在不同层级的特征预测得到，如果没有FPN，想像一下如何使用Anchor free的方法，我能想到的就是YOLOv1，如果object的中心落在特征图网格内，则由该网格负责预测GT框，YOLOv1的缺点大家也很清楚，不同物体落入同一个网格的话，那么只能预测其中一个，另一个则无法预测。且每幅图片只能预测98个候选框，则显然是不够的。但有了FPN，上面两个缺点则可以较好地解决，不同尺度的物体落入的特征层级不同，则可以在不同层级检测出两个可能落入同一个网格的物体。另外多层级特征也就可以预测更多的候选框。也就可以提升模型的召回率。再来就是Focal loss，Focal loss告知在Dense prediction中正负样本的选取有多么重要，而Anchor free则是标准的不能再标准的Dense prediction了。因此说FPN与Focal loss的出现才让Anchor free算法重新受到了广泛的关注。</p>
 <p>目前主流的Anchor-free的方法可以分成两种，1）通过定位几个预定的关键点，来确定物体的空间位置，这类方法算作keypoint-based methods，代表算法CornerNet和ExtremeNet。2）通过物体中心点以及中心点距离四条边界的距离，这类方法算作center-based methods，代表算法CenterNet，Foveabox，这些Anchor-free的检测器抛弃了与anchors相关的超参数，并且取得了与anchor-based方法想接近的效果。作者这里拿FCOS与RetinaNet作比较，探究造成anchor free的方法与anchor based的方法差异原因。</p>
 <p>FCOS与RetinaNet的主要差异：</p>
@@ -339,7 +339,7 @@
 <p>结构重新设计：R-FCN，TridentNet，Cascade R-CNN，ME R-CNN，MS-R-CNN</p>
 <p>引入上下文信息和注意力机制（基本没看过）：Inside-outside net[2]，Thundernet 等等</p>
 <p>多尺度训练：SNIP和AutoFocus</p>
-<p>特征融合：FPN、c</p>
+<p>特征融合：FPN</p>
 <p>更好地候选框与解决不平衡问题：Libra R-CNN</p>
 <h3 id="One-stage-method"><a href="#One-stage-method" class="headerlink" title="One stage method"></a>One stage method</h3><p>最具代表性的：SSD</p>
 <p>融合不同层上下文信息：RON，DSSD，STDN</p>
