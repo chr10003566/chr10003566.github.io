@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chr10003566.github.io./"/>
-  <updated>2021-04-27T14:47:24.403Z</updated>
+  <updated>2021-05-04T01:16:01.550Z</updated>
   <id>http://chr10003566.github.io./</id>
   
   <author>
@@ -14,6 +14,76 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>YOLOv4论文阅读笔记</title>
+    <link href="http://chr10003566.github.io./2021/05/03/YOLOv4%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    <id>http://chr10003566.github.io./2021/05/03/YOLOv4论文阅读笔记/</id>
+    <published>2021-05-03T15:52:28.000Z</published>
+    <updated>2021-05-04T01:16:01.550Z</updated>
+    
+    <content type="html">&lt;p&gt;本文转载自：&lt;a href=&quot;https://www.cnblogs.com/pprp/p/12771430.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;一张图梳理YOLOv4论文 - pprp - 博客园&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;该博主整理的十分的完备，我这边就直接转载过来，为保留学习使用，如侵犯权利，请及时提醒。&lt;/p&gt;
+&lt;h2 id=&quot;一张图梳理YOLOv4论文&quot;&gt;&lt;a href=&quot;#一张图梳理YOLOv4论文&quot; class=&quot;headerlink&quot; title=&quot;一张图梳理YOLOv4论文&quot;&gt;&lt;/a&gt;一张图梳理YOLOv4论文&lt;/h2&gt;&lt;p&gt;AlexeyAB大神继承了YOLOv3, 在其基础上进行持续开发，将其命名为YOLOv4。并且得到YOLOv3作者Joseph Redmon的承认，下面是Darknet原作者的在readme中更新的声明。&lt;br&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20200424101249538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70&quot; alt=&quot;&quot;&gt;&lt;br&gt;来看看YOLOv4和一些SOTA模型的对比，YOLOv4要比YOLOv3提高了近10个点。&lt;br&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/2020042410252679.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;思维导图&quot;&gt;&lt;a href=&quot;#思维导图&quot; class=&quot;headerlink&quot; title=&quot;思维导图&quot;&gt;&lt;/a&gt;思维导图&lt;/h2&gt;&lt;p&gt;YOLOv4总体上可以划分为两部分，一部分是讲Bag of freebies和Bag of Specials; 另外一部分讲的是YOLOv4的创新点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20200424193904517.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Bag of freebies和Bag of specials涉及到的大部分trick在GiantPandaCV公众号历史文章中都有介绍，所以不一一列举，主要讲一下YOLOv4的创新点。&lt;/p&gt;
+&lt;h2 id=&quot;2-创新点&quot;&gt;&lt;a href=&quot;#2-创新点&quot; class=&quot;headerlink&quot; title=&quot;2. 创新点&quot;&gt;&lt;/a&gt;2. 创新点&lt;/h2&gt;&lt;p&gt;1、Mosaic数据增强方法&lt;br&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20200424204700343.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70&quot; alt=&quot;&quot;&gt;&lt;br&gt;这个方法在解析U版YOLOv3的时候就讲过了，将4张不同的图片镶嵌到一张图中，其优点是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;混合四张具有不同语义信息的图片，可以让检测器检测超出常规语境的目标，增强模型的鲁棒性。&lt;/li&gt;
+&lt;li&gt;由于BN是从四张图片计算得到的，所以可以减少对大的mini-batch的依赖。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;评价：这个方法在U版YOLOv3中很早就出现了，在自己数据集上也用过，但是感觉效果并不是很稳定。笔者数据集只有一个类，所以可能不需要这种特殊的数据增强方法，欢迎各位读者通过自己的实验来验证这个数据增强方法的有效性。&lt;/p&gt;
+&lt;p&gt;2、Self-Adversarial Training&lt;br&gt;自对抗训练也是一种新的数据增强方法，可以一定程度上抵抗对抗攻击。其包括两个阶段，每个阶段进行一次前向传播和一次反向传播。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一阶段，CNN通过反向传播改变图片信息，而不是改变网络权值。通过这种方式，CNN可以进行对抗性攻击，改变原始图像，造成图像上没有目标的假象。&lt;/li&gt;
+&lt;li&gt;第二阶段，对修改后的图像进行正常的目标检测。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;评价：笔者对对抗领域不是很熟悉，不是很理解这个部分。感觉这个部分讲解不是很详细，只是给出整个过程和描述，不是很能理解。&lt;/p&gt;
+&lt;p&gt;3、CmBN&lt;br&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/2020042421021154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;上图表达的是三种不同的BN方式，理解的时候应该从左往右看，BN是对当前mini-batch进行归一化。CBN是对当前以及当前往前数3个mini-batch的结果进行归一化。而本文提出的CmBN则是仅仅在这个Batch中进行累积。&lt;/p&gt;
+&lt;p&gt;评价：在消融实验中，CmBN要比BN高出不到一个百分点。感觉影响不是很大。&lt;/p&gt;
+&lt;p&gt;4、modified SAM&lt;br&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20200424210743518.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;SAM实际上是之前解读的&lt;cv中的attention机制&gt;系列中的CBAM, CBAM含有空间注意力机制和通道注意力机制, SAM就是其中的空间注意力机制.&lt;/cv中的attention机制&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20191129215240121.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;本文将Spatial-wise Attention变为Point-wise Attention, modified SAM中没有使用pooling, 而是直接用一个卷积得到的特征图直接使用Sigmoid进行激活, 然后对应点相乘, 所以说改进后的模型是Point-wise Attention.&lt;/p&gt;
+&lt;p&gt;评价: 作者并没有给出改进后的SAM和SAM的实验对比,所以并不清楚这个模块的性能到底怎样. 并且在yolov4.cfg中没有发现使用SAM的痕迹, 这非常奇怪..不知道作者将SAM用到了模型的哪个部分.&lt;/p&gt;
+&lt;p&gt;5、modified PANet&lt;br&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20200424214821486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;PANet融合的时候使用的方法是Addition, 详解见：&lt;a href=&quot;https://mp.weixin.qq.com/s?__biz=MzA4MjY4NTk0NQ==&amp;amp;mid=2247485145&amp;amp;idx=2&amp;amp;sn=dbd970411f3ec2da25bf432af8400a74&amp;amp;chksm=9f80bc4fa8f7355924af4aec888671a31a499684aa5e4e86b4c502b7f28f2521040d7507b980&amp;amp;scene=21#wechat_redirect&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CVPR 2018 PANet&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这里YOLOv4将融合的方法由加法改为乘法，也没有解释详细原因，但是yolov4.cfg中用的是route来链接两部分特征&lt;/p&gt;
+&lt;h2 id=&quot;3-结构&quot;&gt;&lt;a href=&quot;#3-结构&quot; class=&quot;headerlink&quot; title=&quot;3. 结构&quot;&gt;&lt;/a&gt;3. 结构&lt;/h2&gt;&lt;p&gt;YOLOv4的模型结构笔者读了一下yolov4.cfg文件，然后根据结构画出了大体结构。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20200424193849660.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;其中没有详细展开backbone部分，其实backbone之前在解读CSPNet的时候就讲过了，YOLOv4使用的是CSPDarknet53作为Backbone。&lt;/p&gt;
+&lt;h2 id=&quot;4-总结&quot;&gt;&lt;a href=&quot;#4-总结&quot; class=&quot;headerlink&quot; title=&quot;4. 总结&quot;&gt;&lt;/a&gt;4. 总结&lt;/h2&gt;&lt;p&gt;读了这篇文章以后，给人留下深刻印象的不是创新点，而是Bag of freebies和Bag of specials。所以有人多人都说YOLOv4是拼凑trick得到的。YOLOv4中Bag of freebies和Bag of Specials两部分总结的确实不错，对研究目标检测有很大的参考价值，涵盖的trick非常广泛。但是感觉AB大神并没有将注意力花在创新点上，没有花更多篇幅讲解这创新性，这有些可惜。（ASFF中就比较有侧重，先提出一个由多个Trick组成的baseline,然后在此基础上提出ASFF结构等创新性试验，安排比较合理）&lt;/p&gt;
+&lt;p&gt;此外，笔者梳理了yolov4.cfg并没有发现在论文中提到的创新点比如modified SAM, 并且通过笔者整理的YOLOv4结构可以看出，整体架构方面，可以与yolov3-spp进行对比，有几个不同点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;换上了更好的backbone: CSDarknet53&lt;/li&gt;
+&lt;li&gt;将原来的FPN换成了PANet中的FPN &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;结构方面就这些不同，不过训练过程确实引入了很多特性比如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Weighted Residual Connections(论文中没有详细讲)&lt;/li&gt;
+&lt;li&gt;CmBN&lt;/li&gt;
+&lt;li&gt;Mosaic data augmentation&lt;/li&gt;
+&lt;li&gt;DropBlock&lt;/li&gt;
+&lt;li&gt;CIOU loss&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;总体来讲，这篇文章工作量还是非常足的，涉及到非常非常多的trick, 最终的结果也很不错，要比YOLOv3高10个百分点。文章提到的Bag of freebies和Bag of specials需要好好整理，系统学习一下。&lt;/p&gt;
+&lt;p&gt;但是缺点也很明显，创新之处描述的不够，没能有力地证明这些创新点的有效性。此外，yolov4.cfg可能并没有用到以上提到的创新点，比如SAM。&lt;/p&gt;
+&lt;p&gt;一家之言，欢迎大佬在文末留言讨论。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文转载自：&lt;a href=&quot;https://www.cnblogs.com/pprp/p/12771430.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;一张图梳理YOLOv4论文 - pprp - 博客园&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;该博主整理的十
+    
+    </summary>
+    
+      <category term="论文阅读" scheme="http://chr10003566.github.io./categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>ATSS论文阅读笔记</title>
@@ -943,45 +1013,6 @@
     </summary>
     
       <category term="Java开发学习" scheme="http://chr10003566.github.io./categories/Java%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Android开发学习笔记秘籍(二十一)</title>
-    <link href="http://chr10003566.github.io./2017/01/04/tips/"/>
-    <id>http://chr10003566.github.io./2017/01/04/tips/</id>
-    <published>2017-01-04T03:31:44.000Z</published>
-    <updated>2017-12-09T13:23:56.575Z</updated>
-    
-    <content type="html">&lt;h1 id=&quot;Android开发学习笔记秘籍-二十一&quot;&gt;&lt;a href=&quot;#Android开发学习笔记秘籍-二十一&quot; class=&quot;headerlink&quot; title=&quot;Android开发学习笔记秘籍(二十一)&quot;&gt;&lt;/a&gt;Android开发学习笔记秘籍(二十一)&lt;/h1&gt;&lt;p&gt;时隔半年重新捡起Android开发，以前学习的各种零零散散的Android开发技巧也忘的差不多了，但人总不能走回头路吧，只能猛向前走，遗忘的呢也正好通过翻阅以前的笔记进行复习。&lt;/p&gt;
-&lt;p&gt;以前都是学习一些UI方面的知识，很少涉及网络。现在开始往网络方向学习。&lt;/p&gt;
-&lt;p&gt;首先是最简单的一些Android小知识点，网上都有。大都一样，我也不知道哪个是原创就不贴链接了。纯粹为了以后自己好用！&lt;/p&gt;
-&lt;h2 id=&quot;Android小知识点：&quot;&gt;&lt;a href=&quot;#Android小知识点：&quot; class=&quot;headerlink&quot; title=&quot;Android小知识点：&quot;&gt;&lt;/a&gt;Android小知识点：&lt;/h2&gt;&lt;p&gt;检查Android手机网络是否可用：&lt;/p&gt;
-&lt;p&gt;1.获取ConnectivityManager对象&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;    Context context = activity.getApplicationContext();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;2.获取NetworkInfo对象&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;NetworkInfo[] networkInfo = connectivityManager.getAllNetworkInfo();&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;3.判断当前网络状态是否未连接在状态&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;if (networkInfo[i].getState() == NetworkInfo.State.CONNECTED)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      return true;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;另外还需要在&lt;code&gt;AndroidManifest.xml&lt;/code&gt;当中添加访问当前网络状态权限&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;&amp;lt;uses-permission android:name=&amp;quot;android.permission.ACCESS_NETWORK_STATE&amp;quot;&amp;gt;&amp;lt;/uses-permission&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;接下来就是重头戏了—-AsyncHttpClient开源库&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://my.oschina.net/u/725054/blog/494494&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;学习链接&lt;/a&gt;：&lt;a href=&quot;https://my.oschina.net/u/725054/blog/494494&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://my.oschina.net/u/725054/blog/494494&lt;/a&gt;&lt;br&gt;这个是一年前的一个在Apache的HttpCLient库的基础上开发构建而成的。现在还常不常用我就不清楚了，不过学习下总是对自己有帮助的。&lt;/p&gt;
-&lt;p&gt;网上关于&lt;code&gt;AsyncHttpClient&lt;/code&gt;的介绍呢，统统都是来自官网的翻译—&lt;a href=&quot;http://loopj.com/android-async-http/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://loopj.com/android-async-http/&lt;/a&gt;&lt;br&gt;&lt;br&gt; github—&lt;a href=&quot;https://github.com/loopj/android-async-http&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/loopj/android-async-http&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;上面的学习链接是个人认为翻译的比较好的，但光有方法使用，没有实例可不行，于是乎自己找了知乎日报的API来测试学习。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/iKrelve/KuaiHu/blob/master/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5API.md&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;知乎日报API&lt;/a&gt;：&lt;a href=&quot;https://github.com/iKrelve/KuaiHu/blob/master/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5API.md&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/iKrelve/KuaiHu/blob/master/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5API.md&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;然后发现大神也使用了这个库，瞬间感觉这个库还是很6的。&lt;/p&gt;
-&lt;p&gt;看了学习链接的知识，应该知道要使用&lt;code&gt;AsyncHttpClient.get()&lt;/code&gt;,里面的参数一个Url，一个是要我们实现的匿名内部类。看上去还是很简单的，用起来就更简单了。&lt;/p&gt;
-&lt;p&gt;首先拿一个简单的来试试用法，就拿启动界面图像获取这个Url来测试。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Android开发学习笔记秘籍-二十一&quot;&gt;&lt;a href=&quot;#Android开发学习笔记秘籍-二十一&quot; class=&quot;headerlink&quot; title=&quot;Android开发学习笔记秘籍(二十一)&quot;&gt;&lt;/a&gt;Android开发学习笔记秘籍(二十一)&lt;/h1&gt;&lt;p&gt;
-    
-    </summary>
-    
-      <category term="Android开发" scheme="http://chr10003566.github.io./categories/Android%E5%BC%80%E5%8F%91/"/>
     
     
   </entry>

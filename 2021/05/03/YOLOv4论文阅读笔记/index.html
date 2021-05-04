@@ -1,0 +1,699 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cui的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="本文转载自：一张图梳理YOLOv4论文 - pprp - 博客园
+该博主整理的十分的完备，我这边就直接转载过来，为保留学习使用，如侵犯权利，请及时提醒。
+一张图梳理YOLOv4论文AlexeyAB大神继承了YOLOv3, 在其基础上进行持续开发，将其命名为YOLOv4。并且得到YOLOv3作者Joseph Redmon的承认，下面是Darknet原作者的在readme中更新的声明。来看看YOLOv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YOLOv4论文阅读笔记">
+<meta property="og:url" content="http://chr10003566.github.io./2021/05/03/YOLOv4论文阅读笔记/index.html">
+<meta property="og:site_name" content="Cui的个人博客">
+<meta property="og:description" content="本文转载自：一张图梳理YOLOv4论文 - pprp - 博客园
+该博主整理的十分的完备，我这边就直接转载过来，为保留学习使用，如侵犯权利，请及时提醒。
+一张图梳理YOLOv4论文AlexeyAB大神继承了YOLOv3, 在其基础上进行持续开发，将其命名为YOLOv4。并且得到YOLOv3作者Joseph Redmon的承认，下面是Darknet原作者的在readme中更新的声明。来看看YOLOv">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200424101249538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020042410252679.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200424193904517.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200424204700343.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020042421021154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200424210743518.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191129215240121.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200424214821486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200424193849660.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2021-05-04T01:16:01.550Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="YOLOv4论文阅读笔记">
+<meta name="twitter:description" content="本文转载自：一张图梳理YOLOv4论文 - pprp - 博客园
+该博主整理的十分的完备，我这边就直接转载过来，为保留学习使用，如侵犯权利，请及时提醒。
+一张图梳理YOLOv4论文AlexeyAB大神继承了YOLOv3, 在其基础上进行持续开发，将其命名为YOLOv4。并且得到YOLOv3作者Joseph Redmon的承认，下面是Darknet原作者的在readme中更新的声明。来看看YOLOv">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200424101249538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> YOLOv4论文阅读笔记 | Cui的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cui的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不要让希望变成了失望</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                YOLOv4论文阅读笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2021-05-03T23:52:28+08:00" content="2021-05-03">
+              2021-05-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/论文阅读/" itemprop="url" rel="index">
+                    <span itemprop="name">论文阅读</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2021/05/03/YOLOv4论文阅读笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/05/03/YOLOv4论文阅读笔记/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文转载自：<a href="https://www.cnblogs.com/pprp/p/12771430.html" target="_blank" rel="external">一张图梳理YOLOv4论文 - pprp - 博客园</a></p>
+<p>该博主整理的十分的完备，我这边就直接转载过来，为保留学习使用，如侵犯权利，请及时提醒。</p>
+<h2 id="一张图梳理YOLOv4论文"><a href="#一张图梳理YOLOv4论文" class="headerlink" title="一张图梳理YOLOv4论文"></a>一张图梳理YOLOv4论文</h2><p>AlexeyAB大神继承了YOLOv3, 在其基础上进行持续开发，将其命名为YOLOv4。并且得到YOLOv3作者Joseph Redmon的承认，下面是Darknet原作者的在readme中更新的声明。<br><img src="https://img-blog.csdnimg.cn/20200424101249538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70" alt=""><br>来看看YOLOv4和一些SOTA模型的对比，YOLOv4要比YOLOv3提高了近10个点。<br><img src="https://img-blog.csdnimg.cn/2020042410252679.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70" alt=""></p>
+<h2 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h2><p>YOLOv4总体上可以划分为两部分，一部分是讲Bag of freebies和Bag of Specials; 另外一部分讲的是YOLOv4的创新点。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200424193904517.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>Bag of freebies和Bag of specials涉及到的大部分trick在GiantPandaCV公众号历史文章中都有介绍，所以不一一列举，主要讲一下YOLOv4的创新点。</p>
+<h2 id="2-创新点"><a href="#2-创新点" class="headerlink" title="2. 创新点"></a>2. 创新点</h2><p>1、Mosaic数据增强方法<br><img src="https://img-blog.csdnimg.cn/20200424204700343.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70" alt=""><br>这个方法在解析U版YOLOv3的时候就讲过了，将4张不同的图片镶嵌到一张图中，其优点是：</p>
+<ul>
+<li>混合四张具有不同语义信息的图片，可以让检测器检测超出常规语境的目标，增强模型的鲁棒性。</li>
+<li>由于BN是从四张图片计算得到的，所以可以减少对大的mini-batch的依赖。</li>
+</ul>
+<p>评价：这个方法在U版YOLOv3中很早就出现了，在自己数据集上也用过，但是感觉效果并不是很稳定。笔者数据集只有一个类，所以可能不需要这种特殊的数据增强方法，欢迎各位读者通过自己的实验来验证这个数据增强方法的有效性。</p>
+<p>2、Self-Adversarial Training<br>自对抗训练也是一种新的数据增强方法，可以一定程度上抵抗对抗攻击。其包括两个阶段，每个阶段进行一次前向传播和一次反向传播。</p>
+<ul>
+<li>第一阶段，CNN通过反向传播改变图片信息，而不是改变网络权值。通过这种方式，CNN可以进行对抗性攻击，改变原始图像，造成图像上没有目标的假象。</li>
+<li>第二阶段，对修改后的图像进行正常的目标检测。</li>
+</ul>
+<p>评价：笔者对对抗领域不是很熟悉，不是很理解这个部分。感觉这个部分讲解不是很详细，只是给出整个过程和描述，不是很能理解。</p>
+<p>3、CmBN<br><img src="https://img-blog.csdnimg.cn/2020042421021154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>上图表达的是三种不同的BN方式，理解的时候应该从左往右看，BN是对当前mini-batch进行归一化。CBN是对当前以及当前往前数3个mini-batch的结果进行归一化。而本文提出的CmBN则是仅仅在这个Batch中进行累积。</p>
+<p>评价：在消融实验中，CmBN要比BN高出不到一个百分点。感觉影响不是很大。</p>
+<p>4、modified SAM<br><img src="https://img-blog.csdnimg.cn/20200424210743518.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>SAM实际上是之前解读的<cv中的attention机制>系列中的CBAM, CBAM含有空间注意力机制和通道注意力机制, SAM就是其中的空间注意力机制.</cv中的attention机制></p>
+<p><img src="https://img-blog.csdnimg.cn/20191129215240121.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>本文将Spatial-wise Attention变为Point-wise Attention, modified SAM中没有使用pooling, 而是直接用一个卷积得到的特征图直接使用Sigmoid进行激活, 然后对应点相乘, 所以说改进后的模型是Point-wise Attention.</p>
+<p>评价: 作者并没有给出改进后的SAM和SAM的实验对比,所以并不清楚这个模块的性能到底怎样. 并且在yolov4.cfg中没有发现使用SAM的痕迹, 这非常奇怪..不知道作者将SAM用到了模型的哪个部分.</p>
+<p>5、modified PANet<br><img src="https://img-blog.csdnimg.cn/20200424214821486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>PANet融合的时候使用的方法是Addition, 详解见：<a href="https://mp.weixin.qq.com/s?__biz=MzA4MjY4NTk0NQ==&amp;mid=2247485145&amp;idx=2&amp;sn=dbd970411f3ec2da25bf432af8400a74&amp;chksm=9f80bc4fa8f7355924af4aec888671a31a499684aa5e4e86b4c502b7f28f2521040d7507b980&amp;scene=21#wechat_redirect" target="_blank" rel="external">CVPR 2018 PANet</a></p>
+<p>这里YOLOv4将融合的方法由加法改为乘法，也没有解释详细原因，但是yolov4.cfg中用的是route来链接两部分特征</p>
+<h2 id="3-结构"><a href="#3-结构" class="headerlink" title="3. 结构"></a>3. 结构</h2><p>YOLOv4的模型结构笔者读了一下yolov4.cfg文件，然后根据结构画出了大体结构。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200424193849660.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0REX1BQX0pK,size_16,color_FFFFFF,t_70" alt=""></p>
+<p>其中没有详细展开backbone部分，其实backbone之前在解读CSPNet的时候就讲过了，YOLOv4使用的是CSPDarknet53作为Backbone。</p>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h2><p>读了这篇文章以后，给人留下深刻印象的不是创新点，而是Bag of freebies和Bag of specials。所以有人多人都说YOLOv4是拼凑trick得到的。YOLOv4中Bag of freebies和Bag of Specials两部分总结的确实不错，对研究目标检测有很大的参考价值，涵盖的trick非常广泛。但是感觉AB大神并没有将注意力花在创新点上，没有花更多篇幅讲解这创新性，这有些可惜。（ASFF中就比较有侧重，先提出一个由多个Trick组成的baseline,然后在此基础上提出ASFF结构等创新性试验，安排比较合理）</p>
+<p>此外，笔者梳理了yolov4.cfg并没有发现在论文中提到的创新点比如modified SAM, 并且通过笔者整理的YOLOv4结构可以看出，整体架构方面，可以与yolov3-spp进行对比，有几个不同点：</p>
+<ul>
+<li>换上了更好的backbone: CSDarknet53</li>
+<li>将原来的FPN换成了PANet中的FPN </li>
+</ul>
+<p>结构方面就这些不同，不过训练过程确实引入了很多特性比如：</p>
+<ul>
+<li>Weighted Residual Connections(论文中没有详细讲)</li>
+<li>CmBN</li>
+<li>Mosaic data augmentation</li>
+<li>DropBlock</li>
+<li>CIOU loss</li>
+</ul>
+<p>总体来讲，这篇文章工作量还是非常足的，涉及到非常非常多的trick, 最终的结果也很不错，要比YOLOv3高10个百分点。文章提到的Bag of freebies和Bag of specials需要好好整理，系统学习一下。</p>
+<p>但是缺点也很明显，创新之处描述的不够，没能有力地证明这些创新点的有效性。此外，yolov4.cfg可能并没有用到以上提到的创新点，比如SAM。</p>
+<p>一家之言，欢迎大佬在文末留言讨论。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/27/ATSS论文阅读笔记/" rel="next" title="ATSS论文阅读笔记">
+                <i class="fa fa-chevron-left"></i> ATSS论文阅读笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/05/03/YOLOv4论文阅读笔记/"
+           data-title="YOLOv4论文阅读笔记" data-url="http://chr10003566.github.io./2021/05/03/YOLOv4论文阅读笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/oscar.jpg"
+               alt="Cui" />
+          <p class="site-author-name" itemprop="name">Cui</p>
+          <p class="site-description motion-element" itemprop="description">Cui的个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/chr10003566" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2960493711" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/cuihaoren01" target="_blank">
+                  
+                    <i class="fa fa-columns"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一张图梳理YOLOv4论文"><span class="nav-number">1.</span> <span class="nav-text">一张图梳理YOLOv4论文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思维导图"><span class="nav-number">2.</span> <span class="nav-text">思维导图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-创新点"><span class="nav-number">3.</span> <span class="nav-text">2. 创新点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-结构"><span class="nav-number">4.</span> <span class="nav-text">3. 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-总结"><span class="nav-number">5.</span> <span class="nav-text">4. 总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cui</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"promisesaybye"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
